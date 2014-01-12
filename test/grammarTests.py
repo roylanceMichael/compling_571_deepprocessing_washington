@@ -13,10 +13,9 @@ N -> 'elephant' | 'pajamas'
 V -> 'shot'
 P -> 'in'
 """)
+		parser = nltk.ChartParser(groucho_grammar)
 
 		sent = ['I', 'shot', 'an', 'elephant', 'in', 'my', 'pajamas']
-
-		parser = nltk.ChartParser(groucho_grammar)
 
 		trees = parser.nbest_parse(sent)
 
@@ -24,6 +23,9 @@ P -> 'in'
 
 	def test_loadToyGrammar(self):
 		grammar = nltk.data.load("file:../testDocs/toy.cfg")
+
+
+		sent = ['I', 'shot', 'an', 'elephant', 'in', 'my', 'pajamas']
 
 		parser = nltk.parse.EarleyChartParser(grammar)
 
@@ -109,7 +111,7 @@ P -> 'in'
 		parser = nltk.parse.EarleyChartParser(grammar)
 
 		# They published their research today online.
-		sent = nltk.word_tokenize('dr Jose Villadangos is a researcher of the immune system.')
+		sent = nltk.word_tokenize('systemic infections overstimulate dendritic cells.')
 
 		trees = parser.nbest_parse(sent)
 
