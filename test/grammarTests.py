@@ -62,7 +62,6 @@ P -> 'in'
 
 		parser = nltk.parse.EarleyChartParser(grammar)
 
-		# They published their research today online.
 		sent = nltk.word_tokenize('they published their research today online.')
 
 		trees = parser.nbest_parse(sent)
@@ -74,7 +73,6 @@ P -> 'in'
 
 		parser = nltk.parse.EarleyChartParser(grammar)
 
-		# They published their research today online.
 		sent = nltk.word_tokenize('the immune response is alerted by dendritic cells.')
 
 		trees = parser.nbest_parse(sent)
@@ -86,7 +84,6 @@ P -> 'in'
 
 		parser = nltk.parse.EarleyChartParser(grammar)
 
-		# They published their research today online.
 		sent = nltk.word_tokenize('they capture infected cells and display fragments of the pathogen.')
 
 		trees = parser.nbest_parse(sent)
@@ -98,7 +95,6 @@ P -> 'in'
 
 		parser = nltk.parse.EarleyChartParser(grammar)
 
-		# They published their research today online.
 		sent = nltk.word_tokenize('dr Jose Villadangos is a researcher of the immune system.')
 
 		trees = parser.nbest_parse(sent)
@@ -110,7 +106,6 @@ P -> 'in'
 
 		parser = nltk.parse.EarleyChartParser(grammar)
 
-		# They published their research today online.
 		sent = nltk.word_tokenize('systemic infections overstimulate dendritic cells.')
 
 		trees = parser.nbest_parse(sent)
@@ -122,8 +117,84 @@ P -> 'in'
 
 		parser = nltk.parse.EarleyChartParser(grammar)
 
-		# They published their research today online.
-		sent = nltk.word_tokenize('systemic infections overstimulate dendritic cells.')
+		sent = nltk.word_tokenize('a new type of vaccine?')
+
+		trees = parser.nbest_parse(sent)
+
+		self.assertTrue(len(trees) > 0)
+
+	def test_ninthSentence(self):
+		grammar = nltk.data.load("file:../testDocs/grammar.cfg")
+
+		parser = nltk.parse.EarleyChartParser(grammar)
+
+		sent = nltk.word_tokenize('they injected them with a live vaccine.')
+
+		trees = parser.nbest_parse(sent)
+
+		self.assertTrue(len(trees) > 0)
+
+	def test_tenthSentence(self):
+		grammar = nltk.data.load("file:../testDocs/grammar.cfg")
+
+		parser = nltk.parse.EarleyChartParser(grammar)
+
+		sent = nltk.word_tokenize('the vaccine was made of dendritic cells.')
+
+		trees = parser.nbest_parse(sent)
+
+		self.assertTrue(len(trees) > 0)
+
+	def test_eleventhSentence(self):
+		grammar = nltk.data.load("file:../testDocs/grammar.cfg")
+
+		parser = nltk.parse.EarleyChartParser(grammar)
+
+		sent = nltk.word_tokenize('they restored immunity in mice with a weak immune system.')
+
+		trees = parser.nbest_parse(sent)
+
+		self.assertTrue(len(trees) > 0)
+
+	def test_twelthSentence(self):
+		grammar = nltk.data.load("file:../testDocs/grammar.cfg")
+
+		parser = nltk.parse.EarleyChartParser(grammar)
+
+		sent = nltk.word_tokenize('their immune system was compromised by sepsis.')
+
+		trees = parser.nbest_parse(sent)
+
+		self.assertTrue(len(trees) > 0)
+
+	def test_thirteenthSentence(self):
+		grammar = nltk.data.load("file:../testDocs/grammar.cfg")
+
+		parser = nltk.parse.EarleyChartParser(grammar)
+
+		sent = nltk.word_tokenize('in the case of infections, cells alert the immune system.')
+
+		trees = parser.nbest_parse(sent)
+
+		self.assertTrue(len(trees) > 0)
+
+	def test_fourteenthSentence(self):
+		grammar = nltk.data.load("file:../testDocs/grammar.cfg")
+
+		parser = nltk.parse.EarleyChartParser(grammar)
+
+		sent = nltk.word_tokenize('the immune system shuts down.')
+
+		trees = parser.nbest_parse(sent)
+
+		self.assertTrue(len(trees) > 0)
+
+	def test_fifteenthSentence(self):
+		grammar = nltk.data.load("file:../testDocs/grammar.cfg")
+
+		parser = nltk.parse.EarleyChartParser(grammar)
+
+		sent = nltk.word_tokenize('scientists have discovered that malaria invades the whole body.')
 
 		trees = parser.nbest_parse(sent)
 
