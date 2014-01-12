@@ -117,6 +117,18 @@ P -> 'in'
 
 		self.assertTrue(len(trees) > 0)
 
+	def test_eigthSentence(self):
+		grammar = nltk.data.load("file:../testDocs/grammar.cfg")
+
+		parser = nltk.parse.EarleyChartParser(grammar)
+
+		# They published their research today online.
+		sent = nltk.word_tokenize('systemic infections overstimulate dendritic cells.')
+
+		trees = parser.nbest_parse(sent)
+
+		self.assertTrue(len(trees) > 0)
+
 def main():
     unittest.main()
 
