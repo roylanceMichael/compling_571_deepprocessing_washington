@@ -1,3 +1,4 @@
+# Mike Roylance - roylance@uw.edu
 class SentenceTransform:
 	def __init__(self, parser, tokenizer):
 		self.parser = parser

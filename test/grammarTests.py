@@ -1,3 +1,4 @@
+# Mike Roylance - roylance@uw.edu
 import unittest
 import nltk
 

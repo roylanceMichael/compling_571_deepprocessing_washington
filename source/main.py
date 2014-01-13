@@ -1,3 +1,4 @@
+# Mike Roylance - roylance@uw.edu
 import nltk
 import sys
 import re
