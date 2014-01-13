@@ -7,8 +7,8 @@
  
 Universe   = vanilla
  
-Executable  = hw1.sh
-Arguments   = testDocs/grammar.cfg testDocs/sentences.txt
+Executable  = bash
+Arguments   = "hw1.sh testDocs/grammar.cfg testDocs/sentences.txt"
 Log         = hw1.log
 Output      = hw1.out
 Error       = hw1.err
