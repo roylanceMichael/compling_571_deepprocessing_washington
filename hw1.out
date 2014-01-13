@@ -1,0 +1,226 @@
+(S
+  (NP (NounP (NN scientists)))
+  (VP
+    (VBD rescued)
+    (NP
+      (Det a)
+      (NounP (NN mouse) (NounP (NN immune) (NounP (NN system))))))
+  (Punc .))
+
+1
+(S
+  (VP (V will) (NP (NounP (NN this))))
+  (VP (V work) (PP (P in) (NP (NounP (NN humans)))))
+  (Punc ?))
+
+1
+(S
+  (NP (PRP they))
+  (VP
+    (VBD published)
+    (NP
+      (PRPP their)
+      (NP
+        (NounP (NN research) (NounP (NN today) (NounP (NN online)))))))
+  (Punc .))
+(S
+  (NP (PRP they))
+  (VP
+    (VBD published)
+    (NP
+      (PRPP their)
+      (NP (NN research) (NP (NounP (NN today) (NounP (NN online)))))))
+  (Punc .))
+(S
+  (NP (PRP they))
+  (VP
+    (VBD published)
+    (NP
+      (PRPP their)
+      (NP (NN research) (NP (NN today) (NP (NounP (NN online)))))))
+  (Punc .))
+
+3
+(S
+  (NP (Det the) (AdjP (JJ immune)) (NounP (NN response)))
+  (VP
+    (VP (V is) (VBD alerted))
+    (PP (P by) (NP (AdjP (JJ dendritic)) (NounP (NN cells)))))
+  (Punc .))
+(S
+  (NP (Det the) (NounP (NN immune) (NounP (NN response))))
+  (VP
+    (Aux is)
+    (VP
+      (VBD alerted)
+      (PP (P by) (NP (AdjP (JJ dendritic)) (NounP (NN cells))))))
+  (Punc .))
+(S
+  (NP (Det the) (NounP (NN immune) (NounP (NN response))))
+  (VP
+    (VP (V is) (VBD alerted))
+    (PP (P by) (NP (AdjP (JJ dendritic)) (NounP (NN cells)))))
+  (Punc .))
+(S
+  (NP (Det the) (AdjP (JJ immune)) (NounP (NN response)))
+  (VP
+    (Aux is)
+    (VP
+      (VBD alerted)
+      (PP (P by) (NP (AdjP (JJ dendritic)) (NounP (NN cells))))))
+  (Punc .))
+
+4
+(S
+  (S
+    (NP (PRP they))
+    (VP (V capture) (NP (AdjP (JJ infected)) (NounP (NN cells)))))
+  (Conj and)
+  (S
+    (VP
+      (VP (V display) (NP (NounP (NN fragments))))
+      (PP (P of) (NP (Det the) (NounP (NN pathogen)))))
+    (Punc .)))
+
+1
+(S
+  (NP (NN dr) (NP (NNP jose) (NP (NNP villadangos))))
+  (VP
+    (VP (V is) (NP (Det a) (NounP (NN researcher))))
+    (PP (P of) (NP (Det the) (AdjP (JJ immune)) (NounP (NN system)))))
+  (Punc .))
+(S
+  (NP (NN dr) (NP (NNP jose) (NP (NNP villadangos))))
+  (VP
+    (VP (V is) (NP (Det a) (NounP (NN researcher))))
+    (PP
+      (P of)
+      (NP (Det the) (NounP (NN immune) (NounP (NN system))))))
+  (Punc .))
+
+2
+(S
+  (NP (AdjP (JJ systemic)) (NounP (NN infections)))
+  (VP
+    (V overstimulate)
+    (NP (AdjP (JJ dendritic)) (NounP (NN cells))))
+  (Punc .))
+
+1
+(S
+  (FRAG
+    (NP (Det a) (AdjP (JJ new)) (NounP (NN type)))
+    (FRAG (PP (P of) (NP (NounP (NN vaccine))))))
+  (Punc ?))
+
+1
+(S
+  (NP (PRP they))
+  (VP
+    (VP (VBD injected) (NP (PRP them)))
+    (PP (P with) (NP (Det a) (AdjP (JJ live)) (NounP (NN vaccine)))))
+  (Punc .))
+
+1
+(S
+  (NP (Det the) (NounP (NN vaccine)))
+  (VP
+    (Aux was)
+    (VP
+      (VBD made)
+      (PP (P of) (NP (AdjP (JJ dendritic)) (NounP (NN cells))))))
+  (Punc .))
+
+1
+(S
+  (NP (PRP they))
+  (VP
+    (VP
+      (VP (VBD restored) (NP (NounP (NN immunity))))
+      (PP (P in) (NP (NounP (NN mice)))))
+    (PP
+      (P with)
+      (NP
+        (Det a)
+        (AdjP (JJ weak) (AdjP (JJ immune)))
+        (NounP (NN system)))))
+  (Punc .))
+(S
+  (NP (PRP they))
+  (VP
+    (VP
+      (VP (VBD restored) (NP (NounP (NN immunity))))
+      (PP (P in) (NP (NounP (NN mice)))))
+    (PP
+      (P with)
+      (NP
+        (Det a)
+        (AdjP (JJ weak))
+        (NounP (NN immune) (NounP (NN system))))))
+  (Punc .))
+
+2
+(S
+  (NP (PRPP their) (NP (AdjP (JJ immune)) (NounP (NN system))))
+  (VP
+    (Aux was)
+    (VP (VBD compromised) (PP (P by) (NP (NounP (NN sepsis))))))
+  (Punc .))
+(S
+  (NP (PRPP their) (NP (NounP (NN immune) (NounP (NN system)))))
+  (VP
+    (Aux was)
+    (VP (VBD compromised) (PP (P by) (NP (NounP (NN sepsis))))))
+  (Punc .))
+(S
+  (NP (PRPP their) (NP (NN immune) (NP (NounP (NN system)))))
+  (VP
+    (Aux was)
+    (VP (VBD compromised) (PP (P by) (NP (NounP (NN sepsis))))))
+  (Punc .))
+
+3
+(S
+  (PP (P in) (NP (Det the) (NounP (NN case))))
+  (PP (P of) (NP (NounP (NN infections))))
+  (Comma ,)
+  (S
+    (NP (NounP (NN cells)))
+    (VP
+      (V alert)
+      (NP (Det the) (NounP (NN immune) (NounP (NN system)))))
+    (Punc .)))
+(S
+  (PP (P in) (NP (Det the) (NounP (NN case))))
+  (PP (P of) (NP (NounP (NN infections))))
+  (Comma ,)
+  (S
+    (NP (NounP (NN cells)))
+    (VP
+      (V alert)
+      (NP (Det the) (AdjP (JJ immune)) (NounP (NN system))))
+    (Punc .)))
+
+2
+(S
+  (NP (Det the) (AdjP (JJ immune)) (NounP (NN system)))
+  (VP (V shuts) (RB down))
+  (Punc .))
+(S
+  (NP (Det the) (NounP (NN immune) (NounP (NN system))))
+  (VP (V shuts) (RB down))
+  (Punc .))
+
+2
+(S
+  (S (NP (NounP (NN scientists))) (VP (V have) (VBD discovered)))
+  (Conj that)
+  (S
+    (NP (NounP (NN malaria)))
+    (VP
+      (V invades)
+      (NP (Det the) (AdjP (JJ whole)) (NounP (NN body))))
+    (Punc .)))
+
+1
+1.73333333333
