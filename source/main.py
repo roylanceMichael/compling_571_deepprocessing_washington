@@ -1,6 +1,7 @@
 import nltk
 import sys
 import re
+import sentenceTransform
 
 def main():
 	# build grammar file url
@@ -13,18 +14,23 @@ def main():
 	# build chart parser
 	parser = nltk.parse.EarleyChartParser(grammar)
 
+	# create transformer
+	sentTransform = sentenceTransform.SentenceTransform(parser, nltk)
+
 	# read in sentences
 	input_stream = open(sentenceFile)
 
 	line = input_stream.readline()
 
 	while(line):
-		words = nltk.word_tokenize(line.strip().lower())
-		
-		print words
-		# print parser.nbest_parse(words)
+		dataTuple = sentTransform.parseSentence(line.strip().lower())
+
+		print dataTuple[0]
+		print dataTuple[1]
 
 		line = input_stream.readline()
+
+	print sentTransform.getAverageParses()
 
 	# for each sentence
 	# 	delimit by space, print out bracked sentence

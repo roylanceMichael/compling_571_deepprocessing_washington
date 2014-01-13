@@ -95,7 +95,7 @@ P -> 'in'
 
 		parser = nltk.parse.EarleyChartParser(grammar)
 
-		sent = nltk.word_tokenize('dr Jose Villadangos is a researcher of the immune system.')
+		sent = nltk.word_tokenize('dr jose villadangos is a researcher of the immune system.')
 
 		trees = parser.nbest_parse(sent)
 
