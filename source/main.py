@@ -23,6 +23,11 @@ def main():
 
 	line = input_stream.readline()
 
+	# for each sentence
+		# 	delimit by space, print out bracked sentence
+		#	print out number of parses
+		# end, print out average
+
 	while(line):
 		dataTuple = sentTransform.parseSentence(line.strip().lower())
 
@@ -32,11 +37,6 @@ def main():
 		line = input_stream.readline()
 
 	print sentTransform.getAverageParses()
-
-	# for each sentence
-	# 	delimit by space, print out bracked sentence
-	#	print out number of parses
-	# end, print out average
 
 if __name__ == '__main__':
         main()
