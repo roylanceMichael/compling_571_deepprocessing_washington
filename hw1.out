@@ -180,47 +180,27 @@
   (Punc .))
 
 3
-(S
-  (PP (P in) (NP (Det the) (NounP (NN case))))
-  (PP (P of) (NP (NounP (NN infections))))
-  (Comma ,)
-  (S
-    (NP (NounP (NN cells)))
-    (VP
-      (V alert)
-      (NP (Det the) (NounP (NN immune) (NounP (NN system)))))
-    (Punc .)))
-(S
-  (PP (P in) (NP (Det the) (NounP (NN case))))
-  (PP (P of) (NP (NounP (NN infections))))
-  (Comma ,)
-  (S
-    (NP (NounP (NN cells)))
-    (VP
-      (V alert)
-      (NP (Det the) (AdjP (JJ immune)) (NounP (NN system))))
-    (Punc .)))
 
-2
-(S
-  (NP (Det the) (AdjP (JJ immune)) (NounP (NN system)))
-  (VP (V shuts) (RB down))
-  (Punc .))
+0
 (S
   (NP (Det the) (NounP (NN immune) (NounP (NN system))))
-  (VP (V shuts) (RB down))
+  (VP (VBZ shuts) (RB down))
+  (Punc .))
+(S
+  (NP (Det the) (AdjP (JJ immune)) (NounP (NN system)))
+  (VP (VBZ shuts) (RB down))
   (Punc .))
 
 2
 (S
   (S (NP (NounP (NN scientists))) (VP (V have) (VBD discovered)))
-  (Conj that)
+  (IN that)
   (S
     (NP (NounP (NN malaria)))
     (VP
-      (V invades)
+      (VBZ invades)
       (NP (Det the) (AdjP (JJ whole)) (NounP (NN body))))
     (Punc .)))
 
 1
-1.73333333333
+1.6
