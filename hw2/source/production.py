@@ -17,7 +17,14 @@ class Production:
 		self.rhs.append(value)
 
 def factory(contextFreeGrammar):
-	productions = nltk.parse_cfg(contextFreeGrammar).productions()
+	grammar = nltk.parse_cfg(contextFreeGrammar)
+
+	print dir(grammar)
+	print 'cnf ' + str(grammar.is_chomsky_normal_form())
+	print type(grammar)
+	
+	productions = grammar.productions()
+	
 	newProductions = []
 
 	for i in range(0, len(productions)):

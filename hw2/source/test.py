@@ -3,13 +3,9 @@ import unittest
 import nltk
 import originalGrammar
 
-class GrammarTests(unittest.TestCase):
-	def getSymbolFromProduction(self, grammars, idx, leftSide):
-		if leftSide:
-			return grammars.productions[idx].lhs().symbol()
-		return grammars.productions[idx].rhs()
-
-	def test_basicGrammarExample(self):
+class OriginalGrammar(unittest.TestCase):
+	def test_createsBasicGrammarStructure(self):
+		# arrange
 		testGrammar = """
 S -> A S B
 
@@ -24,8 +20,10 @@ B -> b b
 a -> 'a'
 b -> 'b'
 """
+		# act
 		origGrammar = originalGrammar.OriginalGrammar(testGrammar)
 
+		# assert
 		self.assertTrue(len(origGrammar.productions) > 8)
 		
 		# first production
@@ -49,6 +47,55 @@ b -> 'b'
 		thirdRhs = origGrammar.productions[2].getRhs()
 		self.assertTrue(len(thirdRhs) == 1)
 		self.assertTrue(thirdRhs[0] == 'a')
+
+	def test_addsUniqueStartState(self):
+		# arrange
+		testGrammar = """
+S -> A S B
+
+A -> a A S
+A -> a
+A -> 
+
+B -> S b S
+B -> A
+B -> b b
+
+a -> 'a'
+b -> 'b'
+"""
+		# act
+		origGrammar = originalGrammar.OriginalGrammar(testGrammar)
+		origGrammar.convertFirstStep()
+
+		# assert
+		self.assertTrue(origGrammar.cnfProductions[0] != None)
+		self.assertTrue(origGrammar.cnfProductions[0].getLhs() != None)
+
+	def test_findStartNode(self):
+		# arrange
+		testGrammar = """
+S -> A S B
+
+A -> a A S
+A -> a
+A -> 
+
+B -> S b S
+B -> A
+B -> b b
+
+a -> 'a'
+b -> 'b'
+"""
+		# act
+		origGrammar = originalGrammar.OriginalGrammar(testGrammar)
+		startNode = origGrammar.findStartNode()
+
+		# assert
+		print startNode
+		self.assertTrue(startNode == "S", startNode)
+		
 
 def main():
     unittest.main()
