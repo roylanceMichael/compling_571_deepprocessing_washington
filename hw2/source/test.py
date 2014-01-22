@@ -2,100 +2,41 @@
 import unittest
 import nltk
 import originalGrammar
+import cfgTransform
 
-class OriginalGrammar(unittest.TestCase):
-	def test_createsBasicGrammarStructure(self):
+class CfgTransform(unittest.TestCase):
+	def test_createsNonTerminalDictionary(self):
 		# arrange
 		testGrammar = """
-S -> A S B
-
-A -> a A S
-A -> a
-A -> 
-
-B -> S b S
-B -> A
-B -> b b
-
-a -> 'a'
-b -> 'b'
+R -> 'a' 'b' 'c'
 """
+		transform = cfgTransform.CfgTransform(testGrammar)
+
 		# act
-		origGrammar = originalGrammar.OriginalGrammar(testGrammar)
+		transform.buildCnf()
 
 		# assert
-		self.assertTrue(len(origGrammar.productions) > 8)
-		
-		# first production
-		self.assertTrue(origGrammar.productions[0].getLhs() == 'S')
-		
-		firstRhs = origGrammar.productions[0].getRhs()
-		self.assertTrue(str(firstRhs[0]) == 'A')
-		self.assertTrue(str(firstRhs[1]) == 'S')
-		self.assertTrue(str(firstRhs[2]) == 'B')
+		self.assertTrue(len(transform.terminalToNonTerminal) == 3)
+		self.assertTrue(transform.terminalToNonTerminal['a'] == 'R')
+		self.assertTrue(transform.terminalToNonTerminal['b'] == 'R1')
+		self.assertTrue(transform.terminalToNonTerminal['c'] == 'R2')
 
-		# second production
-		self.assertTrue(origGrammar.productions[1].getLhs() == 'A')
-
-		secondRhs = origGrammar.productions[1].getRhs()
-		self.assertTrue(str(secondRhs[0]) == 'a')
-		self.assertTrue(str(secondRhs[1]) == 'A')
-		self.assertTrue(str(secondRhs[2]) == 'S')
-
-		# third production
-		self.assertTrue(origGrammar.productions[2].getLhs() == 'A')
-		thirdRhs = origGrammar.productions[2].getRhs()
-		self.assertTrue(len(thirdRhs) == 1)
-		self.assertTrue(thirdRhs[0] == 'a')
-
-	def test_addsUniqueStartState(self):
+	def test_createsNonTerminalDictionaryFromHigherLevel(self):
 		# arrange
 		testGrammar = """
-S -> A S B
-
-A -> a A S
-A -> a
-A -> 
-
-B -> S b S
-B -> A
-B -> b b
-
-a -> 'a'
-b -> 'b'
+S -> R
+R -> 'a' 'b' 'c'
 """
+		transform = cfgTransform.CfgTransform(testGrammar)
+
 		# act
-		origGrammar = originalGrammar.OriginalGrammar(testGrammar)
-		origGrammar.convertFirstStep()
+		transform.buildCnf()
 
 		# assert
-		self.assertTrue(origGrammar.cnfProductions[0] != None)
-		self.assertTrue(origGrammar.cnfProductions[0].getLhs() != None)
-
-	def test_findStartNode(self):
-		# arrange
-		testGrammar = """
-S -> A S B
-
-A -> a A S
-A -> a
-A -> 
-
-B -> S b S
-B -> A
-B -> b b
-
-a -> 'a'
-b -> 'b'
-"""
-		# act
-		origGrammar = originalGrammar.OriginalGrammar(testGrammar)
-		startNode = origGrammar.findStartNode()
-
-		# assert
-		print startNode
-		self.assertTrue(startNode == "S", startNode)
-		
+		self.assertTrue(len(transform.terminalToNonTerminal) == 3)
+		self.assertTrue(transform.terminalToNonTerminal['a'] == 'R')
+		self.assertTrue(transform.terminalToNonTerminal['b'] == 'R1')
+		self.assertTrue(transform.terminalToNonTerminal['c'] == 'R2')
 
 def main():
     unittest.main()

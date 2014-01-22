@@ -6,8 +6,10 @@ import nltk
 
 grammarStr = """
 A -> B T
-A -> 'r'
-C -> 'r'
+A -> T C
+C -> R X
+R -> 'r'
+X -> 'x'
 B -> 'c'
 T -> 't'
 """
@@ -21,6 +23,7 @@ for i in range(0, len(prods)):
 	rhs = prods[i].rhs()
 	print '--- non-terminals and is_lexical'
 	print prods[i]
+
 	print prods[i].is_lexical()
 	for j in range(0, len(rhs)):
 		print nltk.grammar.is_nonterminal(rhs[j])
