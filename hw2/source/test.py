@@ -2,6 +2,24 @@
 import unittest
 import nltk
 import cfgToCnfBuilder
+import productionBuilder
+
+class ProductionBuilder(unittest.TestCase):
+	def test_buildsNewProductionWithoutLhs(self):
+		# arrange
+		pb = productionBuilder.ProductionBuilder()
+
+		rhs = tuple([nltk.Nonterminal('F')])
+
+		# act
+		prod = pb.build(rhs)
+
+		# assert
+		lhs = prod.lhs()
+		rhs = prod.rhs()
+
+		self.assertTrue(str(lhs) == 'X1')
+		self.assertTrue(str(rhs[0]) == 'F')
 
 class CfgToCnfBuilder(unittest.TestCase):
 	def test_terminalIsInCnf(self):
@@ -15,7 +33,7 @@ R -> 'a'
 		builder.build()
 
 		# assert
-		cnfProductions = builder.getNewProductions()
+		cnfProductions = builder.getFinalProductions()
 		self.assertTrue(len(cnfProductions) == 1)
 
 		rhs = cnfProductions[0].rhs()
@@ -33,7 +51,7 @@ R -> C F
 		builder.build()
 
 		# assert
-		cnfProductions = builder.getNewProductions()
+		cnfProductions = builder.getFinalProductions()
 		
 		self.assertTrue(len(cnfProductions) == 1)
 
@@ -58,7 +76,7 @@ R -> 'a' 'b'
 		builder.build()
 
 		# assert
-		cnfProductions = builder.getNewProductions()
+		cnfProductions = builder.getFinalProductions()
 		
 		self.assertTrue(len(cnfProductions) == 3)
 
@@ -69,6 +87,37 @@ R -> 'a' 'b'
 		self.assertTrue(str(rhs1[1]) == 'X2')
 		self.assertTrue(str(rhs2[0]) == 'a')
 		self.assertTrue(str(rhs3[0]) == 'b')
+
+	def test_threeNonTerminals(self):
+		# arrange
+		testGrammar = """
+R -> A B C
+"""
+		
+		# expecting 
+		# R -> X1 C
+		# X1 -> A B 
+
+		builder = cfgToCnfBuilder.CfgToCnfBuilder(testGrammar)
+
+		# act
+		builder.build()
+
+		# assert
+		cnfProductions = builder.getFinalProductions()
+		
+		self.assertTrue(len(cnfProductions) == 2)
+
+		firstProduction = cnfProductions[0]
+		secondProduction = cnfProductions[1]
+
+		rhs1 = firstProduction.rhs()
+		self.assertTrue(str(rhs1[0]) == 'X1')
+		self.assertTrue(str(rhs1[1]) == 'C')
+
+		rhs2 = secondProduction.rhs()
+		self.assertTrue(str(rhs2[0]) == 'A')
+		self.assertTrue(str(rhs2[1]) == 'B')
 
 def main():
     unittest.main()
