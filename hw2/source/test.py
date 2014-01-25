@@ -119,6 +119,78 @@ R -> A B C
 		self.assertTrue(str(rhs2[0]) == 'A')
 		self.assertTrue(str(rhs2[1]) == 'B')
 
+	def test_singleNonTerminal(self):
+		# arrange
+		testGrammar = """
+R -> A
+A -> 'a'
+"""
+		
+		# expecting 
+		# R -> 'a'
+
+		builder = cfgToCnfBuilder.CfgToCnfBuilder(testGrammar)
+
+		# act
+		builder.build()
+
+		# assert
+		cnfProductions = builder.getFinalProductions()
+
+		self.assertTrue(len(cnfProductions) == 2)
+
+		firstProduction = cnfProductions[0]
+		secondProduction = cnfProductions[1]
+		rhs1 = firstProduction.rhs()
+		rhs2 = secondProduction.rhs()
+
+		self.assertTrue(str(rhs1[0]) == 'a')
+		self.assertTrue(str(rhs2[0]) == 'a')
+
+	def test_classExample(self):
+		# arrange
+		testGrammar = """
+S -> NP VP
+S -> Aux NP VP
+
+S -> VP
+
+NP -> Pronoun
+NP -> PropNoun
+NP -> Det Nom
+
+Nom -> Noun
+Nom -> Nom Noun
+Nom -> Nom PP
+
+VP -> Verb
+VP -> Verb NP
+VP -> Verb NP PP
+
+VP -> Verb PP
+VP -> VP PP
+PP -> Prep NP
+
+Verb -> 'v'
+Noun -> 'n'
+Pronoun -> 'this'
+PropNoun -> 'Hello'
+		"""
+
+		builder = cfgToCnfBuilder.CfgToCnfBuilder(testGrammar)
+
+		# act
+		builder.build()
+
+		# assert
+		cnfProductions = builder.getFinalProductions()
+
+		print 'lets see what it gives us'
+		for prod in cnfProductions:
+			print prod
+
+		self.assertTrue(True)
+
 def main():
     unittest.main()
 

@@ -8,12 +8,13 @@ class CfgToCnfBuilder:
 		self.grammar = nltk.parse_cfg(cfgGrammar)
 		self.terminalTransformProductions = []
 		self.nonTerminalTransformProductions = []
+		self.singleNonTerminalTransformProductions = []
 
 	def getGrammar(self):
 		return self.grammar
 
 	def getFinalProductions(self):
-		return self.nonTerminalTransformProductions
+		return self.singleNonTerminalTransformProductions
 
 	def build(self):
 		self.nonTerminalTransformProductions = []
@@ -31,6 +32,49 @@ class CfgToCnfBuilder:
 				self.nonTerminalTransformProductions.append(production)
 			else:
 				self.handleProductionWithNonTerminals(production)
+
+		for production in self.nonTerminalTransformProductions:
+			if self.isCnf(production):
+				self.singleNonTerminalTransformProductions.append(production)
+			else:
+				self.handleSingleNonTerminals(production, self.nonTerminalTransformProductions)
+
+	def handleSingleNonTerminals(self, production, productions):
+		# this production has just one non terminal
+		rhs = production.rhs()
+
+		if len(rhs) == 1 and nltk.grammar.is_nonterminal(rhs[0]):
+			childCnfProductions = self.findChildCnfProduction(production, productions)
+
+			lhs = production.lhs()
+
+			for childProd in childCnfProductions:
+				rhs = childProd.rhs()
+
+				prod = self.pb.buildNormal(lhs, rhs)
+				self.singleNonTerminalTransformProductions.append(prod)
+
+	def findChildCnfProduction(self, production, productions):
+		# note, this function will only be accessed
+		# when there is one rhs in the production
+		nonTermSym = str(production.rhs()[0])
+
+		foundProds = []
+
+		for otherProds in productions:
+			lhSym = str(otherProds.lhs())
+
+			rhs = otherProds.rhs()
+
+			if lhSym == nonTermSym:
+				if self.isCnf(otherProds):
+					foundProds.append(otherProds)
+			 	if len(rhs) == 1:
+			 		childProds = self.findChildCnfProduction(otherProds, productions)
+
+			 		foundProds + list(childProds)
+
+		return foundProds
 
 	def handleProductionWithNonTerminals(self, production):
 		# this production has more than two non terminals
