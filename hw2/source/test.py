@@ -1,42 +1,74 @@
 # Mike Roylance - roylance@uw.edu
 import unittest
 import nltk
-import originalGrammar
-import cfgTransform
+import cfgToCnfBuilder
 
-class CfgTransform(unittest.TestCase):
-	def test_createsNonTerminalDictionary(self):
+class CfgToCnfBuilder(unittest.TestCase):
+	def test_terminalIsInCnf(self):
 		# arrange
 		testGrammar = """
-R -> 'a' 'b' 'c'
+R -> 'a'
 """
-		transform = cfgTransform.CfgTransform(testGrammar)
+		builder = cfgToCnfBuilder.CfgToCnfBuilder(testGrammar)
 
 		# act
-		transform.buildCnf()
+		builder.build()
 
 		# assert
-		self.assertTrue(len(transform.terminalToNonTerminal) == 3)
-		self.assertTrue(transform.terminalToNonTerminal['a'] == 'R')
-		self.assertTrue(transform.terminalToNonTerminal['b'] == 'R1')
-		self.assertTrue(transform.terminalToNonTerminal['c'] == 'R2')
+		cnfProductions = builder.getNewProductions()
+		self.assertTrue(len(cnfProductions) == 1)
 
-	def test_createsNonTerminalDictionaryFromHigherLevel(self):
+		rhs = cnfProductions[0].rhs()
+
+		self.assertTrue(str(rhs[0]) == 'a')
+
+	def test_nonTerminalsAreInCnf(self):
 		# arrange
 		testGrammar = """
-S -> R
-R -> 'a' 'b' 'c'
+R -> C F
 """
-		transform = cfgTransform.CfgTransform(testGrammar)
+		builder = cfgToCnfBuilder.CfgToCnfBuilder(testGrammar)
 
 		# act
-		transform.buildCnf()
+		builder.build()
 
 		# assert
-		self.assertTrue(len(transform.terminalToNonTerminal) == 3)
-		self.assertTrue(transform.terminalToNonTerminal['a'] == 'R')
-		self.assertTrue(transform.terminalToNonTerminal['b'] == 'R1')
-		self.assertTrue(transform.terminalToNonTerminal['c'] == 'R2')
+		cnfProductions = builder.getNewProductions()
+		
+		self.assertTrue(len(cnfProductions) == 1)
+
+		rhs = cnfProductions[0].rhs()
+		self.assertTrue(str(rhs[0]) == 'C')
+		self.assertTrue(str(rhs[1]) == 'F')
+
+	def test_moreThanOneTerminalCreatesNewNonTerminals(self):
+		# arrange
+		testGrammar = """
+R -> 'a' 'b'
+"""
+		
+		# expecting 
+		# R -> R1 R2
+		# R1 -> 'a'
+		# R2 -> 'b'
+
+		builder = cfgToCnfBuilder.CfgToCnfBuilder(testGrammar)
+
+		# act
+		builder.build()
+
+		# assert
+		cnfProductions = builder.getNewProductions()
+		
+		self.assertTrue(len(cnfProductions) == 3)
+
+		rhs1 = cnfProductions[0].rhs()
+		rhs2 = cnfProductions[1].rhs()
+		rhs3 = cnfProductions[2].rhs()
+		self.assertTrue(str(rhs1[0]) == 'X1')
+		self.assertTrue(str(rhs1[1]) == 'X2')
+		self.assertTrue(str(rhs2[0]) == 'a')
+		self.assertTrue(str(rhs3[0]) == 'b')
 
 def main():
     unittest.main()

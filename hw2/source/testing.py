@@ -8,6 +8,7 @@ grammarStr = """
 A -> B T
 A -> T C
 C -> R X
+C -> 'r'
 R -> 'r'
 X -> 'x'
 B -> 'c'
