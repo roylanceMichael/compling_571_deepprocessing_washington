@@ -2,35 +2,40 @@ import nltk
 
 # if we want to be CNF, we need to
 # make sure if the length of RHS is 1, that it is a non-terminal
-# 
 
-grammarStr = """
-A -> B T
-A -> T C
-C -> R X
-C -> 'r'
-R -> 'r'
-X -> 'x'
-B -> 'c'
-T -> 't'
+testGrammar = """
+S -> NP VP
+
+VP -> VP PP
+VP -> V NP
+VP -> 'eats'
+
+PP -> P NP
+
+NP -> Det N
+NP -> 'she'
+
+V -> 'eats'
+
+P -> 'with'
+
+N -> 'fish'
+N -> 'fork'
+
+Det -> 'a'
 """
 
-grammar =  nltk.parse_cfg(grammarStr)
-prods = grammar.productions()
+chomskyGrammar = nltk.parse_cfg(testGrammar)
 
-print 'productions lexical'
-for i in range(0, len(prods)):
+productions = chomskyGrammar.productions()
 
-	rhs = prods[i].rhs()
-	print '--- non-terminals and is_lexical'
-	print prods[i]
+testInput = ['she', 'eats', 'a', 'fish', 'with', 'a', 'fork']
 
-	print prods[i].is_lexical()
-	for j in range(0, len(rhs)):
-		print nltk.grammar.is_nonterminal(rhs[j])
+for val in testInput:
+	for production in productions:
+		rhs = production.rhs()
 
-	print '-- end non-terminals --'
+		if len(rhs) == 1 and str(rhs[0]) == val:
+			print 'found ' + val
 
-print 'fin'
-print grammar.is_flexible_chomsky_normal_form()
-print grammar.is_chomsky_normal_form()
+
