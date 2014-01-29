@@ -3,6 +3,117 @@ import unittest
 import nltk
 import cfgToCnfBuilder
 import productionBuilder
+import cky
+
+class CkyTest(unittest.TestCase):
+	def test_ctor(self):
+		# arrange
+		testGrammar = """
+S -> NP VP
+
+VP -> VP PP
+VP -> V NP
+VP -> 'eats'
+
+PP -> P NP
+
+NP -> Det N
+NP -> 'she'
+
+V -> 'eats'
+
+P -> 'with'
+
+N -> 'fish'
+N -> 'fork'
+
+Det -> 'a'
+"""
+		grammar = nltk.parse_cfg(testGrammar)
+
+		sent = ['she', 'eats', 'a', 'fish', 'with', 'a', 'fork']
+
+		# act
+		inst = cky.Cky(sent, grammar)
+
+		# assert
+		self.assertTrue(inst != None)
+		self.assertTrue(inst.sentence == sent)
+		self.assertTrue(inst.grammar == grammar)
+
+	def test_ctorBuildStructure(self):
+		# arrange
+		testGrammar = """
+S -> NP VP
+
+VP -> VP PP
+VP -> V NP
+VP -> 'eats'
+
+PP -> P NP
+
+NP -> Det N
+NP -> 'she'
+
+V -> 'eats'
+
+P -> 'with'
+
+N -> 'fish'
+N -> 'fork'
+
+Det -> 'a'
+"""
+		grammar = nltk.parse_cfg(testGrammar)
+
+		sent = ['she', 'eats', 'a', 'fish', 'with', 'a', 'fork']
+
+		# act		
+		inst = cky.Cky(sent, grammar)
+		
+		# assert
+		self.assertTrue(inst != None)
+		self.assertTrue(len(inst.workspace) == len(sent))
+
+	def test_returnRelevantTuples_1(self):
+		# arrange
+		testGrammar = """
+S -> NP VP
+
+VP -> VP PP
+VP -> V NP
+VP -> 'eats'
+
+PP -> P NP
+
+NP -> Det N
+NP -> 'she'
+
+V -> 'eats'
+
+P -> 'with'
+
+N -> 'fish'
+N -> 'fork'
+
+Det -> 'a'
+"""
+		grammar = nltk.parse_cfg(testGrammar)
+
+		sent = ['she', 'eats', 'a', 'fish', 'with', 'a', 'fork']
+
+		inst = cky.Cky(sent, grammar)
+
+		# act		
+		pairs = inst.getAcceptablePairs(0, 1)
+
+		# assert
+		self.assertTrue(len(pairs) == 2)
+		self.assertTrue(pairs[0][0] == "NP")
+		self.assertTrue(pairs[0][1] == "VP")
+
+		self.assertTrue(pairs[1][0] == "NP")
+		self.assertTrue(pairs[1][1] == "V")
 
 class ProductionBuilder(unittest.TestCase):
 	def test_buildsNewProductionWithoutLhs(self):
@@ -184,10 +295,6 @@ PropNoun -> 'Hello'
 
 		# assert
 		cnfProductions = builder.getFinalProductions()
-
-		print 'lets see what it gives us'
-		for prod in cnfProductions:
-			print prod
 
 		self.assertTrue(True)
 
