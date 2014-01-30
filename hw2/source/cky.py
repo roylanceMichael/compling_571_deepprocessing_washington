@@ -33,6 +33,38 @@ class Cky:
 				if len(rhs) == 1 and str(rhs[0]) == self.sentence[i]:
 					self.workspace[i][j].append(lhs)
 
+	def executeAlgorithm(self):
+		print ''
+		for level in range(1, self.sentenceLen):
+
+			for i in range(0, self.sentenceLen):
+
+				print str(i) + ' ' + str(level) + ' ' + str(len(self.sentence[i]))
+
+				if level >= len(self.sentence[i]):
+					continue
+
+				acceptablePairs = self.getAcceptablePairs(i, level)
+
+				print acceptablePairs
+
+				for production in self.grammar.productions():
+
+					lhs = production.lhs()
+					rhs = production.rhs()
+
+					if len(rhs) == 1:
+						continue
+
+					for pair in acceptablePairs:
+
+						print 'comparing ' + str(pair[0]) + ' ' + str(pair[1]) + ' to ' + str(rhs[0]) + ' ' + str(rhs[1])
+
+						if str(pair[0]) == str(rhs[0]) and str(pair[1]) == str(rhs[1]):
+							print 'success with ' + str(lhs)
+							self.workspace[i][level].append(str(lhs))
+
+
 	def getAcceptablePairs(self, rowIndex, level):
 		# level means where we should start in the index
 		pairs = []
@@ -47,6 +79,9 @@ class Cky:
 				for j in range(0, level):
 					if i + j > level:
 						break
+				
+					if len(self.workspace[lookAheadIndex]) <= j:
+						continue
 
 					originalProductions = self.workspace[rowIndex][i]
 					futureProductions = self.workspace[lookAheadIndex][j]

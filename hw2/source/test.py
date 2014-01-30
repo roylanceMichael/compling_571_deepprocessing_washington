@@ -115,6 +115,41 @@ Det -> 'a'
 		self.assertTrue(pairs[1][0] == "NP")
 		self.assertTrue(pairs[1][1] == "V")
 
+	def test_returnRelevantTuples_2(self):
+		# arrange
+		testGrammar = """
+S -> NP VP
+
+VP -> VP PP
+VP -> V NP
+VP -> 'eats'
+
+PP -> P NP
+
+NP -> Det N
+NP -> 'she'
+
+V -> 'eats'
+
+P -> 'with'
+
+N -> 'fish'
+N -> 'fork'
+
+Det -> 'a'
+"""
+		grammar = nltk.parse_cfg(testGrammar)
+
+		sent = ['she', 'eats', 'a', 'fish', 'with', 'a', 'fork']
+
+		inst = cky.Cky(sent, grammar)
+
+		# act		
+		inst.executeAlgorithm()
+
+		# assert
+		inst.printStructure()
+
 class ProductionBuilder(unittest.TestCase):
 	def test_buildsNewProductionWithoutLhs(self):
 		# arrange
