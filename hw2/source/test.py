@@ -148,7 +148,7 @@ Det -> 'a'
 		inst.executeAlgorithm()
 
 		# assert
-		inst.printStructure()
+		self.assertTrue(inst.isInGrammar())
 
 class ProductionBuilder(unittest.TestCase):
 	def test_buildsNewProductionWithoutLhs(self):

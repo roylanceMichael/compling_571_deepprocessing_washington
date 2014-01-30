@@ -1,5 +1,6 @@
 class Cky:
-	def __init__(self, sentence, grammar):
+	def __init__(self, sentence, grammar, verbose=False):
+		self.verbose = verbose
 		self.sentence = sentence
 		self.sentenceLen = len(sentence)
 		self.grammar = grammar
@@ -12,11 +13,20 @@ class Cky:
 		for item in self.workspace:
 			print item
 
+	def log(self, message):
+		if(self.verbose):
+			print message
+
+	def isInGrammar(self):
+		firstLen = len(self.workspace[0])
+
+		return len(self.workspace[0][firstLen - 1]) > 0
+
 	def buildStructure(self):
 		for i in range(0, self.sentenceLen):
 			subArray = []
 
-			for j in range(0, self.sentenceLen - i + 1):
+			for j in range(0, self.sentenceLen - i):
 				subArray.append([])
 
 			self.workspace.append(subArray)
@@ -34,19 +44,19 @@ class Cky:
 					self.workspace[i][j].append(lhs)
 
 	def executeAlgorithm(self):
-		print ''
+		self.log('')
 		for level in range(1, self.sentenceLen):
 
 			for i in range(0, self.sentenceLen):
 
-				print str(i) + ' ' + str(level) + ' ' + str(len(self.sentence[i]))
+				self.log(str(i) + ' ' + str(level) + ' ' + str(len(self.workspace[i])))
 
-				if level >= len(self.sentence[i]):
+				if level >= len(self.workspace[i]):
 					continue
 
 				acceptablePairs = self.getAcceptablePairs(i, level)
 
-				print acceptablePairs
+				self.log(acceptablePairs)
 
 				for production in self.grammar.productions():
 
@@ -58,42 +68,29 @@ class Cky:
 
 					for pair in acceptablePairs:
 
-						print 'comparing ' + str(pair[0]) + ' ' + str(pair[1]) + ' to ' + str(rhs[0]) + ' ' + str(rhs[1])
+						self.log('comparing ' + str(pair[0]) + ' ' + str(pair[1]) + ' to ' + str(rhs[0]) + ' ' + str(rhs[1]))
 
 						if str(pair[0]) == str(rhs[0]) and str(pair[1]) == str(rhs[1]):
-							print 'success with ' + str(lhs)
+							self.log('success with ' + str(lhs))
 							self.workspace[i][level].append(str(lhs))
-
 
 	def getAcceptablePairs(self, rowIndex, level):
 		# level means where we should start in the index
 		pairs = []
 
 		for i in range(0, level):
+			firstComparison = (rowIndex, level - i - 1)
+			secondComparison = (rowIndex + level - i, i)
 
-			for lookAheadIndex in range(rowIndex + 1, rowIndex + level + 1):
+			firstItems = self.workspace[firstComparison[0]][firstComparison[1]]
 
-				if lookAheadIndex >= self.sentenceLen:
-					break
+			if (secondComparison[0] < self.sentenceLen and 
+				secondComparison[1] < len(self.workspace[secondComparison[0]])):
 
-				for j in range(0, level):
-					if i + j > level:
-						break
-				
-					if len(self.workspace[lookAheadIndex]) <= j:
-						continue
+				secondItems = self.workspace[secondComparison[0]][secondComparison[1]]
 
-					originalProductions = self.workspace[rowIndex][i]
-					futureProductions = self.workspace[lookAheadIndex][j]
-
-					for origProd in originalProductions:
-						for futureProd in futureProductions:
-							pairs.append((origProd, futureProd))
+				for firstItem in firstItems:
+					for secondItem in secondItems:
+						pairs.append((firstItem, secondItem))
 
 		return pairs
-
-
-			
-
-
-
