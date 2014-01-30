@@ -321,7 +321,7 @@ Verb -> 'v'
 Noun -> 'n'
 Pronoun -> 'this'
 PropNoun -> 'Hello'
-		"""
+"""
 
 		builder = cfgToCnfBuilder.CfgToCnfBuilder(testGrammar)
 
@@ -330,6 +330,9 @@ PropNoun -> 'Hello'
 
 		# assert
 		cnfProductions = builder.getFinalProductions()
+
+		for prod in cnfProductions:
+			print prod
 
 		self.assertTrue(True)
 

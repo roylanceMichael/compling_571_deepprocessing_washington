@@ -20,7 +20,7 @@ class CfgToCnfBuilder:
 		self.nonTerminalTransformProductions = []
 		self.terminalTransformProductions = []
 
-		# splitting into two steps for transparency
+		# splitting into three steps for transparency
 		for production in self.grammar.productions():
 			if self.isCnf(production):
 				self.terminalTransformProductions.append(production)
@@ -44,13 +44,13 @@ class CfgToCnfBuilder:
 		rhs = production.rhs()
 
 		if len(rhs) == 1 and nltk.grammar.is_nonterminal(rhs[0]):
+
 			childCnfProductions = self.findChildCnfProduction(production, productions)
 
 			lhs = production.lhs()
 
 			for childProd in childCnfProductions:
 				rhs = childProd.rhs()
-
 				prod = self.pb.buildNormal(lhs, rhs)
 				self.singleNonTerminalTransformProductions.append(prod)
 
@@ -67,12 +67,15 @@ class CfgToCnfBuilder:
 			rhs = otherProds.rhs()
 
 			if lhSym == nonTermSym:
+
 				if self.isCnf(otherProds):
 					foundProds.append(otherProds)
+					
 			 	if len(rhs) == 1:
+			 		
 			 		childProds = self.findChildCnfProduction(otherProds, productions)
 
-			 		foundProds + list(childProds)
+			 		foundProds = foundProds + list(childProds)
 
 		return foundProds
 
