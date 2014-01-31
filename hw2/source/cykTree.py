@@ -1,5 +1,5 @@
 import nltk
-import cky
+import cyk
 import copy
 
 def isPairInGrammar(pair, productions):
