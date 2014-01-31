@@ -1,4 +1,6 @@
-class Cky:
+import nltk
+
+class Cyk:
 	def __init__(self, sentence, productions, verbose=False):
 		self.verbose = verbose
 		self.sentence = sentence
@@ -8,6 +10,11 @@ class Cky:
 
 		# build triangular table
 		self.buildStructure()
+
+	def buildParseTree(self):
+		# get the last index
+		firstLen = len(self.workspace[0])
+		topNodes = self.workspace[0][firstLen - 1]
 
 	def printStructure(self):
 		for item in self.workspace:
@@ -21,6 +28,22 @@ class Cky:
 		firstLen = len(self.workspace[0])
 
 		return len(self.workspace[0][firstLen - 1]) > 0
+
+	def getTotalNumOfParses(self):
+
+		if not self.isInGrammar():
+			return 0
+
+		totalCount = 1
+
+		for row in self.workspace:
+			for level in row:
+				levelLen = len(level)
+				if levelLen > 1:
+					totalCount = totalCount + levelLen - 1
+
+		return totalCount
+
 
 	def buildStructure(self):
 		for i in range(0, self.sentenceLen):

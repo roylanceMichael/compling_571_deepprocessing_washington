@@ -1,9 +1,11 @@
 # Mike Roylance - roylance@uw.edu
 import nltk
+from nltk.tree import *
 import sys
 import re
 import os
-import cky
+import cyk
+import cykTree
 import cfgToCnfBuilder
 import productionBuilder
 
@@ -47,10 +49,12 @@ def main():
     #	the number of parses for that sentence.
 	for sentence in sentences:
 		tokenizedSent = nltk.word_tokenize(sentence)
-		print tokenizedSent
-		ckyInst = cky.Cky(tokenizedSent, cnfGrammar)
+		ckyInst = cyk.Cyk(tokenizedSent, cnfGrammar)
 		ckyInst.executeAlgorithm()
-		print ckyInst.isInGrammar()
+		workspace = ckyInst.workspace
+		result = cykTree.getParseTree(workspace, cnfGrammar, tokenizedSent)
+		print result
+		print ckyInst.getTotalNumOfParses()
 
 if __name__ == '__main__':
         main()

@@ -3,9 +3,9 @@ import unittest
 import nltk
 import cfgToCnfBuilder
 import productionBuilder
-import cky
+import cyk
 
-class CkyTest(unittest.TestCase):
+class CykTest(unittest.TestCase):
 	def test_ctor(self):
 		# arrange
 		testGrammar = """
@@ -34,12 +34,11 @@ Det -> 'a'
 		sent = ['she', 'eats', 'a', 'fish', 'with', 'a', 'fork']
 
 		# act
-		inst = cky.Cky(sent, grammar.productions())
+		inst = cyk.Cyk(sent, grammar.productions())
 
 		# assert
 		self.assertTrue(inst != None)
 		self.assertTrue(inst.sentence == sent)
-		self.assertTrue(inst.grammar == grammar)
 
 	def test_ctorBuildStructure(self):
 		# arrange
@@ -69,7 +68,7 @@ Det -> 'a'
 		sent = ['she', 'eats', 'a', 'fish', 'with', 'a', 'fork']
 
 		# act		
-		inst = cky.Cky(sent, grammar.productions())
+		inst = cyk.Cyk(sent, grammar.productions())
 		
 		# assert
 		self.assertTrue(inst != None)
@@ -102,7 +101,7 @@ Det -> 'a'
 
 		sent = ['she', 'eats', 'a', 'fish', 'with', 'a', 'fork']
 
-		inst = cky.Cky(sent, grammar.productions())
+		inst = cyk.Cyk(sent, grammar.productions())
 
 		# act		
 		pairs = inst.getAcceptablePairs(0, 1)
@@ -142,7 +141,7 @@ Det -> 'a'
 
 		sent = ['she', 'eats', 'a', 'fish', 'with', 'a', 'fork']
 
-		inst = cky.Cky(sent, grammar.productions())
+		inst = cyk.Cyk(sent, grammar.productions())
 
 		# act		
 		inst.executeAlgorithm()
@@ -330,9 +329,6 @@ PropNoun -> 'Hello'
 
 		# assert
 		cnfProductions = builder.getFinalProductions()
-
-		for prod in cnfProductions:
-			print prod
 
 		self.assertTrue(True)
 
