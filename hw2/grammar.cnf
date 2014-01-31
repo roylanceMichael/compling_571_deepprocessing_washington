@@ -1,0 +1,177 @@
+TOP -> NP VP
+TOP -> X3 PUNC
+TOP -> X7 PUNC
+TOP -> X5 X1
+TOP -> NP PUNC
+S -> NP VP
+S -> X3 PUNC
+X3 -> NP VP
+SQ -> X5 X1
+X4 -> MD NP
+X5 -> X4 VP
+X1 -> '?'
+FRAG -> NP PUNC
+S -> X7 PUNC
+X6 -> PP COM
+X7 -> X6 S
+VP -> VP ADVP
+VP -> X8 VP
+X8 -> VP Conj
+VP -> VBP NP
+VP -> VB PP
+VP -> VBD NP
+VP -> X9 PP
+X9 -> VBD NP
+VP -> VBZ NP
+VP -> AUX VP
+VP -> VBN PP
+VP -> VBZ RP
+VP -> VBN SBAR
+SBAR -> X2 S
+X2 -> 'that'
+ADVP -> 'today'
+ADVP -> 'online'
+ADVP -> Adv ADVP
+NP -> Det Nom
+NP -> ADJP Nom
+NP -> Nom PP
+NP -> Nom Nom
+NP -> 'body'
+NP -> 'case'
+NP -> 'immunity'
+NP -> 'malaria'
+NP -> 'mouse'
+NP -> 'pathogen'
+NP -> 'research'
+NP -> 'researcher'
+NP -> 'response'
+NP -> 'sepsis'
+NP -> 'system'
+NP -> 'type'
+NP -> 'vaccine'
+NP -> 'cells'
+NP -> 'fragments'
+NP -> 'humans'
+NP -> 'infections'
+NP -> 'mice'
+NP -> 'Scientists'
+NP -> 'Dr'
+NP -> 'Jose'
+NP -> 'Villadangos'
+NP -> PossPro Nom
+NP -> 'this'
+NP -> 'them'
+NP -> 'They'
+Nom -> ADJP Nom
+Nom -> Nom PP
+Nom -> Nom Nom
+Nom -> 'body'
+Nom -> 'case'
+Nom -> 'immunity'
+Nom -> 'malaria'
+Nom -> 'mouse'
+Nom -> 'pathogen'
+Nom -> 'research'
+Nom -> 'researcher'
+Nom -> 'response'
+Nom -> 'sepsis'
+Nom -> 'system'
+Nom -> 'type'
+Nom -> 'vaccine'
+Nom -> 'cells'
+Nom -> 'fragments'
+Nom -> 'humans'
+Nom -> 'infections'
+Nom -> 'mice'
+Nom -> 'Scientists'
+Nom -> 'Dr'
+Nom -> 'Jose'
+Nom -> 'Villadangos'
+ADJP -> Adj ADJP
+ADJP -> 'dendritic'
+ADJP -> 'immune'
+ADJP -> 'infected'
+ADJP -> 'new'
+ADJP -> 'Systemic'
+ADJP -> 'weak'
+ADJP -> 'whole'
+ADJP -> 'live'
+PP -> Prep NP
+AUX -> 'have'
+AUX -> 'is'
+AUX -> 'was'
+Det -> 'a'
+Det -> 'A'
+Det -> 'the'
+Det -> 'The'
+PRP -> 'this'
+PRP -> 'them'
+PRP -> 'They'
+Prep -> 'In'
+Prep -> 'with'
+Prep -> 'in'
+Prep -> 'of'
+Prep -> 'by'
+PossPro -> 'their'
+PossPro -> 'Their'
+Adv -> 'today'
+Adv -> 'online'
+Adj -> 'dendritic'
+Adj -> 'immune'
+Adj -> 'infected'
+Adj -> 'new'
+Adj -> 'Systemic'
+Adj -> 'weak'
+Conj -> 'and'
+NNS -> 'cells'
+NNS -> 'fragments'
+NNS -> 'humans'
+NNS -> 'infections'
+NNS -> 'mice'
+NNS -> 'Scientists'
+NN -> 'body'
+NN -> 'case'
+NN -> 'immunity'
+NN -> 'malaria'
+NN -> 'mouse'
+NN -> 'pathogen'
+NN -> 'research'
+NN -> 'researcher'
+NN -> 'response'
+NN -> 'sepsis'
+NN -> 'system'
+NN -> 'type'
+NN -> 'vaccine'
+NNP -> 'Dr'
+NNP -> 'Jose'
+NNP -> 'Villadangos'
+RP -> 'down'
+IN -> 'that'
+Aux -> 'have'
+AuxZ -> 'is'
+AuxZ -> 'was'
+MD -> 'Will'
+VB -> 'work'
+VBP -> 'alert'
+VBP -> 'capture'
+VBP -> 'display'
+VBP -> 'have'
+VBP -> 'overstimulate'
+VBD -> 'alerted'
+VBD -> 'injected'
+VBD -> 'published'
+VBD -> 'rescued'
+VBD -> 'restored'
+VBD -> 'was'
+VBN -> 'alerted'
+VBN -> 'compromised'
+VBN -> 'discovered'
+VBN -> 'made'
+VBZ -> 'invades'
+VBZ -> 'is'
+VBZ -> 'shuts'
+Adj -> 'whole'
+Adj -> 'live'
+COM -> ','
+PUNC -> '?'
+PUNC -> '.'

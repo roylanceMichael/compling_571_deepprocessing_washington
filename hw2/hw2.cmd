@@ -8,7 +8,7 @@
 Universe   = vanilla
  
 Executable  = hw2.sh
-Arguments   = "testDocs/grammar.cfg testDocs/sentences.txt"
+Arguments   = "docs/grammar.cfg docs/sentences.txt"
 Log         = hw2.log
 Output      = hw2.out
 Error       = hw2.err

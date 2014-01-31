@@ -1,9 +1,9 @@
 class Cky:
-	def __init__(self, sentence, grammar, verbose=False):
+	def __init__(self, sentence, productions, verbose=False):
 		self.verbose = verbose
 		self.sentence = sentence
 		self.sentenceLen = len(sentence)
-		self.grammar = grammar
+		self.productions = productions
 		self.workspace = []
 
 		# build triangular table
@@ -35,7 +35,7 @@ class Cky:
 		for i in range(0, self.sentenceLen):
 			j = 0
 
-			for production in self.grammar.productions():
+			for production in self.productions:
 
 				lhs = str(production.lhs())
 				rhs = production.rhs()
@@ -58,7 +58,7 @@ class Cky:
 
 				self.log(acceptablePairs)
 
-				for production in self.grammar.productions():
+				for production in self.productions:
 
 					lhs = production.lhs()
 					rhs = production.rhs()

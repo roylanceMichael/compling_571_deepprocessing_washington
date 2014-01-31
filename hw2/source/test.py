@@ -34,7 +34,7 @@ Det -> 'a'
 		sent = ['she', 'eats', 'a', 'fish', 'with', 'a', 'fork']
 
 		# act
-		inst = cky.Cky(sent, grammar)
+		inst = cky.Cky(sent, grammar.productions())
 
 		# assert
 		self.assertTrue(inst != None)
@@ -69,7 +69,7 @@ Det -> 'a'
 		sent = ['she', 'eats', 'a', 'fish', 'with', 'a', 'fork']
 
 		# act		
-		inst = cky.Cky(sent, grammar)
+		inst = cky.Cky(sent, grammar.productions())
 		
 		# assert
 		self.assertTrue(inst != None)
@@ -102,7 +102,7 @@ Det -> 'a'
 
 		sent = ['she', 'eats', 'a', 'fish', 'with', 'a', 'fork']
 
-		inst = cky.Cky(sent, grammar)
+		inst = cky.Cky(sent, grammar.productions())
 
 		# act		
 		pairs = inst.getAcceptablePairs(0, 1)
@@ -142,7 +142,7 @@ Det -> 'a'
 
 		sent = ['she', 'eats', 'a', 'fish', 'with', 'a', 'fork']
 
-		inst = cky.Cky(sent, grammar)
+		inst = cky.Cky(sent, grammar.productions())
 
 		# act		
 		inst.executeAlgorithm()
