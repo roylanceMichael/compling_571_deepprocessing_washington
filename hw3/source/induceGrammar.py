@@ -45,7 +45,7 @@ class InduceGrammar:
 		for item in items:
 			strBuilder = strBuilder + " " + str(item)
 
-		return strBuilder
+		return strBuilder.strip()
 
 
 	def readSentence(self, sent):
