@@ -2,8 +2,27 @@
 # Olga Whelan - olgaw@uw.edu
 import unittest
 import nltk
+import induceGrammar
 
-class GrammarInduce(unittest.TestCase):
+class InduceGrammar(unittest.TestCase):
+	def test_createCountDictionary(self):
+		# arrange
+		sent = "(S (NP mike) (VP walks))"
+		induceInst = induceGrammar.InduceGrammar()
+
+		# act
+		induceInst.readSentence(sent)
+
+		# assert
+		grammar = induceInst.getGrammar()
+
+		self.assertTrue(len(grammar) == 3)
+
+		self.assertTrue(grammar["S"][("NP", "VP",)] == 1)
+		self.assertTrue(grammar["NP"][("mike",)] == 1)
+		self.assertTrue(grammar["VP"][("walks",)] == 1)
+
+class GrammarTest(unittest.TestCase):
 	def test_getsSimpleGrammar(self):
 		# arrange
 		sent = "(S (NP mike) (VP walks))"
