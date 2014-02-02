@@ -5,10 +5,12 @@ class InduceGrammar:
 	def __init__(self):
 		self.foundGrammar = {}
 		self.probCfg = {}
+		self.terminals = {}
 
 	def createProbCfg(self):
 
 		self.probCfg = {}
+		self.terminals = {}
 
 		for lhs in self.foundGrammar:
 			
@@ -21,6 +23,10 @@ class InduceGrammar:
 			self.probCfg[lhs] = {}
 			
 			for rhs in self.foundGrammar[lhs]:
+				# build up a reverse terminal dictionary too
+				if len(rhs) == 1:
+					self.terminals[rhs[0]] = lhs
+
 				self.probCfg[lhs][rhs] = float(self.foundGrammar[lhs][rhs]) / totalCount
 
 	def getGrammar(self):
@@ -47,7 +53,6 @@ class InduceGrammar:
 			strBuilder = strBuilder + " " + str(item)
 
 		return strBuilder.strip()
-
 
 	def readSentence(self, sent):
 		rootTree = nltk.Tree.parse(sent)

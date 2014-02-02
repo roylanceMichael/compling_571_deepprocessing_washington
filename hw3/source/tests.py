@@ -3,6 +3,48 @@
 import unittest
 import nltk
 import induceGrammar
+import cyk
+
+class Cyk(unittest.TestCase):
+	def test_buildWorkspace(self):
+		# arrange
+		annotatedSent = """
+(S 
+	(NP she) 
+	(VP 
+		(VP 
+			(V eats) 
+			(NP 
+				(Det a) 
+				(N fish))) 
+		(PP 
+			(P with) 
+			(NP (Det a) 
+				(N fork)))))
+		"""
+
+		induceInst = induceGrammar.InduceGrammar()
+		induceInst.readSentence(annotatedSent)
+		induceInst.createProbCfg()
+
+		sent = ['she', 'eats', 'a', 'fish', 'with', 'a', 'fork']
+
+		# act
+		cykInst = cyk.Cyk(sent, induceInst.getProbCfg())
+
+		# assert
+		self.assertTrue(cykInst != None)
+
+		workspace = cykInst.workspace
+
+		self.assertTrue(workspace[0][0][0] == "NP")
+		self.assertTrue(workspace[1][0][0] == "V")
+		self.assertTrue(workspace[2][0][0] == "Det")
+		self.assertTrue(workspace[3][0][0] == "N")
+		self.assertTrue(workspace[4][0][0] == "P")
+		self.assertTrue(workspace[5][0][0] == "Det")
+		self.assertTrue(workspace[6][0][0] == "N")
+		
 
 class InduceGrammar(unittest.TestCase):
 	def test_createCountDictionary(self):
