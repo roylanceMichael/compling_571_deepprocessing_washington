@@ -3,9 +3,30 @@ import nltk
 class InduceGrammar:
 	def __init__(self):
 		self.foundGrammar = {}
+		self.probCfg = {}
+
+	def createProbCfg(self):
+
+		self.probCfg = {}
+
+		for lhs in self.foundGrammar:
+			
+			totalCount = 0
+			for rhs in self.foundGrammar[lhs]:
+				totalCount = totalCount + self.foundGrammar[lhs][rhs]
+
+			# create dictionary now
+			
+			self.probCfg[lhs] = {}
+			
+			for rhs in self.foundGrammar[lhs]:
+				self.probCfg[lhs][rhs] = float(self.foundGrammar[lhs][rhs]) / totalCount
 
 	def getGrammar(self):
 		return self.foundGrammar
+
+	def getProbCfg(self):
+		return self.probCfg
 
 	def readSentence(self, sent):
 		rootTree = nltk.Tree.parse(sent)

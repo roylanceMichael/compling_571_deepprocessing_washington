@@ -22,8 +22,10 @@ def main():
 
 	input_stream.close()
 
+	induceInst.createProbCfg()
+
 	# print out to console
-	grammarDict = induceInst.getGrammar()
+	grammarDict = induceInst.getProbCfg()
 
 	for key in grammarDict:
 		print grammarDict[key]

@@ -22,6 +22,24 @@ class InduceGrammar(unittest.TestCase):
 		self.assertTrue(grammar["NP"][("mike",)] == 1)
 		self.assertTrue(grammar["VP"][("walks",)] == 1)
 
+	def test_createProbCfg(self):
+		# arrange
+		sent = "(S (NP mike) (NP sun))"
+		induceInst = induceGrammar.InduceGrammar()
+
+		# act
+		induceInst.readSentence(sent)
+		induceInst.createProbCfg()
+
+		# assert
+		grammar = induceInst.getProbCfg()
+
+		self.assertTrue(len(grammar) == 2)
+
+		self.assertTrue(grammar["S"][("NP", "NP",)] == 1)
+		self.assertTrue(grammar["NP"][("mike",)] == .5)
+		self.assertTrue(grammar["NP"][("sun",)] == .5)
+
 class GrammarTest(unittest.TestCase):
 	def test_getsSimpleGrammar(self):
 		# arrange
