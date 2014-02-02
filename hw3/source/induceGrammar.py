@@ -30,7 +30,7 @@ class InduceGrammar:
 		strRhsTuple = self.convertRhsToStr(rhs)
 
 		if strRhsTuple in lhsDict:
-			lhsDict[strRhsTuple] = lhsDict[rhs] + 1
+			lhsDict[strRhsTuple] = lhsDict[strRhsTuple] + 1
 		else:
 			lhsDict[strRhsTuple] = 1
 
