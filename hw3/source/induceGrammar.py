@@ -1,4 +1,5 @@
 import nltk
+import cfgToCnf
 
 class InduceGrammar:
 	def __init__(self):
@@ -52,8 +53,10 @@ class InduceGrammar:
 		rootTree = nltk.Tree.parse(sent)
 
 		prods = rootTree.productions()
+		builder = cfgToCnf.CfgToCnf(prods)
+		builder.build()
 
-		for prod in prods:
+		for prod in builder.getFinalProductions():
 
 			lhs = str(prod.lhs())
 			rhs = prod.rhs()
