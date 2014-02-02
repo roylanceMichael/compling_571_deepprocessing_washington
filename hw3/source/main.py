@@ -24,11 +24,17 @@ def main():
 
 	induceInst.createProbCfg()
 
-	# print out to console
-	grammarDict = induceInst.getProbCfg()
+	# write to disk - if too large may have to do this incrementally
+	fileName = 'trained.pcfg'
+	try:
+		os.remove(fileName)
+	except OSError:
+		pass
 
-	for key in grammarDict:
-		print grammarDict[key]
+	target = open(fileName, 'w')
+
+	for production in induceInst.getProbCfgStr():
+		target.write(str(production))
 
 if __name__ == '__main__':
         main()

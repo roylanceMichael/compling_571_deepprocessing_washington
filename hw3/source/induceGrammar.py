@@ -28,6 +28,26 @@ class InduceGrammar:
 	def getProbCfg(self):
 		return self.probCfg
 
+	def getProbCfgStr(self):
+		strBuilder = ""
+		carriageReturn = "\n"
+
+		for lhs in self.probCfg:
+
+			for rhs in self.probCfg[lhs]:
+				rhsStr = self.getTupleToStr(rhs)
+				probability = self.probCfg[lhs][rhs]
+				yield "%s -> %s [%s] %s" % (lhs, rhsStr, probability, carriageReturn)
+
+	def getTupleToStr(self, items):
+		strBuilder = ""
+
+		for item in items:
+			strBuilder = strBuilder + " " + str(item)
+
+		return strBuilder
+
+
 	def readSentence(self, sent):
 		rootTree = nltk.Tree.parse(sent)
 
