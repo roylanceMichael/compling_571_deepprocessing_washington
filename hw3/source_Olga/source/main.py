@@ -19,10 +19,8 @@ def main():
 		prods = rootTree.productions()
 
 		for production in prods:
-	#		print production
 			# call function that would fill dicts: getListOfRules
 			makeGram.fillDicts(str(production))
-#	print makeGram.rules
 #	print makeGram.terminals
 	pcfg = open("trained.pcfg", 'w+')
 	pcfg.write(makeGram.buildPCFG())
@@ -31,10 +29,7 @@ def main():
 	# create instance of class
 	pckyParser = pcky.PCKY()
 	pckyParser.putDS(makeGram.getDS())
-#	print pckyParser.probGrammar
 #	print pckyParser.terminals
-
-#	print makeGram.rules
 
 	exampleSents = sys.argv[2]
         exS = open(exampleSents, 'rU')
@@ -43,11 +38,9 @@ def main():
         sent = exS.readline()
         while sent:
 		print sent
-		print pckyParser.runCKY(sent)
-#		parseTrees = pckyParser.runCKY(sent)
-#		for tree in parseTrees:
-#			print tree,  "\n"
-#		print "number of parses: ", len(parseTrees), "\n"
+		bestParse = pckyParser.runCKY(sent)
+		print bestParse[0]
+		print "number of parses: ", bestParse[1], "\n"
 
                 sent = exS.readline()
 

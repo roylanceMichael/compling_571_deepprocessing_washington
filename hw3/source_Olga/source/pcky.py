@@ -2,6 +2,7 @@
 #author: Olga Whelan
 
 
+from operator import itemgetter
 import nltk
 
 
@@ -44,10 +45,7 @@ class PCKY:
 				matrix[jColumn-1][jColumn] = treesWithProbs
 			else:
 				print "Error: word not in dictionary"
-
-		#print matrix
-		for item in matrix:
-			print item
+				matrix[jColumn-1][jColumn] = []
 
 		for j in range(2, length+1):
 			for i in range(j-2, -1, -1):
@@ -56,60 +54,54 @@ class PCKY:
 				for k in range(i+1, j):
 					trees1 = matrix[i][k]
 					# print matrix[i][k]
-					#print 'trees1:'
 					#print trees1
 					trees2 = matrix[k][j]
-					
-					#print 'trees2:'
-					#print trees2
 
-					if type(trees1) == type(1):
-						continue
-					
 					for tree1 in trees1:
 						#print 'tree1, tree1[0].node, tree2'
 						#print tree1, tree1[0].node
-						#print trees2
-
-						if type(trees2) == type(1):
-							continue
 
 						for tree2 in trees2:
-							#print 'test'
 							# print tree2, tree2[0].node
-							#print 'test - done'
 							possibleLHS = str(tree1[0].node) + ' ' + str(tree2[0].node)
+#							print "pair up the nodes and get: ", possibleLHS
 
 							if self.RHS.has_key(possibleLHS):
-								print possibleLHS
 
 								productions = self.RHS[possibleLHS]
-								print 'found productions'
-								print productions
+#								print productions
 
 								for production in productions:
+									# here we're just looking for a tuple containing the right production
+									# there's only one we need; and there will only be one probability
+									# we don't really need to loop through all the pairs
+									# but how to get to it without looping?
 									for pair in self.probGrammar[production]:
-										print 'pair[0] here with possibleLHS:'
-										print pair[0]
-										print possibleLHS
+#										print 'pair[0] here with possibleLHS:'
 
 										if pair[0] == possibleLHS:
-											print 'found pair!'
+#											print 'found pair!'
 											prodProb = pair[1]
 									newProb = prodProb * tree1[1] * tree2[1]
 									
 
-									treesWithProbs.append((nltk.Tree(possibleLHS, [tree1, tree2]), newProb))
+									treesWithProbs.append((nltk.Tree(production, [tree1, tree2]), newProb))
 				matrix[i][j] = treesWithProbs
 
-		print 'final matrix: '
+#		print 'final matrix: '
+#		print matrix[0][-1]
+		parseTrees = []
+		
+		for treeProbTup in matrix[0][length]:
+			if self.startSymbol in treeProbTup[0].node:	
+				parseTrees.append(treeProbTup)
 
-		for item in matrix:
-			print item
-		
-		#parseTrees = []
-		
-		#for tree in matrix[0][length]:
-		#	if self.startSymbol in tree.node:	
-		#		parseTrees.append(tree)
-		#return parseTrees
+#		print "\n\n\n"
+		if parseTrees == []:
+			return ('', 0)
+
+		bestParse = max(parseTrees, key = itemgetter(1))
+		# cannot print it as a tree because of probabilities on each level
+#		print bestParse
+
+		return bestParse, len(parseTrees)
