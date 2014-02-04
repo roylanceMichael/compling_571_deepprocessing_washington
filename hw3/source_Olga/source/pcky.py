@@ -39,48 +39,72 @@ class PCKY:
 					for pair in self.probGrammar[production]:
 						if pair[0] == lookUpWord:
 							prodProb = pair[1]
-					treesWithProbs.append([nltk.Tree(production, [lookUpWord]), prodProb])
+					treesWithProbs.append((nltk.Tree(production, [lookUpWord]), prodProb))
 
 				matrix[jColumn-1][jColumn] = treesWithProbs
 			else:
 				print "Error: word not in dictionary"
 
-		print matrix
+		#print matrix
+		for item in matrix:
+			print item
 
 		for j in range(2, length+1):
 			for i in range(j-2, -1, -1):
 
 				treesWithProbs = []
 				for k in range(i+1, j):
-					trees1 = matrix[i][k][0]
-					print matrix[i][k]
-					print trees1
-					trees2 = matrix[k][j][0]
-					print trees2
+					trees1 = matrix[i][k]
+					# print matrix[i][k]
+					#print 'trees1:'
+					#print trees1
+					trees2 = matrix[k][j]
+					
+					#print 'trees2:'
+					#print trees2
+
+					if type(trees1) == type(1):
+						continue
 					
 					for tree1 in trees1:
-						print tree1[0], tree1.node
+						#print 'tree1, tree1[0].node, tree2'
+						#print tree1, tree1[0].node
+						#print trees2
+
+						if type(trees2) == type(1):
+							continue
+
 						for tree2 in trees2:
-							print tree2, tree2.node
-							possibleLHS = str(tree1.node) + ' ' + str(tree2.node)
+							#print 'test'
+							#print tree2, tree2[0].node
+							#print 'test - done'
+							possibleLHS = str(tree1[0].node) + ' ' + str(tree2[0].node)
+							print 'possbile LHS'
+							print possibleLHS
+
 							if self.RHS.has_key(possibleLHS):
 								productions = self.RHS[possibleLHS]
+								print 'found productions'
+								print productions
 
 								for production in productions:
 									for pair in self.probGrammar[production]:
 										if pair[0] == possibleLHS:
 											prodProb = pair[1]
-									newProb = prodProb * matrix[i][k][1] * matrix[k][j][1]
+									newProb = prodProb * tree1[1] * tree2[1]
 									
 
-									treesWithProbs.append([nltk.Tree(LHS, [tree1, tree2]), newProb])
+									treesWithProbs.append([nltk.Tree(possibleLHS, [tree1, tree2]), newProb])
 				matrix[i][j] = treesWithProbs
 
-		print matrix
-#		
-#		parseTrees = []
-#		
-#		for tree in matrix[0][length]:
-#			if self.startSymbol in tree.node:	
-#				parseTrees.append(tree)
-#		return parseTrees
+		print 'final matrix: '
+
+		for item in matrix:
+			print item
+		
+		#parseTrees = []
+		
+		#for tree in matrix[0][length]:
+		#	if self.startSymbol in tree.node:	
+		#		parseTrees.append(tree)
+		#return parseTrees
