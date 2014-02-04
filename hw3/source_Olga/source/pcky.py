@@ -1,5 +1,5 @@
-#Created on 3 Feb, 2014
-#author: Olga Whelan
+# Created on 3 Feb, 2014
+# by Michael Roylance, Olga Whelan
 
 
 from operator import itemgetter
@@ -98,10 +98,10 @@ class PCKY:
 
 #		print "\n\n\n"
 		if parseTrees == []:
-			return ('', 0)
+			return ''
 
 		bestParse = max(parseTrees, key = itemgetter(1))
-		# cannot print it as a tree because of probabilities on each level
+		# cannot print it as a tree because of probabilities on each level...
 #		print bestParse
 
-		return bestParse, len(parseTrees)
+		return bestParse

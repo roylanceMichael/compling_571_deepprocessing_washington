@@ -1,3 +1,7 @@
+# created on 2 Feb, 2014
+# by Michael Roylance, Olga Whelan
+
+
 import nltk
 import sys
 import induceGrammar
@@ -35,16 +39,21 @@ def main():
         exS = open(exampleSents, 'rU')
 
 #	read input sentences from file one by one
+
+	parseFile = open("parses.hyp", 'w+')
         sent = exS.readline()
         while sent:
-		print sent
+#		print sent
+		
 		bestParse = pckyParser.runCKY(sent)
-		print bestParse[0]
-		print "number of parses: ", bestParse[1], "\n"
+#		print bestParse		
+		parseFile.write(str(bestParse))
+		parseFile.write("\n")
 
                 sent = exS.readline()
 
         exS.close()
+	parseFile.close()
 
 
 
