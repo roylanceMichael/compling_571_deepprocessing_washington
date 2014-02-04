@@ -76,25 +76,30 @@ class PCKY:
 
 						for tree2 in trees2:
 							#print 'test'
-							#print tree2, tree2[0].node
+							# print tree2, tree2[0].node
 							#print 'test - done'
 							possibleLHS = str(tree1[0].node) + ' ' + str(tree2[0].node)
-							print 'possbile LHS'
-							print possibleLHS
 
 							if self.RHS.has_key(possibleLHS):
+								print possibleLHS
+
 								productions = self.RHS[possibleLHS]
 								print 'found productions'
 								print productions
 
 								for production in productions:
 									for pair in self.probGrammar[production]:
+										print 'pair[0] here with possibleLHS:'
+										print pair[0]
+										print possibleLHS
+
 										if pair[0] == possibleLHS:
+											print 'found pair!'
 											prodProb = pair[1]
 									newProb = prodProb * tree1[1] * tree2[1]
 									
 
-									treesWithProbs.append([nltk.Tree(possibleLHS, [tree1, tree2]), newProb])
+									treesWithProbs.append((nltk.Tree(possibleLHS, [tree1, tree2]), newProb))
 				matrix[i][j] = treesWithProbs
 
 		print 'final matrix: '

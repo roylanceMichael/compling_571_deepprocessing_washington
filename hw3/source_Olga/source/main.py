@@ -2,12 +2,14 @@ import nltk
 import sys
 import induceGrammar
 import pcky
+import tocnfOld
 
 
 def main():
         trFile = sys.argv[1]
 	# create instance of class
 	makeGram = induceGrammar.InduceGrammar()
+	tocnfOldIns = tocnfOld.toCNF()
 
 	productions = []
 
