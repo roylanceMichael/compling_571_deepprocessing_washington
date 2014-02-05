@@ -37,15 +37,14 @@ class Cyk(unittest.TestCase):
 
 		workspace = cykInst.workspace
 
-		self.assertTrue(workspace[0][0][0] == "NP")
-		self.assertTrue(workspace[1][0][0] == "V")
-		self.assertTrue(workspace[2][0][0] == "Det")
-		self.assertTrue(workspace[3][0][0] == "N")
-		self.assertTrue(workspace[4][0][0] == "P")
-		self.assertTrue(workspace[5][0][0] == "Det")
-		self.assertTrue(workspace[6][0][0] == "N")
+		self.assertTrue(workspace[0][0].getNonTerminal() == "NP")
+		self.assertTrue(workspace[1][0].getNonTerminal() == "V")
+		self.assertTrue(workspace[2][0].getNonTerminal() == "Det")
+		self.assertTrue(workspace[3][0].getNonTerminal() == "N")
+		self.assertTrue(workspace[4][0].getNonTerminal() == "P")
+		self.assertTrue(workspace[5][0].getNonTerminal() == "Det")
+		self.assertTrue(workspace[6][0].getNonTerminal() == "N")
 		
-
 class InduceGrammar(unittest.TestCase):
 	def test_createCountDictionary(self):
 		# arrange
@@ -142,7 +141,6 @@ class GrammarTest(unittest.TestCase):
 		self.assertTrue(str(fourth.rhs()[1]) == "NP")
 
 		# I think we get the picture...
-
 
 def main():
     unittest.main()

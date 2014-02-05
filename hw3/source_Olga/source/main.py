@@ -8,6 +8,21 @@ import induceGrammar
 import pcky
 import tocnfOld
 
+def parseTree(topTree):
+	# topTree is a tuple
+	dummyTuple = (1,)
+	if type(topTree) != type(dummyTuple):
+		return
+
+	actualTree = topTree[0]
+
+	for subTreeTuple in actualTree:
+		if type(subTreeTuple) != type((1,)):
+			continue
+
+		print subTreeTuple[0].node
+		parseTree(subTreeTuple)
+
 
 def main():
         trFile = sys.argv[1]
@@ -46,9 +61,11 @@ def main():
 #		print sent
 		
 		bestParse = pckyParser.runCKY(sent)
+		parseTree(bestParse)
+
 #		print bestParse		
-		parseFile.write(str(bestParse))
-		parseFile.write("\n")
+		#parseFile.write(str(bestParse))
+		#parseFile.write("\n")
 
                 sent = exS.readline()
 

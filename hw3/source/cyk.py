@@ -1,4 +1,5 @@
 import nltk
+import cykNodeTuple
 
 class Cyk:
 	def __init__(self, sent, grammar, verbose=False):
@@ -28,7 +29,11 @@ class Cyk:
 				for rhs in self.grammar[lhs]:
 
 					if len(rhs) == 1 and str(rhs[0]) == self.sent[i]:
-						self.workspace[i][j].append(lhs)
+						nonTerminal = rhs[0]
+						probability = self.grammar[lhs][rhs]
+
+						self.workspace[i][j].append(
+							cykNodeTuple.CykNodeTuple(nonTerminal, probability))
 
 	def printStructure(self):
 		for item in self.workspace:
