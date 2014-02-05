@@ -50,7 +50,7 @@ class InduceGrammar:
 
 
 	def getLHSAndTerminals(self, tup):
-		if tup[1][0] == "'":
+		if tup[1][0] == "'" or tup[1][0] == '"':
 			if tup[1] in self.terminals:
 				if tup[0] not in self.terminals[tup[1]]:
 					self.terminals[tup[1]].append(tup[0])

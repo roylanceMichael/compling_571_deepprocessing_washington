@@ -29,7 +29,14 @@ class PCKY:
 	
 		for jColumn in range(1, length+1):
 		# the first 'for' fills the diagonal
-			lookUpWord = "'" + sent[jColumn-1] + "'"
+			lookUpWord = ""
+
+			# this is for when a ' exists in the key
+			if "'" in sent[jColumn-1]:
+				lookUpWord = '"' + sent[jColumn-1] + '"'
+			else:
+				lookUpWord = "'" + sent[jColumn-1] + "'"
+
 			# get rules from terminal dictionary
 			treesWithProbs = []
 			if self.terminals.has_key(lookUpWord):
@@ -44,7 +51,8 @@ class PCKY:
 
 				matrix[jColumn-1][jColumn] = treesWithProbs
 			else:
-				print "Error: word not in dictionary"
+				print "Error: word not in dictionary: " + str(len(lookUpWord)) + ' ' + str(lookUpWord)
+				
 				matrix[jColumn-1][jColumn] = []
 
 		for j in range(2, length+1):

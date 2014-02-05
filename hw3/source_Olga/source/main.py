@@ -70,6 +70,7 @@ def main():
 		bestParse = pckyParser.runCKY(sent)
 
 		if len(bestParse) == 0:
+			print sent
 			parseFile.write("\n")
 			sent = exS.readline()
 			continue
