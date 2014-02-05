@@ -4,6 +4,7 @@
 
 import nltk
 import sys
+import re
 import induceGrammar
 import pcky
 import tocnfOld
@@ -11,7 +12,12 @@ import tocnfOld
 def parseTree(topTree):
 	# topTree is a tuple
 	if len(topTree[0]) == 1:
-		return topTree[0][0] 
+		terminalVal = topTree[0][0]
+
+		if terminalVal[0] == "'" and terminalVal[-1] == "'":
+			return terminalVal[1:-1]
+		
+		return terminalVal
 
 	actualTree = topTree[0]
 	newString = ''
