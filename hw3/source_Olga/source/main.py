@@ -35,6 +35,8 @@ def main():
 		rootTree = nltk.Tree.parse(tree)
 		# rootTree.node - start symbol - assume that it is TOP and hardcode
 		prods = rootTree.productions()
+		
+		startSymbol = str(prods[0].lhs())
 
 		for production in prods:
 			# call function that would fill dicts: getListOfRules
@@ -45,7 +47,7 @@ def main():
 	pcfg.close()
 
 	# create instance of class
-	pckyParser = pcky.PCKY()
+	pckyParser = pcky.PCKY(startSymbol)
 	pckyParser.putDS(makeGram.getDS())
 #	print pckyParser.terminals
 
@@ -61,14 +63,19 @@ def main():
 		
 		bestParse = pckyParser.runCKY(sent)
 
+		if len(bestParse) == 0:
+			parseFile.write("\n")
+			sent = exS.readline()
+			continue
+
 		fullString = '(' + bestParse[0].node + ' '
 		newString = parseTree(bestParse)
 		fullString = fullString + newString + ')'
 		
-		print fullString.strip()
+		#print fullString.strip()
 #		print bestParse		
-		#parseFile.write(str(bestParse))
-		#parseFile.write("\n")
+		parseFile.write(fullString.strip())
+		parseFile.write("\n")
 
                 sent = exS.readline()
 

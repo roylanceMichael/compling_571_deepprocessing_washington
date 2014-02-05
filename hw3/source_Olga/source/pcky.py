@@ -7,11 +7,11 @@ import nltk
 
 
 class PCKY:
-	def __init__(self):
+	def __init__(self, startSymbol):
 		self.probGrammar = {}
 		self.terminals = {}
 		self.RHS = {}
-		self.startSymbol = 'TOP'
+		self.startSymbol = startSymbol
 
 
         def putDS(self, tup):
