@@ -14,7 +14,8 @@ def parseTree(topTree):
 	if len(topTree[0]) == 1:
 		terminalVal = topTree[0][0]
 
-		if terminalVal[0] == "'" and terminalVal[-1] == "'":
+		if ((terminalVal[0] == "'" and terminalVal[-1] == "'") or 
+			(terminalVal[0] == '"' and terminalVal[-1] == '"')):
 			return terminalVal[1:-1]
 		
 		return terminalVal

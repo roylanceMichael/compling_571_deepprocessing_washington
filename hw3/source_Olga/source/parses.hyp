@@ -7,7 +7,7 @@
 (TOP (S_VP (VB List)(NP (NP' (NP' (NP (NP' (NNP American)(NNP Airlines))(NNS flights))(PP (IN from)(NP (NNP New)(NNP York))))(NNP Newark))(PP (TO to)(NP_NNP Nashville))))(PUNC .))
 (TOP (INTJ_UH Thanks)(PUNC .))
 (TOP (SBARQ (WHNP_WHNP (WDT What)(NNS flights))(SQ (SQ' (SQ' (SQ' (VBP are)(NP_NP_EX there))(PP (IN from)(NP_NNP Nashville)))(PP (TO to)(NP_NNP Houston)))(NP (NP (NN tomorrow)(NN evening))(SBAR (WHNP_WDT that)(S_VP (VBP serve)(NP_NN dinner))))))(PUNC ?))
-(TOP (S (NP_PRP I)(VP (MD "'d")(VP (VB like)(S_VP (TO to)(VP (VB fly)(NP (JJ next)(NNP Friday)))))))(PUNC .))
+(TOP (S (NP_PRP I)(VP (MD 'd)(VP (VB like)(S_VP (TO to)(VP (VB fly)(NP (JJ next)(NNP Friday)))))))(PUNC .))
 (TOP (SBARQ (WHNP (WHNP_WDT Which)(PP (IN of)(NP_DT those)))(SQ_VP (VBP are)(ADJP_JJ nonstop)))(PUNC ?))
 (TOP (S (NP_PRP I)(VP (VBP want)(NP (NP' (NP (DT a)(NN flight))(PP (IN from)(NP_NNP Ontario)))(PP (TO to)(NP_NNP Chicago)))))(PUNC .))
 (TOP (FRAG (X (WP What)(IN about))(NP (NNP Monday)(NN afternoon)))(PUNC ?))
