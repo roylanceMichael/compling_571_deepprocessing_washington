@@ -10,19 +10,18 @@ import tocnfOld
 
 def parseTree(topTree):
 	# topTree is a tuple
-	dummyTuple = (1,)
-	if type(topTree) != type(dummyTuple):
-		return
+	if len(topTree[0]) == 1:
+		return topTree[0][0] 
 
 	actualTree = topTree[0]
+	newString = ''
 
 	for subTreeTuple in actualTree:
-		if type(subTreeTuple) != type((1,)):
-			continue
-
-		print subTreeTuple[0].node
-		parseTree(subTreeTuple)
-
+		newString = newString + '(' + subTreeTuple[0].node + ' '
+		result = parseTree(subTreeTuple)
+		newString = newString + str(result) + ')'
+	
+	return newString
 
 def main():
         trFile = sys.argv[1]
@@ -61,8 +60,12 @@ def main():
 #		print sent
 		
 		bestParse = pckyParser.runCKY(sent)
-		parseTree(bestParse)
 
+		fullString = '(' + bestParse[0].node + ' '
+		newString = parseTree(bestParse)
+		fullString = fullString + newString + ')'
+		
+		print fullString.strip()
 #		print bestParse		
 		#parseFile.write(str(bestParse))
 		#parseFile.write("\n")
