@@ -10,16 +10,27 @@ class PCKY:
 	def __init__(self, startSymbol):
 		self.probGrammar = {}
 		self.terminals = {}
+		self.nonTerminalsWithTerminals = []
 		self.RHS = {}
 		self.startSymbol = startSymbol
 
-
-        def putDS(self, tup):
-        # getting the converted grammar and making it available
-                self.probGrammar = tup[0]
+	def putDS(self, tup):
+		# getting the converted grammar and making it available
+		self.probGrammar = tup[0]
 		self.RHS = tup[1]
 		self.terminals = tup[2]
+		tempNonTerminals = {}
 
+		# self.terminals => {'hello' => ['VB', 'VP'] }
+		for terminal in self.terminals:
+			# ['VP', 'VB']
+			nonTerminals = self.terminals[terminal]
+			for nonTerminal in nonTerminals:
+
+				# nonTerminal => 'VB'
+				if nonTerminal not in tempNonTerminals:
+					tempNonTerminals[nonTerminal] = None
+					self.nonTerminalsWithTerminals.append(nonTerminal)
 
 	def runCKY(self, sentence):
 		sent = nltk.word_tokenize(sentence)
@@ -51,9 +62,13 @@ class PCKY:
 
 				matrix[jColumn-1][jColumn] = treesWithProbs
 			else:
-				treesWithProbs.append((nltk.Tree('NN', [lookUpWord]), 0.0001))
-				treesWithProbs.append((nltk.Tree('VP', [lookUpWord]), 0.0001))
-				treesWithProbs.append((nltk.Tree('JJ', [lookUpWord]), 0.0001))
+
+				#treesWithProbs.append((nltk.Tree('NN', [lookUpWord]), 0.0001))
+				#treesWithProbs.append((nltk.Tree('VP', [lookUpWord]), 0.0001))
+				#treesWithProbs.append((nltk.Tree('JJ', [lookUpWord]), 0.0001))
+
+				for nonTerminal in self.nonTerminalsWithTerminals:
+					treesWithProbs.append((nltk.Tree(nonTerminal, [lookUpWord]), 0.0001))
 
 				matrix[jColumn-1][jColumn] = treesWithProbs
 				print "Error: word not in dictionary: " + str(len(lookUpWord)) + ' ' + str(lookUpWord)
