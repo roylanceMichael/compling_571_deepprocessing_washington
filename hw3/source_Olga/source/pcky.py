@@ -15,13 +15,13 @@ class PCKY:
 		self.startSymbol = startSymbol
 
 	def putDS(self, tup):
-		# getting the converted grammar and making it available
+	# getting the converted grammar and making it available
 		self.probGrammar = tup[0]
 		self.RHS = tup[1]
 		self.terminals = tup[2]
 		tempNonTerminals = {}
 
-		# self.terminals => {'hello' => ['VB', 'VP'] }
+		# self.terminals => {'conjugate' => ['VB', 'VP'] }
 		for terminal in self.terminals:
 			# ['VP', 'VB']
 			nonTerminals = self.terminals[terminal]
@@ -32,7 +32,9 @@ class PCKY:
 					tempNonTerminals[nonTerminal] = None
 					self.nonTerminalsWithTerminals.append(nonTerminal)
 
+
 	def runCKY(self, sentence):
+	# the heart of the project
 		sent = nltk.word_tokenize(sentence)
 		length = len(sent)
 		
@@ -67,40 +69,32 @@ class PCKY:
 					treesWithProbs.append((nltk.Tree(nonTerminal, [lookUpWord]), 0.0001))
 
 				matrix[jColumn-1][jColumn] = treesWithProbs
-				print "Error: word not in dictionary: " + str(len(lookUpWord)) + ' ' + str(lookUpWord)
+#				print "Error: word not in dictionary: " + str(len(lookUpWord)) + ' ' + str(lookUpWord)
 
 		for j in range(2, length+1):
 			for i in range(j-2, -1, -1):
 
-				treesWithProbs = []
+				treesWithProbs = []	# list of tuples (tree, prob)
 				for k in range(i+1, j):
 					trees1 = matrix[i][k]
-					# print matrix[i][k]
 					#print trees1
 					trees2 = matrix[k][j]
 
 					for tree1 in trees1:
 						#print 'tree1, tree1[0].node, tree2'
-						#print tree1, tree1[0].node
-
 						for tree2 in trees2:
 							# print tree2, tree2[0].node
-							possibleLHS = str(tree1[0].node) + ' ' + str(tree2[0].node)
+							possibleLHS = str(tree1[0].node) + ' ' + str(tree2[0].node)	# getting the two non-terminals to look up in the dictionary for corresponding lhs
 #							print "pair up the nodes and get: ", possibleLHS
-
 							if self.RHS.has_key(possibleLHS):
 
 								productions = self.RHS[possibleLHS]
-#								print productions
 
 								for production in productions:
-									# here we're just looking for a tuple containing the right production
-									# there's only one we need; and there will only be one probability
-									# we don't really need to loop through all the pairs
-									# but how to get to it without looping?
+									# here we're just looking for a tuple containing the right production - there's only one we need; and there will only be one probability
+									# we don't really need to loop through all the pairs, but how to get to it without looping?
 									for pair in self.probGrammar[production]:
 #										print 'pair[0] here with possibleLHS:'
-
 										if pair[0] == possibleLHS:
 #											print 'found pair!'
 											prodProb = pair[1]
@@ -109,24 +103,16 @@ class PCKY:
 									treesWithProbs.append((nltk.Tree(production, [tree1, tree2]), newProb))
 
 				matrix[i][j] = treesWithProbs
-
-#		print 'final matrix: '
 #		print matrix[0][-1]
 		parseTrees = []
 
 		for treeProbTup in matrix[0][length]:
 			if self.startSymbol in treeProbTup[0].node:	
 				parseTrees.append(treeProbTup)
-
 #		print "\n\n\n"
 		if parseTrees == []:
-			for row in matrix:
-				print row
-				
 			return ''
 
-		bestParse = max(parseTrees, key = itemgetter(1))
-		# cannot print it as a tree because of probabilities on each level...
+		bestParse = max(parseTrees, key = itemgetter(1))	# the best parse has the maximum probability
 #		print bestParse
-
 		return bestParse

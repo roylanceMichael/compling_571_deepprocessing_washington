@@ -7,9 +7,10 @@ import sys
 import re
 import induceGrammar
 import pcky
-import tocnfOld
+
 
 def parseTree(topTree):
+# clean out the output tree; take out nltk formatting and the probabilities from each level 
 	# topTree is a tuple
 	if len(topTree[0]) == 1:
 		terminalVal = topTree[0][0]
@@ -32,28 +33,25 @@ def parseTree(topTree):
 
 def main():
         trFile = sys.argv[1]
-	# create instance of class
+	# create instance of class InduceGrammar
 	makeGram = induceGrammar.InduceGrammar()
-	tocnfOldIns = tocnfOld.toCNF()
 
 	productions = []
 
 	for tree in open(trFile).xreadlines():
 		rootTree = nltk.Tree.parse(tree)
-		# rootTree.node - start symbol - assume that it is TOP and hardcode
 		prods = rootTree.productions()
 		
 		startSymbol = str(prods[0].lhs())
 
 		for production in prods:
-			# call function that would fill dicts: getListOfRules
+			# call function that would fill useful data structures
 			makeGram.fillDicts(str(production))
-#	print makeGram.terminals
 	pcfg = open("trained.pcfg", 'w+')
 	pcfg.write(makeGram.buildPCFG())
 	pcfg.close()
 
-	# create instance of class
+	# create instance of class PCKY
 	pckyParser = pcky.PCKY(startSymbol)
 	pckyParser.putDS(makeGram.getDS())
 #	print pckyParser.terminals
@@ -62,12 +60,10 @@ def main():
         exS = open(exampleSents, 'rU')
 
 #	read input sentences from file one by one
-
 	parseFile = open("parses.hyp", 'w+')
         sent = exS.readline()
         while sent:
 #		print sent
-		
 		bestParse = pckyParser.runCKY(sent)
 
 		if len(bestParse) == 0:
@@ -77,10 +73,8 @@ def main():
 			continue
 
 		fullString = '(' + bestParse[0].node + ' '
-		newString = parseTree(bestParse)
+		newString = parseTree(bestParse)	# need to clean up our best parse to make it ready for evalb
 		fullString = fullString + newString + ')'
-		
-		#print fullString.strip()
 #		print bestParse		
 		parseFile.write(fullString.strip())
 		parseFile.write("\n")
@@ -94,6 +88,3 @@ def main():
 
 if __name__ == '__main__':
   main()
-                              
-
-

@@ -11,6 +11,7 @@ class InduceGrammar:
 
 
 	def LHS_RHS(self, line):
+	# get tuples (lhs, rhs) - there turns out to be a much simpler way to do it!
 		match = re.search(r'(\w+\'*)\s*(->|=>|>)(.+$)', line)
 		if match:
 			lhs = match.group(1)
@@ -21,12 +22,11 @@ class InduceGrammar:
 		all_rhs = all_rhs.strip()
 
 		tup = (lhs, all_rhs)
-#		print tup	
 		return tup
 
 
-
 	def fillDicts(self, line):
+	# fill the big dictionary {lhs: [(rhs1, prob), (rhs2, prob),..],..}
 		tup = self.LHS_RHS(line)
 #		print tup[0], tup[1]
 		if tup[0] in self.rules:
@@ -45,11 +45,11 @@ class InduceGrammar:
 			self.rules[tup[0]] = [[tup[1], 1]]
 		
 		self.getLHSAndTerminals(tup)
-#		print self.lhs
-
 
 
 	def getLHSAndTerminals(self, tup):
+	# get dictionaries of non-terminals {NONT1: ['term1', 'term2',..], NONT2 : [], ...  }
+	# and terminals {'term'; [NONT1, NONT2],.. }
 		if tup[1][0] == "'" or tup[1][0] == '"':
 			if tup[1] in self.terminals:
 				if tup[0] not in self.terminals[tup[1]]:
@@ -57,18 +57,16 @@ class InduceGrammar:
 			else:
 				self.terminals[tup[1]] = [tup[0]]
 
-
 		else:
 			if tup[1] in self.lhs:
 				if tup[0] not in self.lhs[tup[1]]:
 					self.lhs[tup[1]].append(tup[0])
 			else:
 				self.lhs[tup[1]] = [tup[0]]
-				
-
 
 
 	def getProbs(self):
+	# probability of each production
 		for key in self.rules:
 			total = self.probFromFreq(key)
 			for value in self.rules[key]:
@@ -76,6 +74,7 @@ class InduceGrammar:
 
 
 	def probFromFreq(self, key):
+	# frequency of the lhs is the total of the counts of its rhs
 		keyFrequency = 0
 		for val in self.rules[key]:
 			keyFrequency += val[1]
@@ -84,6 +83,7 @@ class InduceGrammar:
 
 
 	def buildPCFG(self):
+	# prepare to output the grammar
 		strBuilder = ''
 		self.getProbs()
 		for key in self.rules:
@@ -95,5 +95,6 @@ class InduceGrammar:
 
 
 	def getDS(self):
+	# get the filled out data structures to pass them on to pcky
 		return (self.rules, self.lhs, self.terminals)
 		
