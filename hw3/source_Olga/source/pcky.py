@@ -51,9 +51,11 @@ class PCKY:
 
 				matrix[jColumn-1][jColumn] = treesWithProbs
 			else:
+				treesWithProbs.append((nltk.Tree('NN', [lookUpWord]), 0.0001))
+				matrix[jColumn-1][jColumn] = treesWithProbs
 				print "Error: word not in dictionary: " + str(len(lookUpWord)) + ' ' + str(lookUpWord)
 				
-				matrix[jColumn-1][jColumn] = []
+				# matrix[jColumn-1][jColumn] = []
 
 		for j in range(2, length+1):
 			for i in range(j-2, -1, -1):
