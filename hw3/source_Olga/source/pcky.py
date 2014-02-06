@@ -63,17 +63,11 @@ class PCKY:
 				matrix[jColumn-1][jColumn] = treesWithProbs
 			else:
 
-				#treesWithProbs.append((nltk.Tree('NN', [lookUpWord]), 0.0001))
-				#treesWithProbs.append((nltk.Tree('VP', [lookUpWord]), 0.0001))
-				#treesWithProbs.append((nltk.Tree('JJ', [lookUpWord]), 0.0001))
-
 				for nonTerminal in self.nonTerminalsWithTerminals:
 					treesWithProbs.append((nltk.Tree(nonTerminal, [lookUpWord]), 0.0001))
 
 				matrix[jColumn-1][jColumn] = treesWithProbs
 				print "Error: word not in dictionary: " + str(len(lookUpWord)) + ' ' + str(lookUpWord)
-				
-				# matrix[jColumn-1][jColumn] = []
 
 		for j in range(2, length+1):
 			for i in range(j-2, -1, -1):
@@ -111,21 +105,24 @@ class PCKY:
 #											print 'found pair!'
 											prodProb = pair[1]
 									newProb = prodProb * tree1[1] * tree2[1]
-									
 
 									treesWithProbs.append((nltk.Tree(production, [tree1, tree2]), newProb))
+
 				matrix[i][j] = treesWithProbs
 
 #		print 'final matrix: '
 #		print matrix[0][-1]
 		parseTrees = []
-		
+
 		for treeProbTup in matrix[0][length]:
 			if self.startSymbol in treeProbTup[0].node:	
 				parseTrees.append(treeProbTup)
 
 #		print "\n\n\n"
 		if parseTrees == []:
+			for row in matrix:
+				print row
+				
 			return ''
 
 		bestParse = max(parseTrees, key = itemgetter(1))
