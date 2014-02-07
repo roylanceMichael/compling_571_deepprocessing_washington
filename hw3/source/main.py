@@ -1,40 +1,53 @@
+# created on 2 Feb, 2014
+# by Michael Roylance, Olga Whelan
+
+
 import nltk
 import sys
 import re
-import os
 import induceGrammar
+import pcky
 
 def main():
-	# arg variables
-	annotatedSentencesFile = sys.argv[1]
-	sentencesFile = sys.argv[2]
+        trFile = sys.argv[1]
+	# create instance of class InduceGrammar
+	makeGram = induceGrammar.InduceGrammar()
 
-	# induce grammar
-	induceInst = induceGrammar.InduceGrammar()
+	productions = []
 
-	# read in the annotated sentences
-	input_stream = open(annotatedSentencesFile)
-	annotatedSentence = input_stream.readline()
+	for tree in open(trFile).xreadlines():
+		rootTree = nltk.Tree.parse(tree)
+		prods = rootTree.productions()
+		
+		startSymbol = str(prods[0].lhs())
 
-	while annotatedSentence:
-		induceInst.readSentence(annotatedSentence)
-		annotatedSentence = input_stream.readline()
+		for production in prods:
+			# call function that would fill useful data structures
+			makeGram.fillDicts(str(production))
+	pcfg = open("trained.pcfg", 'w+')
+	pcfg.write(makeGram.buildPCFG())
+	pcfg.close()
 
-	input_stream.close()
+	# create instance of class PCKY
+	pckyParser = pcky.PCKY(startSymbol)
+	pckyParser.putDS(makeGram.getDS())
 
-	induceInst.createProbCfg()
+	exampleSents = sys.argv[2]
+        exS = open(exampleSents, 'rU')
 
-	# write to disk - if too large may have to do this incrementally
-	fileName = 'trained.pcfg'
-	try:
-		os.remove(fileName)
-	except OSError:
-		pass
+#	read input sentences from file one by one
+	parseFile = open("parses.hyp", 'w+')
+        sent = exS.readline()
+        while sent:
 
-	target = open(fileName, 'w')
+		bestParse = pckyParser.runCKY(sent)
+		parseFile.write(bestParse.strip())
+		parseFile.write("\n")
 
-	for production in induceInst.getProbCfgStr():
-		target.write(str(production))
+                sent = exS.readline()
+
+        exS.close()
+	parseFile.close()
 
 if __name__ == '__main__':
-        main()
+  main()
