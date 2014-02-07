@@ -36,7 +36,7 @@ def main():
         exS = open(exampleSents, 'rU')
 
 #	read input sentences from file one by one
-	parseFile = open("parses.hyp", 'w+')
+	parseFile = open("parses.improved.hyp", 'w+')
         sent = exS.readline()
         while sent:
 
