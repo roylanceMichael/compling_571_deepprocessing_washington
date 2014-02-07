@@ -103,10 +103,10 @@ class PCKY:
 				matrix[jColumn-1][jColumn] = treesWithProbs
 			else:
 
-				for nonTerminal in self.nonTerminalsWithTerminals:
-					treesWithProbs.append((nltk.Tree(nonTerminal, [lookUpWord]), 0.0001))
+				#for nonTerminal in self.nonTerminalsWithTerminals:
+				#	treesWithProbs.append((nltk.Tree(nonTerminal, [lookUpWord]), 0.0001))
 
-				matrix[jColumn-1][jColumn] = treesWithProbs
+				matrix[jColumn-1][jColumn] = []#treesWithProbs
 
 		for j in range(2, length+1):
 			for i in range(j-2, -1, -1):
