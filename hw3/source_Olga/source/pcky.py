@@ -57,10 +57,11 @@ class PCKY:
 		for key in self.probGrammar:
 			replaceList = []
 			for rhs in self.probGrammar[key]:
-
 				splitRhs = rhs[0].split(' ')
 
-				if len(splitRhs) == 2:
+				if (len(splitRhs) == 2 and 
+					splitRhs[0] not in tempNonTerminals and 
+					splitRhs[1] not in tempNonTerminals):
 					newRhs1 = splitRhs[0] + "^" + key
 					newRhs2 = splitRhs[1] + "^" + key
 					replaceList.append((newRhs1 + " " + newRhs2, rhs[1]))
