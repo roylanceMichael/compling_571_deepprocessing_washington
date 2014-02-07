@@ -54,6 +54,20 @@ class PCKY:
 					tempNonTerminals[nonTerminal] = None
 					self.nonTerminalsWithTerminals.append(nonTerminal)
 
+		for key in self.probGrammar:
+			replaceList = []
+			for rhs in self.probGrammar[key]:
+
+				splitRhs = rhs[0].split(' ')
+
+				if len(splitRhs) == 2:
+					newRhs1 = splitRhs[0] + "^" + key
+					newRhs2 = splitRhs[1] + "^" + key
+					replaceList.append((newRhs1 + " " + newRhs2, rhs[1]))
+				else:
+					replaceList.append(rhs)
+
+			self.probGrammar[key] = replaceList
 
 	def runCKY(self, sentence):
 	# the heart of the project

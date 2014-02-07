@@ -28,7 +28,7 @@ class InduceGrammar:
 	def fillDicts(self, line):
 	# fill the big dictionary {lhs: [(rhs1, prob), (rhs2, prob),..],..}
 		tup = self.LHS_RHS(line)
-#		print tup[0], tup[1]
+
 		if tup[0] in self.rules:
 			listofprod = []
 
@@ -36,7 +36,7 @@ class InduceGrammar:
 				listofprod.append(prod[0])
 			for prod in self.rules[tup[0]]:
 				if tup[1] in prod[0]:
-#					print 'found something!'
+
 					prod[1] = prod[1] + 1
 			if tup[1] not in listofprod:
 				newProd = [tup[1], 1]
