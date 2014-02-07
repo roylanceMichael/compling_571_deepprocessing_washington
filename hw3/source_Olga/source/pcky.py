@@ -14,6 +14,28 @@ class PCKY:
 		self.RHS = {}
 		self.startSymbol = startSymbol
 
+	def parseTree(self, topTree):
+		# clean out the output tree; take out nltk formatting and the probabilities from each level 
+		# topTree is a tuple
+		if len(topTree[0]) == 1:
+			terminalVal = topTree[0][0]
+
+			if ((terminalVal[0] == "'" and terminalVal[-1] == "'") or 
+				(terminalVal[0] == '"' and terminalVal[-1] == '"')):
+				return terminalVal[1:-1]
+			
+			return terminalVal
+
+		actualTree = topTree[0]
+		newString = ''
+
+		for subTreeTuple in actualTree:
+			newString = newString + '(' + subTreeTuple[0].node + ' '
+			result = self.parseTree(subTreeTuple)
+			newString = newString + str(result) + ')'
+		
+		return newString
+
 	def putDS(self, tup):
 	# getting the converted grammar and making it available
 		self.probGrammar = tup[0]
@@ -69,7 +91,6 @@ class PCKY:
 					treesWithProbs.append((nltk.Tree(nonTerminal, [lookUpWord]), 0.0001))
 
 				matrix[jColumn-1][jColumn] = treesWithProbs
-#				print "Error: word not in dictionary: " + str(len(lookUpWord)) + ' ' + str(lookUpWord)
 
 		for j in range(2, length+1):
 			for i in range(j-2, -1, -1):
@@ -77,15 +98,15 @@ class PCKY:
 				treesWithProbs = []	# list of tuples (tree, prob)
 				for k in range(i+1, j):
 					trees1 = matrix[i][k]
-					#print trees1
+
 					trees2 = matrix[k][j]
 
 					for tree1 in trees1:
-						#print 'tree1, tree1[0].node, tree2'
+
 						for tree2 in trees2:
-							# print tree2, tree2[0].node
+
 							possibleLHS = str(tree1[0].node) + ' ' + str(tree2[0].node)	# getting the two non-terminals to look up in the dictionary for corresponding lhs
-#							print "pair up the nodes and get: ", possibleLHS
+
 							if self.RHS.has_key(possibleLHS):
 
 								productions = self.RHS[possibleLHS]
@@ -94,25 +115,28 @@ class PCKY:
 									# here we're just looking for a tuple containing the right production - there's only one we need; and there will only be one probability
 									# we don't really need to loop through all the pairs, but how to get to it without looping?
 									for pair in self.probGrammar[production]:
-#										print 'pair[0] here with possibleLHS:'
+
 										if pair[0] == possibleLHS:
-#											print 'found pair!'
+
 											prodProb = pair[1]
 									newProb = prodProb * tree1[1] * tree2[1]
 
 									treesWithProbs.append((nltk.Tree(production, [tree1, tree2]), newProb))
 
 				matrix[i][j] = treesWithProbs
-#		print matrix[0][-1]
+
 		parseTrees = []
 
 		for treeProbTup in matrix[0][length]:
 			if self.startSymbol in treeProbTup[0].node:	
 				parseTrees.append(treeProbTup)
-#		print "\n\n\n"
+
 		if parseTrees == []:
 			return ''
 
 		bestParse = max(parseTrees, key = itemgetter(1))	# the best parse has the maximum probability
-#		print bestParse
-		return bestParse
+
+		fullString = '(' + bestParse[0].node + ' '
+		newString = self.parseTree(bestParse)	# need to clean up our best parse to make it ready for evalb
+		fullString = fullString + newString + ')'	
+		return fullString

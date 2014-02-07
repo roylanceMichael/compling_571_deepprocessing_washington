@@ -8,29 +8,6 @@ import re
 import induceGrammar
 import pcky
 
-
-def parseTree(topTree):
-# clean out the output tree; take out nltk formatting and the probabilities from each level 
-	# topTree is a tuple
-	if len(topTree[0]) == 1:
-		terminalVal = topTree[0][0]
-
-		if ((terminalVal[0] == "'" and terminalVal[-1] == "'") or 
-			(terminalVal[0] == '"' and terminalVal[-1] == '"')):
-			return terminalVal[1:-1]
-		
-		return terminalVal
-
-	actualTree = topTree[0]
-	newString = ''
-
-	for subTreeTuple in actualTree:
-		newString = newString + '(' + subTreeTuple[0].node + ' '
-		result = parseTree(subTreeTuple)
-		newString = newString + str(result) + ')'
-	
-	return newString
-
 def main():
         trFile = sys.argv[1]
 	# create instance of class InduceGrammar
@@ -54,7 +31,6 @@ def main():
 	# create instance of class PCKY
 	pckyParser = pcky.PCKY(startSymbol)
 	pckyParser.putDS(makeGram.getDS())
-#	print pckyParser.terminals
 
 	exampleSents = sys.argv[2]
         exS = open(exampleSents, 'rU')
@@ -63,28 +39,15 @@ def main():
 	parseFile = open("parses.hyp", 'w+')
         sent = exS.readline()
         while sent:
-#		print sent
+
 		bestParse = pckyParser.runCKY(sent)
-
-		if len(bestParse) == 0:
-			print sent
-			parseFile.write("\n")
-			sent = exS.readline()
-			continue
-
-		fullString = '(' + bestParse[0].node + ' '
-		newString = parseTree(bestParse)	# need to clean up our best parse to make it ready for evalb
-		fullString = fullString + newString + ')'
-#		print bestParse		
-		parseFile.write(fullString.strip())
+		parseFile.write(bestParse.strip())
 		parseFile.write("\n")
 
                 sent = exS.readline()
 
         exS.close()
 	parseFile.close()
-
-
 
 if __name__ == '__main__':
   main()
