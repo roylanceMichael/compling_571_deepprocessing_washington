@@ -2,8 +2,9 @@
 import nltk
 
 class ParseResult:
-	def __init__(self, grammarStr):
-		self.grammar = nltk.parse.FeatureEarlyChartParse(grammarStr)
+	def __init__(self, featureGrammarFile):
+		self.parser = nltk.load_parser("file:" + featureGrammarFile)
 
 	def build(self, sentence):
-		pass
+		tokenizedSentence = nltk.word_tokenize(sentence)
+		return self.parser.nbest_parse(tokenizedSentence)
