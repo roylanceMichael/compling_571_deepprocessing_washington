@@ -2,6 +2,7 @@
 S -> NP[NUM=?n] VP[NUM=?n] PUNC
 
 NP[NUM=?n] -> Det N[NUM=?n]
+NP[NUM=?n] -> N[NUM=?n]
 
 Det -> 'the'
 N[NUM=pl] -> 'dogs'
