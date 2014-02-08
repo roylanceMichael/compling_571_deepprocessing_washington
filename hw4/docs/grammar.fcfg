@@ -5,7 +5,9 @@ NP[NUM=?n] -> Det N[NUM=?n]
 
 Det -> 'the'
 N[NUM=pl] -> 'dogs'
+N[NUM=sg] -> 'dog'
 
 VP[NUM=pl] -> 'bark'
+VP[NUM=sg] -> 'barks'
 
 PUNC -> '.'
