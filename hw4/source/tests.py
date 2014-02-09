@@ -31,7 +31,7 @@ class ParseResult(unittest.TestCase):
 
 		secondTree = firstTree[0]
 		self.assertTrue(queryUtils.getPos(secondTree.node) == "NP")
-		self.assertTrue(queryUtils.getTerminal(secondTree) == "Kim")
+		self.assertTrue(queryUtils.getTerminal(secondTree) == "kim")
 
 		thirdTree = firstTree[1]
 		self.assertTrue(queryUtils.getPos(thirdTree.node) == "VP")

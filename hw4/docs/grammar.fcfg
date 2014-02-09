@@ -1,6 +1,7 @@
 % start S
 S -> NP[NUM=?n] VP[NUM=?n] PUNC
 S -> NP[NUM=?n] VP[NUM=?n]
+S -> NP VP[TENSE=past] VP[TENSE=gerund]
 S -> S IN S
 
 NP[NUM=?n] -> Det N[NUM=?n]
@@ -18,8 +19,9 @@ NNP[NUM=sg] -> 'john'
 
 VP[NUM=pl] -> 'bark'
 VP[NUM=sg] -> 'barks'
-
-VBD -> 'thought'
+VP[TENSE=past] -> 'thought'
+VP[TENSE=past] -> 'was'
+VP[TENSE=gerund] -> 'interesting'
 
 PUNC -> '.'
 
