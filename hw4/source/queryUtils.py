@@ -13,6 +13,9 @@ def getPos(featureProduction):
 def getNum(featureProduction):
 	return getFeature(featureProduction, "NUM")
 
+def getTense(featureProduction):
+	return getFeature(featureProduction, "TENSE")
+
 def getTerminal(tree):
 	if len(tree) == 1:
 		return tree[0]
