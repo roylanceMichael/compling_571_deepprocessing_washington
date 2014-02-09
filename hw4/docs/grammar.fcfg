@@ -1,14 +1,26 @@
 % start S
 S -> NP[NUM=?n] VP[NUM=?n] PUNC
+S -> NP[NUM=?n] VP[NUM=?n]
+S -> S IN S
 
 NP[NUM=?n] -> Det N[NUM=?n]
 NP[NUM=?n] -> N[NUM=?n]
+NP[NUM=?n] -> NNP[NUM=?n]
 
 Det -> 'the'
+
 N[NUM=pl] -> 'dogs'
 N[NUM=sg] -> 'dog'
+N[NUM=pl] -> 'cats'
+N[NUM=sg] -> 'book'
+
+NNP[NUM=sg] -> 'john'
 
 VP[NUM=pl] -> 'bark'
 VP[NUM=sg] -> 'barks'
 
+VBD -> 'thought'
+
 PUNC -> '.'
+
+IN -> 'that'
