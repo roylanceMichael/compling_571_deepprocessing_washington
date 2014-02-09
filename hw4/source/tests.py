@@ -270,6 +270,67 @@ class ParseResult(unittest.TestCase):
 		# assert
 		self.assertTrue(len(bestParse) == 0)
 
+	def test_11Sentence(self):
+		# arrange
+		builder = parseResult.ParseResult("../docs/grammar.fcfg")
+		sentence = "Mary put the book on the shelf ." 
+
+		# act
+		bestParse = builder.build(sentence)
+
+		# assert
+		self.assertTrue(len(bestParse) == 1)
+
+		firstTree = bestParse[0]
+		self.assertTrue(queryUtils.getPos(firstTree.node) == "S")
+
+		secondTree = firstTree[0]
+		self.assertTrue(queryUtils.getPos(secondTree.node) == "NP")
+
+		thirdTree = secondTree[0]
+		self.assertTrue(queryUtils.getPos(thirdTree.node) == "NNP")
+		self.assertTrue(queryUtils.getTerminal(thirdTree) == "mary")
+		self.assertTrue(queryUtils.getNum(thirdTree.node) == "sg")
+		
+		fourthTree = firstTree[1]
+		self.assertTrue(queryUtils.getPos(fourthTree.node) == "VP")
+
+		fifthTree = fourthTree[0]
+		self.assertTrue(queryUtils.getPos(fifthTree.node) == "VP")
+		self.assertTrue(queryUtils.getTerminal(fifthTree) == "put")
+		self.assertTrue(queryUtils.getTense(fifthTree.node) == "past")
+
+		sixthTree = fourthTree[1]
+		self.assertTrue(queryUtils.getPos(sixthTree.node) == "NP")
+
+		seventhTree = sixthTree[0]
+		self.assertTrue(queryUtils.getPos(seventhTree.node) == "Det")
+		self.assertTrue(queryUtils.getTerminal(seventhTree) == "the")
+
+		eighthTree = sixthTree[1]
+		self.assertTrue(queryUtils.getPos(eighthTree.node) == "N")
+		self.assertTrue(queryUtils.getTerminal(eighthTree) == "book")
+		self.assertTrue(queryUtils.getNum(eighthTree.node) == "sg")
+
+		ninthTree = fourthTree[2]
+		self.assertTrue(queryUtils.getPos(ninthTree.node) == "PP")
+
+		tenthTree = ninthTree[0]
+		self.assertTrue(queryUtils.getPos(tenthTree.node) == "P")
+		self.assertTrue(queryUtils.getTerminal(tenthTree) == "on")
+
+		eleventhTree = ninthTree[1]
+		self.assertTrue(queryUtils.getPos(eleventhTree.node) == "NP")
+
+		twelthTree = eleventhTree[0]
+		self.assertTrue(queryUtils.getPos(twelthTree.node) == "Det")
+		self.assertTrue(queryUtils.getTerminal(twelthTree) == "the")
+
+		thirteenthTree = eleventhTree[1]
+		self.assertTrue(queryUtils.getPos(thirteenthTree.node) == "N")
+		self.assertTrue(queryUtils.getTerminal(thirteenthTree) == "shelf")
+		self.assertTrue(queryUtils.getNum(thirteenthTree.node) == "sg")
+
 def main():
     unittest.main()
 

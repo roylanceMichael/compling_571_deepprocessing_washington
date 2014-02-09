@@ -4,23 +4,30 @@ S -> NP[NUM=?n] VP[NUM=?n]
 S -> NP VP[TENSE=past] VP[TENSE=gerund] PUNC
 S -> S IN S
 
+PP -> P NP
+
 NP[NUM=?n] -> Det N[NUM=?n]
 NP[NUM=?n] -> N[NUM=?n]
 NP[NUM=?n] -> NNP[NUM=?n]
 
 Det -> 'the'
 
+P -> 'on'
+
 N[NUM=pl] -> 'dogs'
 N[NUM=sg] -> 'dog'
 N[NUM=pl] -> 'cats'
 N[NUM=sg] -> 'book'
+N[NUM=sg] -> 'shelf'
 
 NNP[NUM=sg] -> 'john'
 NNP[NUM=sg] -> 'mary'
 
+VP -> VP NP PP
+
 VP[NUM=pl] -> 'bark'
 VP[NUM=sg] -> 'barks'
-VP[TENSE=present] -> 'put'
+VP[TENSE=past] -> 'put'
 VP[TENSE=past] -> 'thought'
 VP[TENSE=past] -> 'was'
 VP[TENSE=gerund] -> 'interesting'
