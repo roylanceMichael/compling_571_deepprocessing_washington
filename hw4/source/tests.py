@@ -156,7 +156,7 @@ class ParseResult(unittest.TestCase):
 		bestParse = builder.build(sentence)
 
 		# assert
-		self.assertTrue(len(bestParse) == 1)
+		self.assertTrue(len(bestParse) > 1)
 		
 		firstTree = bestParse[0]
 		self.assertTrue(queryUtils.getPos(firstTree.node) == "S")
@@ -330,6 +330,204 @@ class ParseResult(unittest.TestCase):
 		self.assertTrue(queryUtils.getPos(thirteenthTree.node) == "N")
 		self.assertTrue(queryUtils.getTerminal(thirteenthTree) == "shelf")
 		self.assertTrue(queryUtils.getNum(thirteenthTree.node) == "sg")
+
+	def test_12Sentence(self):
+		# arrange
+		builder = parseResult.ParseResult("../docs/grammar.fcfg")
+		sentence = "did Mary put the book on the shelf ?" 
+
+		# act
+		bestParse = builder.build(sentence)
+
+		# assert
+		self.assertTrue(len(bestParse) == 1)
+
+	def test_13Sentence(self):
+		# arrange
+		builder = parseResult.ParseResult("../docs/grammar.fcfg")
+		sentence = "put Mary the book on the shelf ?" 
+
+		# act
+		bestParse = builder.build(sentence)
+
+		# assert
+		self.assertTrue(len(bestParse) == 0)
+
+	def test_14Sentence(self):
+		# arrange
+		builder = parseResult.ParseResult("../docs/grammar.fcfg")
+		sentence = "what did Mary put on the shelf ?" 
+
+		# act
+		bestParse = builder.build(sentence)
+
+		# assert
+		self.assertTrue(len(bestParse) == 1)
+
+	def test_15Sentence(self):
+		# arrange
+		builder = parseResult.ParseResult("../docs/grammar.fcfg")
+		sentence = "what did Mary put ?" 
+
+		# act
+		bestParse = builder.build(sentence)
+
+		# assert
+		self.assertTrue(len(bestParse) == 0)
+
+	def test_16Sentence(self):
+		# arrange
+		builder = parseResult.ParseResult("../docs/grammar.fcfg")
+		sentence = "what does John know ?" 
+
+		# act
+		bestParse = builder.build(sentence)
+
+		# assert
+		self.assertTrue(len(bestParse) == 1)
+
+	def test_17Sentence(self):
+		# arrange
+		builder = parseResult.ParseResult("../docs/grammar.fcfg")
+		sentence = "what does Mary think John knows ?" 
+
+		# act
+		bestParse = builder.build(sentence)
+
+		# assert
+		self.assertTrue(len(bestParse) == 1)
+
+	def test_18Sentence(self):
+		# arrange
+		builder = parseResult.ParseResult("../docs/grammar.fcfg")
+		sentence = "the farmer loaded the cart with sand ." 
+
+		# act
+		bestParse = builder.build(sentence)
+
+		# assert
+		self.assertTrue(len(bestParse) > 1)
+
+	def test_19Sentence(self):
+		# arrange
+		builder = parseResult.ParseResult("../docs/grammar.fcfg")
+		sentence = "the farmer loaded the cart with sand ." 
+
+		# act
+		bestParse = builder.build(sentence)
+
+		# assert
+		self.assertTrue(len(bestParse) > 1)
+
+	def test_20Sentence(self):
+		# arrange
+		builder = parseResult.ParseResult("../docs/grammar.fcfg")
+		sentence = "the farmer loaded sand into the cart ." 
+
+		# act
+		bestParse = builder.build(sentence)
+
+		# assert
+		self.assertTrue(len(bestParse) > 1)
+
+	def test_21Sentence(self):
+		# arrange
+		builder = parseResult.ParseResult("../docs/grammar.fcfg")
+		sentence = "the farmer filled sand into the cart ." 
+
+		# act
+		bestParse = builder.build(sentence)
+
+		# assert
+		self.assertTrue(len(bestParse) > 1)
+
+	def test_21Sentence(self):
+		# arrange
+		builder = parseResult.ParseResult("../docs/grammar.fcfg")
+		sentence = "the farmer filled the cart with sand ." 
+
+		# act
+		bestParse = builder.build(sentence)
+
+		# assert
+		self.assertTrue(len(bestParse) > 1)
+
+	def test_22Sentence(self):
+		# arrange
+		builder = parseResult.ParseResult("../docs/grammar.fcfg")
+		sentence = "Mary saw herself ." 
+
+		# act
+		bestParse = builder.build(sentence)
+
+		# assert
+		self.assertTrue(len(bestParse) == 1)
+
+	def test_23Sentence(self):
+		# arrange
+		builder = parseResult.ParseResult("../docs/grammar.fcfg")
+		sentence = "Mary saw herself ." 
+
+		# act
+		bestParse = builder.build(sentence)
+
+		# assert
+		self.assertTrue(len(bestParse) == 1)
+
+	def test_24Sentence(self):
+		# arrange
+		builder = parseResult.ParseResult("../docs/grammar.fcfg")
+		sentence = "John saw himself ." 
+
+		# act
+		bestParse = builder.build(sentence)
+
+		# assert
+		self.assertTrue(len(bestParse) == 1)
+
+	def test_25Sentence(self):
+		# arrange
+		builder = parseResult.ParseResult("../docs/grammar.fcfg")
+		sentence = "John reached the summit on Tuesday ." 
+
+		# act
+		bestParse = builder.build(sentence)
+
+		# assert
+		self.assertTrue(len(bestParse) > 1)
+
+	def test_26Sentence(self):
+		# arrange
+		builder = parseResult.ParseResult("../docs/grammar.fcfg")
+		sentence = "Mary reached the summit for five minutes ." 
+
+		# act
+		bestParse = builder.build(sentence)
+
+		# assert
+		self.assertTrue(len(bestParse) > 1)
+
+	def test_27Sentence(self):
+		# arrange
+		builder = parseResult.ParseResult("../docs/grammar.fcfg")
+		sentence = "John walked on Tuesday ." 
+
+		# act
+		bestParse = builder.build(sentence)
+
+		# assert
+		self.assertTrue(len(bestParse) > 1)
+
+	def test_28Sentence(self):
+		# arrange
+		builder = parseResult.ParseResult("../docs/grammar.fcfg")
+		sentence = "Mary walked for five minutes ." 
+
+		# act
+		bestParse = builder.build(sentence)
+
+		# assert
+		self.assertTrue(len(bestParse) > 1)
 
 def main():
     unittest.main()

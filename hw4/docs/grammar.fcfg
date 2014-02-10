@@ -1,14 +1,24 @@
 % start S
 S -> NP[NUM=?n] VP[NUM=?n] PUNC
 S -> NP[NUM=?n] VP[NUM=?n]
+S -> NNP[GND=?n] VP PRP[GND=?n] PUNC
 S -> NP VP[TENSE=past] VP[TENSE=gerund] PUNC
+S -> NP VP[TENSE=past] PP[NUM=?n] PUNC
+S -> VP[TENSE=past] S
+S -> WP VP[TENSE=past] NP VP[TENSE=past] PP PUNC
+S -> WP VP[TENSE=present] NP VP[TENSE=present] PUNC
+S -> WP VP[TENSE=present] NP VP[TENSE=present] NP VP[TENSE=present] PUNC
 S -> S IN S
 
 PP -> P NP
+PP -> IN NP[NUM=?n]
+PP[NUM=?n] -> IN NP[NUM=?n]
 
 NP[NUM=?n] -> Det N[NUM=?n]
 NP[NUM=?n] -> N[NUM=?n]
+NP[TYPE=?n] -> N[TYPE=?n]
 NP[NUM=?n] -> NNP[NUM=?n]
+NP[NUM=?n] -> N[TYPE=num, NUM=?n] N[TYPE=time, NUM=?n]
 
 Det -> 'the'
 
@@ -19,19 +29,45 @@ N[NUM=sg] -> 'dog'
 N[NUM=pl] -> 'cats'
 N[NUM=sg] -> 'book'
 N[NUM=sg] -> 'shelf'
+N[NUM=sg] -> 'farmer'
+N[NUM=sg] -> 'cart'
+N[NUM=sg] -> 'sand'
+N[NUM=sg] -> 'summit'
+N[TYPE=time] -> 'tuesday'
+N[TYPE=time, NUM=pl] -> 'minutes'
+N[TYPE=num, NUM=pl] -> 'five'
 
-NNP[NUM=sg] -> 'john'
-NNP[NUM=sg] -> 'mary'
+NNP[NUM=sg, GND=masc] -> 'john'
+NNP[NUM=sg, GND=fem] -> 'mary'
+
+PRP[GND=fem] -> 'herself'
+PRP[GND=masc] -> 'himself'
 
 VP -> VP NP PP
 
 VP[NUM=pl] -> 'bark'
 VP[NUM=sg] -> 'barks'
+VP[TENSE=present] -> 'does'
+VP[TENSE=present] -> 'know'
+VP[TENSE=present] -> 'think'
+VP[TENSE=present] -> 'knows'
 VP[TENSE=past] -> 'put'
 VP[TENSE=past] -> 'thought'
 VP[TENSE=past] -> 'was'
+VP[TENSE=past] -> 'did'
+VP[TENSE=past] -> 'loaded'
+VP[TENSE=past] -> 'filled'
+VP[TENSE=past] -> 'saw'
+VP[TENSE=past] -> 'reached'
+VP[TENSE=past] -> 'walked'
 VP[TENSE=gerund] -> 'interesting'
 
-PUNC -> '.'
-
 IN -> 'that'
+IN -> 'with'
+IN -> 'into'
+IN -> 'for'
+
+PUNC -> '.'
+PUNC -> '?'
+
+WP -> 'what'
