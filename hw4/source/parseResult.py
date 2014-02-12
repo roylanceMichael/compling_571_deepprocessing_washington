@@ -13,5 +13,5 @@ class ParseResult:
 		result = self.build(sentence)
 
 		if len(result) > 0:
-			return str(result[0])
+			return str(result[0].pprint(margin=500))
 		return ''
