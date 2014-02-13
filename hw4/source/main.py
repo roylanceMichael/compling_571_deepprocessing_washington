@@ -15,6 +15,7 @@ def main():
 	sentenceFileStream = open(sentenceFile)
 	sentence = sentenceFileStream.readline()
 
+	# print out each sentence
 	while sentence:
 		print builder.buildAndPrint(sentence)
 		sentence = sentenceFileStream.readline()
