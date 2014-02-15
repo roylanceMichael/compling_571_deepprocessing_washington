@@ -1,0 +1,2 @@
+exists x.(dog(x) & exists z2.(bark(z2) & barker(z2,x)))
+all x.(dog(x) -> exists z3.(bark(z3) & barker(z3,x)))
