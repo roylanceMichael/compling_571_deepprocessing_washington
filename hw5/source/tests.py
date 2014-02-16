@@ -17,6 +17,38 @@ class PropositionLogic(unittest.TestCase):
 		# assert
 		self.assertTrue(result)
 
+	def test_valuationMapping(self):
+		# arrange
+		p = ('P', True)
+		q = ('Q', True)
+		r = ('R', False)
+
+		# act
+		val = nltk.Valuation([p, q, r])
+
+		# assert
+		self.assertTrue(val['P'])
+		self.assertTrue(val['Q'])
+		self.assertFalse(val['R'])
+
+	def test_model(self):
+		# arrange
+		p = ('P', True)
+		q = ('Q', True)
+		r = ('R', False)
+		val = nltk.Valuation([p, q, r])
+		dom = set([])
+		g = nltk.Assignment(dom)
+
+		# act
+		m = nltk.Model(dom, val)
+
+		# assert
+		self.assertTrue(m.evaluate('(P & Q)', g))
+		self.assertFalse(m.evaluate('-(P & Q)', g))
+		self.assertFalse(m.evaluate('(P & R)', g))
+		self.assertTrue(m.evaluate('(P | R)', g))
+
 def main():
     unittest.main()
 
