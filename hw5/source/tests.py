@@ -49,6 +49,13 @@ class PropositionLogic(unittest.TestCase):
 		self.assertFalse(m.evaluate('(P & R)', g))
 		self.assertTrue(m.evaluate('(P | R)', g))
 
+class FirstOrderLogic(unittest.TestCase):
+	def test_firstTest(self):
+		# arrange
+		# act
+		# assert
+		self.assertTrue(False, 'obviously you need to fix this')
+
 def main():
     unittest.main()
 
