@@ -52,9 +52,47 @@ class PropositionLogic(unittest.TestCase):
 class FirstOrderLogic(unittest.TestCase):
 	def test_firstTest(self):
 		# arrange
+		tlp = nltk.LogicParser(type_check=True)
+
 		# act
+		parsed = tlp.parse('walk(angus)')
+
 		# assert
-		self.assertTrue(False, 'obviously you need to fix this')
+		self.assertTrue(parsed != None, 'obviously you need to fix this')
+		self.assertTrue(str(parsed.argument.type) == "e")
+		self.assertTrue(str(parsed.function.type) == "<e,?>")
+
+	def test_secondTest(self):
+		# arrange
+		sig = { "walk" : "<e, t>"}
+		tlp = nltk.LogicParser(type_check=True)
+
+		# act
+		parsed = tlp.parse('walk(angus)', sig)
+
+		# assert
+		self.assertTrue(parsed != None, 'obviously you need to fix this')
+		self.assertTrue(str(parsed.argument.type) == "e")
+		self.assertTrue(str(parsed.function.type) == "<e,t>", str(parsed.function.type))
+
+	def test_valuationFirst(self):
+		# arrange
+		v = """
+bertie => b
+olive => o
+cyril => c
+boy => {b}
+girl => {o}
+dog => {c}
+walk => {o, c}
+see => {(b, o), (c, b), (o, c)}
+"""
+
+		# act
+		val = nltk.parse_valuation(v)
+
+		# assert
+		self.assertTrue(("b", "o") in val["see"])
 
 def main():
     unittest.main()
