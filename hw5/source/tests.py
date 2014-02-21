@@ -167,6 +167,108 @@ see => {(b, o), (c, b), (o, c)}
 		# which isn't a valid assignment
 		self.assertFalse(m.evaluate('see(y, x)', g))
 
+	def test_purgeFirst(self):
+		# arrange
+		v = """
+bertie => b
+olive => o
+cyril => c
+boy => {b}
+girl => {o}
+dog => {c}
+walk => {o, c}
+see => {(b, o), (c, b), (o, c)}
+"""
+		dom = set(['b', 'o', 'c'])
+		val = nltk.parse_valuation(v)
+
+		# act
+		g = nltk.Assignment(dom, [('x', 'o'), ('y', 'c')])
+		m = nltk.Model(dom, val)
+		g.purge()
+
+		# assert
+		# this is false because see only accepts b, o | c, b | o, c
+		# y is mapped to c, so see(y, x) really is checking see(c, o)
+		# which isn't a valid assignment
+
+		self.assertTrue(len(g) == 0)
+
+	def test_purgeSecond(self):
+		# arrange
+		v = """
+bertie => b
+olive => o
+cyril => c
+boy => {b}
+girl => {o}
+dog => {c}
+walk => {o, c}
+see => {(b, o), (c, b), (o, c)}
+"""
+		dom = set(['b', 'o', 'c'])
+		val = nltk.parse_valuation(v)
+
+		# act
+		g = nltk.Assignment(dom, [('x', 'o'), ('y', 'c')])
+		m = nltk.Model(dom, val)
+		g.purge()
+
+		# assert
+		# this is false because see only accepts b, o | c, b | o, c
+		# y is mapped to c, so see(y, x) really is checking see(c, o)
+		# which isn't a valid assignment
+
+		self.assertTrue(m.evaluate("see(olive, y)", g) == "Undefined")
+
+	def test_purgeThird(self):
+		# arrange
+		v = """
+bertie => b
+olive => o
+cyril => c
+boy => {b}
+girl => {o}
+dog => {c}
+walk => {o, c}
+see => {(b, o), (c, b), (o, c)}
+"""
+		dom = set(['b', 'o', 'c'])
+		val = nltk.parse_valuation(v)
+
+		# act
+		g = nltk.Assignment(dom, [('x', 'o'), ('y', 'c')])
+		m = nltk.Model(dom, val)
+		g.purge()
+
+		# assert
+		# this works because bertie, olive are base level variables
+		self.assertTrue(m.evaluate("see(bertie, olive) & boy(bertie) & -walk(bertie)", g))
+
+	def test_quantificationFirst(self):
+		# arrange
+		v = """
+bertie => b
+olive => o
+cyril => c
+boy => {b}
+girl => {o}
+dog => {c}
+walk => {o, c}
+see => {(b, o), (c, b), (o, c)}
+"""
+		dom = set(['b', 'o', 'c'])
+		val = nltk.parse_valuation(v)
+
+		# act
+		g = nltk.Assignment(dom, [('x', 'o'), ('y', 'c')])
+		m = nltk.Model(dom, val)
+		g.purge()
+
+		# assert
+		# this checks to see if in both girl and walk there exist the same person (in this case, o)
+		self.assertTrue(m.evaluate("exists x.(girl(x) & walk(x))", g))
+
 def main():
     unittest.main()
 
