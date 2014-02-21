@@ -114,7 +114,58 @@ see => {(b, o), (c, b), (o, c)}
 		m = nltk.Model(dom, val)
 
 		# assert
+		# this is because "see" has a set of (o, c) - where c could be y in this case
 		self.assertTrue(m.evaluate('see(olive, y)', g))
+
+	def test_valuationThird(self):
+		# arrange
+		v = """
+bertie => b
+olive => o
+cyril => c
+boy => {b}
+girl => {o}
+dog => {c}
+walk => {o, c}
+see => {(b, o), (c, b), (o, c)}
+"""
+		dom = set(['b', 'o', 'c'])
+		val = nltk.parse_valuation(v)
+
+		# act
+		g = nltk.Assignment(dom, [('x', 'o'), ('y', 'c')])
+		m = nltk.Model(dom, val)
+
+		# assert
+		# this is because in dom we assigned b, o and c
+		# and in the assignment, we mapped 'x' to 'o' and 'y' to 'c'
+		# therefore, 'y' gets mapped back to 'c'
+		self.assertTrue(g['y'] == 'c')
+
+	def test_valuationFourth(self):
+		# arrange
+		v = """
+bertie => b
+olive => o
+cyril => c
+boy => {b}
+girl => {o}
+dog => {c}
+walk => {o, c}
+see => {(b, o), (c, b), (o, c)}
+"""
+		dom = set(['b', 'o', 'c'])
+		val = nltk.parse_valuation(v)
+
+		# act
+		g = nltk.Assignment(dom, [('x', 'o'), ('y', 'c')])
+		m = nltk.Model(dom, val)
+
+		# assert
+		# this is false because see only accepts b, o | c, b | o, c
+		# y is mapped to c, so see(y, x) really is checking see(c, o)
+		# which isn't a valid assignment
+		self.assertFalse(m.evaluate('see(y, x)', g))
 
 def main():
     unittest.main()
