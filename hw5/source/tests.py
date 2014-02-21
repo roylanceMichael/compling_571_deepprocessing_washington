@@ -94,6 +94,28 @@ see => {(b, o), (c, b), (o, c)}
 		# assert
 		self.assertTrue(("b", "o") in val["see"])
 
+	def test_valuationSecond(self):
+		# arrange
+		v = """
+bertie => b
+olive => o
+cyril => c
+boy => {b}
+girl => {o}
+dog => {c}
+walk => {o, c}
+see => {(b, o), (c, b), (o, c)}
+"""
+		dom = set(['b', 'o', 'c'])
+		val = nltk.parse_valuation(v)
+
+		# act
+		g = nltk.Assignment(dom, [('x', 'o'), ('y', 'c')])
+		m = nltk.Model(dom, val)
+
+		# assert
+		self.assertTrue(m.evaluate('see(olive, y)', g))
+
 def main():
     unittest.main()
 
