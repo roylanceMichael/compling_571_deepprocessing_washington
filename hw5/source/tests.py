@@ -692,13 +692,14 @@ admire => {(j, b), (b, b), (m, e), (e, m), (c, a)}
 		parser = nltk.load_parser('simple-sem.fcfg', trace=0)
 		sentence = 'Angus gives a bone to every dog'
 		tokens = sentence.split()
+		
+		# act
 		trees = parser.nbest_parse(tokens)
 
-		# act
-		for tree in trees:
-			print tree.node['SEM']
-			
 		# assert
+		self.assertTrue(len(trees) == 1)
+		print trees[0].node["SEM"]
+
 
 
 def main():
