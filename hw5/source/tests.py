@@ -641,7 +641,65 @@ admire => {(j, b), (b, b), (m, e), (e, m), (c, a)}
 
 		# assert
 		self.assertTrue(res)
-		print val
+
+	def test_semanticsOfEnglishFirst(self):
+		# arrange
+		lp = nltk.LogicParser()
+
+		# act
+		e = lp.parse(r"\x.(walk(x) & chew_gum(x))")
+		
+		# assert
+		self.assertTrue(e != None)
+
+	def test_semanticsOfEnglishSecond(self):
+		# arrange
+		lp = nltk.LogicParser()
+
+		# act
+		e = lp.parse(r"\x.(walk(x) & chew_gum(x))(gerald)")
+		
+		# assert
+		self.assertTrue(str(e) == r"\x.(walk(x) & chew_gum(x))(gerald)")
+		self.assertTrue(str(e.simplify()) == "(walk(gerald) & chew_gum(gerald))")
+	
+	def test_semanticsOfEnglishThird(self):
+		# arrange
+		lp = nltk.LogicParser()
+
+		# act
+		e = lp.parse(r'\x.\y.(dog(x) & own(y, x))(cyril)').simplify()
+		e1 = lp.parse(r'\x y.(dog(x) & own(y, x))(cyril, angus)').simplify()
+		
+		# assert
+		self.assertTrue(str(e) == r"\y.(dog(cyril) & own(y,cyril))")
+		self.assertTrue(str(e1) == "(dog(cyril) & own(angus,cyril))")
+
+	def test_semanticsOfEnglishFourth(self):
+		# arrange
+		lp = nltk.LogicParser()
+
+		# act
+		tvp = lp.parse(r"\X x.X(\y.chase(x,y))")
+		np =  lp.parse(r'(\P.exists x.(dog(x) & P(x)))')
+		#throwing an error
+		# vp = nltk.sem.ApplicationExpression(tvp, np)
+
+		# assert
+
+	def test_semanticsOfEnglishFifth(self):
+		# arrange
+		parser = nltk.load_parser('simple-sem.fcfg', trace=0)
+		sentence = 'Angus gives a bone to every dog'
+		tokens = sentence.split()
+		trees = parser.nbest_parse(tokens)
+
+		# act
+		for tree in trees:
+			print tree.node['SEM']
+			
+		# assert
+
 
 def main():
     unittest.main()
