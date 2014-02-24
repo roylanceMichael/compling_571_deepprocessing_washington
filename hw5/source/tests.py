@@ -269,6 +269,380 @@ see => {(b, o), (c, b), (o, c)}
 		# this checks to see if in both girl and walk there exist the same person (in this case, o)
 		self.assertTrue(m.evaluate("exists x.(girl(x) & walk(x))", g))
 
+	def test_quantificationWithoutAssignmentOfExists(self):
+		# arrange
+		v = """
+bertie => b
+olive => o
+cyril => c
+boy => {b}
+girl => {o}
+dog => {c}
+walk => {o, c}
+see => {(b, o), (c, b), (o, c)}
+"""
+		dom = set(['b', 'o', 'c'])
+		val = nltk.parse_valuation(v)
+
+		# act
+		g = nltk.Assignment(dom, [('x', 'o'), ('y', 'c')])
+		m = nltk.Model(dom, val)
+		g.purge()
+
+		# assert
+		# this checks to see if in both girl and walk there exist the same person (in this case, o)
+		self.assertTrue(m.evaluate("girl(x) & walk(x)", g))
+
+	def test_quantificationWithAssignment(self):
+		# arrange
+		v = """
+bertie => b
+olive => o
+cyril => c
+boy => {b}
+girl => {o}
+dog => {c}
+walk => {o, c}
+see => {(b, o), (c, b), (o, c)}
+"""
+		dom = set(['b', 'o', 'c'])
+		val = nltk.parse_valuation(v)
+
+		# act
+		g = nltk.Assignment(dom, [('x', 'o'), ('y', 'c')])
+		m = nltk.Model(dom, val)
+		g.purge()
+
+		# assert
+		# this checks to see if in both girl and walk there exist the same person (in this case, o)
+		self.assertTrue(m.evaluate("girl(x) & walk(x)", g.add("x", "o")))
+
+	def test_quantificationWithAssignmentFalse(self):
+		# arrange
+		v = """
+bertie => b
+olive => o
+cyril => c
+boy => {b}
+girl => {o}
+dog => {c}
+walk => {o, c}
+see => {(b, o), (c, b), (o, c)}
+"""
+		dom = set(['b', 'o', 'c'])
+		val = nltk.parse_valuation(v)
+
+		# act
+		g = nltk.Assignment(dom, [('x', 'o'), ('y', 'c')])
+		m = nltk.Model(dom, val)
+		g.purge()
+
+		# assert
+		# this checks to see if in both girl and walk there exist the same person (in this case, o)
+		self.assertFalse(m.evaluate("girl(x) & walk(x)", g.add("x", "b")))
+
+	def test_satisfiersFirst(self):
+		# arrange
+		v = """
+bertie => b
+olive => o
+cyril => c
+boy => {b}
+girl => {o}
+dog => {c}
+walk => {o, c}
+see => {(b, o), (c, b), (o, c)}
+"""
+		lp = nltk.LogicParser()
+		dom = set(['b', 'o', 'c'])
+		val = nltk.parse_valuation(v)
+		g = nltk.Assignment(dom, [('x', 'o'), ('y', 'c')])
+		m = nltk.Model(dom, val)
+		g.purge()
+		fmla1 = lp.parse('girl(x) | boy(x)')
+
+		# act
+		res = m.satisfiers(fmla1, 'x', g)
+
+		# assert
+		# this checks to see if in both girl and walk there exist the same person (in this case, o)
+		self.assertTrue('b' in res)
+		self.assertTrue('o' in res)
+
+	def test_satisfiersSecond(self):
+		# arrange
+		v = """
+bertie => b
+olive => o
+cyril => c
+boy => {b}
+girl => {o}
+dog => {c}
+walk => {o, c}
+see => {(b, o), (c, b), (o, c)}
+"""
+		lp = nltk.LogicParser()
+		dom = set(['b', 'o', 'c'])
+		val = nltk.parse_valuation(v)
+		g = nltk.Assignment(dom, [('x', 'o'), ('y', 'c')])
+		m = nltk.Model(dom, val)
+		g.purge()
+		fmla1 = lp.parse('girl(x) -> walk(x)')
+
+		# act
+		res = m.satisfiers(fmla1, 'x', g)
+
+		# assert
+		# this is check if there is a girl who also doesn't walk
+		# or not a girl who walks
+		# or doesn't walk and not a girl
+		self.assertTrue('c' in res)
+		self.assertTrue('o' in res)
+		self.assertTrue('b' in res)
+
+	def test_satisfiersThird(self):
+		# arrange
+		v = """
+bertie => b
+olive => o
+cyril => c
+boy => {b}
+girl => {o}
+dog => {c}
+walk => {o, c}
+see => {(b, o), (c, b), (o, c)}
+"""
+		lp = nltk.LogicParser()
+		dom = set(['b', 'o', 'c'])
+		val = nltk.parse_valuation(v)
+		g = nltk.Assignment(dom, [('x', 'o'), ('y', 'c')])
+		m = nltk.Model(dom, val)
+		g.purge()
+		fmla1 = lp.parse('walk(x) -> girl(x)')
+
+		# act
+		res = m.satisfiers(fmla1, 'x', g)
+
+		# assert
+		# this checks if there is someone who walks
+		# but is not a girl
+		# or someone who is not a girl and doesn't walk
+		self.assertTrue('o' in res)
+		self.assertTrue('b' in res)
+
+	def test_satisfiersFourth(self):
+		# arrange
+		v = """
+bertie => b
+olive => o
+cyril => c
+boy => {b}
+girl => {o}
+dog => {c}
+walk => {o, c}
+see => {(b, o), (c, b), (o, c)}
+"""
+		lp = nltk.LogicParser()
+		dom = set(['b', 'o', 'c'])
+		val = nltk.parse_valuation(v)
+		g = nltk.Assignment(dom, [('x', 'o'), ('y', 'c')])
+		m = nltk.Model(dom, val)
+		g.purge()
+
+		# act
+		res = m.evaluate('all x.(girl(x) -> walk(x))', g)
+
+		# assert
+		self.assertTrue(res)
+
+	def test_satisfiersFifth(self):
+		# arrange
+		v = """
+bertie => b
+olive => o
+cyril => c
+person => {b, o, c}
+admire => {(b, o)}
+boy => {b}
+girl => {o}
+dog => {c}
+walk => {o, c}
+see => {(b, o), (c, b), (o, c)}
+"""
+		lp = nltk.LogicParser()
+		dom = set(['b', 'o', 'c'])
+		val = nltk.parse_valuation(v)
+		g = nltk.Assignment(dom, [('x', 'o'), ('y', 'c')])
+		m = nltk.Model(dom, val)
+		g.purge()
+
+		# act
+		res = m.evaluate('all x.(person(x) -> exists y.(person(y) & admire(x, y)))', g)
+
+		# assert
+		self.assertFalse(res)
+
+	def test_satisfiersSixth(self):
+		# arrange
+		v = """
+bertie => b
+olive => o
+cyril => c
+person => {b, o, c}
+admire => {(b, o)}
+boy => {b}
+girl => {o}
+dog => {c}
+walk => {o, c}
+see => {(b, o), (c, b), (o, c)}
+"""
+		lp = nltk.LogicParser()
+		dom = set(['b', 'o', 'c'])
+		val = nltk.parse_valuation(v)
+		g = nltk.Assignment(dom, [('x', 'o'), ('y', 'c')])
+		m = nltk.Model(dom, val)
+		g.purge()
+
+		# act
+		# there exists a person that admires another person
+		res = m.evaluate('exists x.(person(x) -> exists y.(person(y) & admire(x, y)))', g)
+
+		# assert
+		self.assertTrue(res)
+
+	def test_satisfiersSeventh(self):
+		# arrange
+		v = """
+bruce => b
+cyril => c
+elspeth => e
+julia => j
+matthew => m
+person => {b, e, j, m}
+admire => {(j, b), (b, b), (m, e), (e, m), (c, a)}
+"""
+		lp = nltk.LogicParser()
+		val = nltk.parse_valuation(v)
+		dom = val.domain
+		m = nltk.Model(dom, val)
+		g = nltk.Assignment(dom)
+		fmla = lp.parse("(person(x) -> exists y.(person(y) & admire(x, y)))")
+
+		# act
+		# there exists a person that admires another person
+		res = m.satisfiers(fmla, 'x', g)
+
+		# assert
+		self.assertTrue("a" in res)
+		self.assertTrue("j" in res)
+		self.assertTrue("b" in res)
+		self.assertTrue("m" in res)
+		self.assertTrue("e" in res)
+		self.assertTrue("c" in res)
+
+	def test_satisfiersEigth(self):
+		# arrange
+		v = """
+bruce => b
+cyril => c
+elspeth => e
+julia => j
+matthew => m
+person => {b, e, j, m}
+admire => {(j, b), (b, b), (m, e), (e, m), (c, a)}
+"""
+		lp = nltk.LogicParser()
+		val = nltk.parse_valuation(v)
+		dom = val.domain
+		m = nltk.Model(dom, val)
+		g = nltk.Assignment(dom)
+		fmla = lp.parse("(person(y) & all x.(person(x) -> admire(x, y)))")
+
+		# act
+		# there exists a person that admires another person
+		res = m.satisfiers(fmla, 'y', g)
+
+		# assert
+		self.assertTrue(len(res) == 0)
+
+	def test_satisfiersNinth(self):
+		# arrange
+		v = """
+bruce => b
+cyril => c
+elspeth => e
+julia => j
+matthew => m
+person => {b, e, j, m}
+admire => {(j, b), (b, b), (m, e), (e, m), (c, a)}
+"""
+		lp = nltk.LogicParser()
+		val = nltk.parse_valuation(v)
+		dom = val.domain
+		m = nltk.Model(dom, val)
+		g = nltk.Assignment(dom)
+		fmla = lp.parse("(person(y) & all x.((x = bruce | x = julia) -> admire(x, y)))")
+
+		# act
+		# there exists a person that admires another person
+		res = m.satisfiers(fmla, 'y', g)
+
+		# assert
+		self.assertTrue(len(res) == 1)
+		self.assertTrue('b' in res)
+
+	def test_modelBuildingFirst(self):
+		# arrange
+		lp = nltk.LogicParser()
+		a3 = lp.parse('exists x.(man(x) & walks(x))')
+		c1 = lp.parse('mortal(socrates)')
+		c2 = lp.parse('-mortal(socrates)')
+		mb = nltk.Mace(5)
+
+		# act
+		res1 = mb.build_model(None, [a3, c1])
+		res2 = mb.build_model(None, [a3, c2])
+		res3 = mb.build_model(None, [c1, c2])
+
+		# assert
+		self.assertTrue(res1)
+		self.assertTrue(res2)
+		self.assertFalse(res3)
+
+	def test_modelBuildingSecond(self):
+		# arrange
+		lp = nltk.LogicParser()
+		a = lp.parse('exists y. (woman(y) & all x. (man(x) -> love(x,y)))')
+		a1 = lp.parse('man(adam)')
+		a2 = lp.parse('woman(eve)')
+		g = lp.parse('love(adam, eve)')
+		mc = nltk.MaceCommand(g, assumptions=[a, a1, a2])
+
+		# act
+		res = mc.build_model()
+		val = mc.valuation
+
+		# assert
+		self.assertTrue(res)
+
+	def test_modelBuildingSecond(self):
+		# arrange
+		lp = nltk.LogicParser()
+		a = lp.parse('exists y. (woman(y) & all x. (man(x) -> love(x,y)))')
+		a1 = lp.parse('man(adam)')
+		a2 = lp.parse('woman(eve)')
+		a3 = lp.parse('all x. (man(x) -> -woman(x))')
+		g = lp.parse('love(adam, eve)')
+		mc = nltk.MaceCommand(g, assumptions=[a, a1, a2, a3])
+
+		# act
+		res = mc.build_model()
+		val = mc.valuation
+
+		# assert
+		self.assertTrue(res)
+		print val
+
 def main():
     unittest.main()
 
