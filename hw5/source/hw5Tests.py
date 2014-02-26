@@ -1,7 +1,10 @@
 # Mike Roylance - roylance@uw.edu
 import unittest
 import nltk
+import re
 
+def variableNormalizer(result):
+	return re.sub("z[0-9]+", "{z}", result)
 
 class PropositionLogic(unittest.TestCase):
 	def test_semanticsOfEnglishFirst(self):
@@ -15,11 +18,11 @@ class PropositionLogic(unittest.TestCase):
 
 		# assert
 		self.assertTrue(len(trees) == 1)
-		expectedResult = 'all z2.(dog(z2) -> exists z1.(bone(z1) & give(angus,z1,z2)))'
+		expectedResult = 'all {z}.(dog({z}) -> exists {z}.(bone({z}) & give(angus,{z},{z})))'
 		
 		#print expectedResult
 		#print trees[0].node["SEM"]
-		self.assertTrue(expectedResult == str(trees[0].node["SEM"]))
+		self.assertTrue(expectedResult == variableNormalizer(str(trees[0].node["SEM"])))
 
 	def test_semanticsSentences_john_eats(self):
 		# arrange
@@ -84,24 +87,164 @@ class PropositionLogic(unittest.TestCase):
 
 		# assert
 		self.assertTrue(len(trees) == 1)
-		expectedResult = 'exists z3.(sandwich(z3) & eat(john,z3))'
-		actualResult = str(trees[0].node["SEM"])
+		expectedResult = 'exists {z}.(sandwich({z}) & eat(john,{z}))'
+		actualResult = variableNormalizer(str(trees[0].node["SEM"]))
 		self.assertTrue(expectedResult == actualResult, actualResult)
 
 	def test_semanticsSentences_all_students_eat_or_drink(self):
 		# arrange
 		parser = nltk.load_parser('file:../docs/grammar.fcfg', trace=0)
 		sentence = 'all students eat or drink'
-		# sentence = 'all students eat or drink'
 		tokens = sentence.split()
 		
 		# act
 		trees = parser.nbest_parse(tokens)
 
 		# assert
-		# self.assertTrue(len(trees) == 1)
 		expectedResult = '(all x.(student(x) & eat(x)) | all x.(student(x) & drink(x)))'
 		actualResult = str(trees[0].node["SEM"])
+		self.assertTrue(expectedResult == actualResult, actualResult)
+
+	def test_semanticsSentences_john_drinks_a_soda_or_eats_a_sandwich(self):
+		# arrange
+		parser = nltk.load_parser('file:../docs/grammar.fcfg', trace=0)
+		sentence = 'John drinks a soda or eats a sandwich'
+		tokens = sentence.split()
+		
+		# act
+		trees = parser.nbest_parse(tokens)
+
+		# assert
+		expectedResult = '(exists {z}.(soda({z}) & drink(john,{z})) | exists {z}.(sandwich({z}) & eat(john,{z})))'
+		actualResult = variableNormalizer(str(trees[0].node["SEM"]))
+
+		self.assertTrue(expectedResult == actualResult, actualResult)
+
+	def test_semanticsSentences_john_or_mary_eats(self):
+		# arrange
+		parser = nltk.load_parser('file:../docs/grammar.fcfg', trace=0)
+		sentence = 'John or Mary eats'
+
+		tokens = sentence.split()
+		
+		# act
+		trees = parser.nbest_parse(tokens)
+
+		# assert
+		expectedResult = '(eat(john) | eat(mary))'
+		actualResult = variableNormalizer(str(trees[0].node["SEM"]))
+		self.assertTrue(expectedResult == actualResult, actualResult)
+
+	def test_semanticsSentences_a_student_writes_an_essay_or_eats(self):
+		# arrange
+		parser = nltk.load_parser('file:../docs/grammar.fcfg', trace=0)
+		sentence = 'a student writes an essay or eats'
+
+		tokens = sentence.split()
+		
+		# act
+		trees = parser.nbest_parse(tokens)
+
+		# assert
+		expectedResult = '(exists x.(student(x) & exists {z}.(essay({z}) & write(x,{z}))) | exists x.(student(x) & eat(x)))'
+		actualResult = variableNormalizer(str(trees[0].node["SEM"]))
+		
+		self.assertTrue(expectedResult == actualResult, actualResult)
+
+	def test_semanticsSentences_every_student_eats_a_sandwich_or_drinks_a_soda(self):
+		# arrange
+		parser = nltk.load_parser('file:../docs/grammar.fcfg', trace=0)
+		sentence = 'every student eats a sandwich or drinks a soda'
+
+		tokens = sentence.split()
+		
+		# act
+		trees = parser.nbest_parse(tokens)
+
+		# assert
+		expectedResult = '(all x.(student(x) & exists {z}.(sandwich({z}) & eat(x,{z}))) | all x.(student(x) & exists {z}.(soda({z}) & drink(x,{z}))))'
+		actualResult = variableNormalizer(str(trees[0].node["SEM"]))
+		
+		self.assertTrue(expectedResult == actualResult, actualResult)
+
+	def test_semanticsSentences_john_eats_every_sandwich(self):
+		# arrange
+		parser = nltk.load_parser('file:../docs/grammar.fcfg', trace=0)
+		sentence = 'John eats every sandwich'
+
+		tokens = sentence.split()
+		
+		# act
+		trees = parser.nbest_parse(tokens)
+
+		# assert
+		expectedResult = 'all {z}.(sandwich({z}) & eat(john,{z}))'
+		actualResult = variableNormalizer(str(trees[0].node["SEM"]))
+		
+		self.assertTrue(expectedResult == actualResult, actualResult)
+
+	def test_semanticsSentences_john_eats_every_sandwich_or_bagel(self):
+		# arrange
+		parser = nltk.load_parser('file:../docs/grammar.fcfg', trace=0)
+		sentence = 'John eats every sandwich or bagel'
+
+		tokens = sentence.split()
+		
+		# act
+		trees = parser.nbest_parse(tokens)
+
+		# assert
+		expectedResult = '(all {z}.(sandwich({z}) & eat(john,{z})) | all {z}.(bagel({z}) & eat(john,{z})))'
+		actualResult = variableNormalizer(str(trees[0].node["SEM"]))
+		
+		self.assertTrue(expectedResult == actualResult, actualResult)
+
+	def test_semanticsSentences_nobody_eats_a_bagel(self):
+		# arrange
+		parser = nltk.load_parser('file:../docs/grammar.fcfg', trace=0)
+		sentence = 'nobody eats a bagel'
+
+		tokens = sentence.split()
+		
+		# act
+		trees = parser.nbest_parse(tokens)
+
+		# assert
+		expectedResult = '-all x.(person(x) & exists {z}.(bagel({z}) & eat(x,{z})))'
+		actualResult = variableNormalizer(str(trees[0].node["SEM"]))
+		
+		self.assertTrue(expectedResult == actualResult, actualResult)
+
+	def test_semanticsSentences_a_person_does_not_eat(self):
+		# arrange
+		parser = nltk.load_parser('file:../docs/grammar.fcfg', trace=0)
+		sentence = 'a person does not eat'
+
+		tokens = sentence.split()
+		
+		# act
+		trees = parser.nbest_parse(tokens)
+
+		# assert
+		expectedResult = 'exists x.(person(x) & -eat(x))'
+		actualResult = variableNormalizer(str(trees[0].node["SEM"]))
+
+		self.assertTrue(expectedResult == actualResult, actualResult)
+
+	def test_semanticsSentences_jack_does_not_eat_or_drink(self):
+		# arrange
+		parser = nltk.load_parser('file:../docs/grammar.fcfg', trace=0)
+		sentence = 'Jack does not eat or drink'
+
+		tokens = sentence.split()
+		
+		# act
+		trees = parser.nbest_parse(tokens)
+
+		# assert
+		expectedResult = '(-eat(jack) & -drink(jack))'
+		actualResult = variableNormalizer(str(trees[0].node["SEM"]))
+		
 		self.assertTrue(expectedResult == actualResult, actualResult)
 
 		
