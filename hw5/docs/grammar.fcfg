@@ -9,6 +9,7 @@
 S[SEM = <?subj(?vp)>] -> NP[NUM=?n,SEM=?subj] VP[NUM=?n,SEM=?vp]
 S[SEM = <?subj(?vp1) | ?subj(?vp2)>] -> NP[NUM=?n,SEM=?subj] VP[NUM=?n,SEM=?vp1] CC VP[NUM=?n,SEM=?vp2]
 S[SEM = <?subj1(?vp) | ?subj2(?vp)>] -> NP[NUM=?n,SEM=?subj1] CC NP[NUM=?n,SEM=?subj2] VP[NUM=?n,SEM=?vp]
+S[SEM = <?subj(?vp) & ?subj(?p(?prop))>] -> NP[NUM=?n,SEM=?subj] VP[NUM=?n,SEM=?vp] P[SEM=?p] PropN[SEM=?prop]
 
 # Tricky conjunctions
 S[SEM = <?subj(?v(?det(?np1))) | ?subj(?v(?det(?np2)))>] -> NP[NUM=?n,SEM=?subj] TV[NUM=?n,SEM=?v] Det[NUM=?n,SEM=?det] N[NUM=?n,SEM=?np1] CC N[NUM=?n,SEM=?np2]
@@ -17,6 +18,7 @@ S[SEM = <?subj(?v(?det(?np1))) | ?subj(?v(?det(?np2)))>] -> NP[NUM=?n,SEM=?subj]
 S[SEM = <?det(?np)(?vp)>] -> NegDet[NUM=?n,SEM=?det] N[NUM=?n,SEM=?np] V NOT IV[SEM=?vp]
 S[SEM = <-?np(?vp1) & -?np(?vp2)>] -> PropN[NUM=?n,SEM=?np] V NOT IV[SEM=?vp1] CC IV[SEM=?vp2]
 S[SEM = <-?subj(?vp)>] -> NegProN[NUM=?n,SEM=?subj] VP[NUM=?n,SEM=?vp]
+S[SEM = <-(?no(?np)(?vp))>] -> NO[SEM=?no] N[NUM=?n,SEM=?np] VP[SEM=?vp]
 
 NP[LOC=?l,NUM=?n,SEM=?np] -> PropN[LOC=?l,NUM=?n,SEM=?np]
 NP[NUM=?n,SEM=<?det(?np)> ] -> Det[NUM=?n,SEM=?det] N[NUM=?n,SEM=?np]
@@ -31,6 +33,7 @@ VP[NUM=?n,SEM=<?v(?obj)>] -> TV[NUM=?n,SEM=?v] NP[SEM=?obj]
 PropN[-LOC,NUM=sg,SEM=<\P.P(john)>] -> 'John'
 PropN[-LOC,NUM=sg,SEM=<\P.P(mary)>] -> 'Mary'
 PropN[-LOC,NUM=sg,SEM=<\P.P(jack)>] -> 'Jack'
+PropN[LOC=WA,SEM=<\P.P(seattle)>] -> 'Seattle'
 
 NegProN[NUM=sg,SEM=<\Q.all x.(person(x) & Q(x))>] -> 'nobody'
 
@@ -61,6 +64,11 @@ TV[NUM=sg,SEM=<\X x.X(\y.write(x,y))>,TNS=pres] -> 'writes'
 
 V[NUM=sg] ->'does'
 
+PP -> P PropN
+
+P[SEM=<\X x.X(\y.in(x,y))>] -> 'in'
+
 CC -> 'or'
 
 NOT -> 'not'
+NO[SEM=<\P Q.all x.(P(x) & Q(x))>] -> 'no'

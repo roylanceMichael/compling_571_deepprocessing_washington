@@ -247,6 +247,38 @@ class PropositionLogic(unittest.TestCase):
 		
 		self.assertTrue(expectedResult == actualResult, actualResult)
 
+	def test_semanticsSentences_no_student_eats_a_bagel(self):
+		# arrange
+		parser = nltk.load_parser('file:../docs/grammar.fcfg', trace=0)
+		sentence = 'no student eats a bagel'
+
+		tokens = sentence.split()
+		
+		# act
+		trees = parser.nbest_parse(tokens)
+
+		# assert
+		expectedResult = '-all x.(student(x) & exists {z}.(bagel({z}) & eat(x,{z})))'
+		actualResult = variableNormalizer(str(trees[0].node["SEM"]))
+
+		self.assertTrue(expectedResult == actualResult, actualResult)
+
+	def test_semanticsSentences_john_eats_in_seattle(self):
+		# arrange
+		parser = nltk.load_parser('file:../docs/grammar.fcfg', trace=0)
+		sentence = 'John eats in Seattle'
+
+		tokens = sentence.split()
+		
+		# act
+		trees = parser.nbest_parse(tokens)
+
+		# assert
+		expectedResult = '(eat(john) & in(john,seattle))'
+		actualResult = variableNormalizer(str(trees[0].node["SEM"]))
+
+		self.assertTrue(expectedResult == actualResult, actualResult)
+
 		
 def main():
     unittest.main()
