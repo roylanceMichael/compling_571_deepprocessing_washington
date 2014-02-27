@@ -37,7 +37,7 @@ class PropositionLogic(unittest.TestCase):
 		# what I want...
 		# eats(john)
 		self.assertTrue(len(trees) == 1)
-		expectedResult = 'eat(john)'
+		expectedResult = 'eater(john)'
 		actualResult = str(trees[0].node["SEM"])
 		self.assertTrue(actualResult == expectedResult, actualResult)
 
@@ -55,7 +55,7 @@ class PropositionLogic(unittest.TestCase):
 		# eats(john)
 		treeLen = len(trees)
 		self.assertTrue(treeLen == 1)
-		expectedResult = 'exists x.(student(x) & eat(x))'
+		expectedResult = 'exists x.(student(x) & eater(x))'
 		actualResult = str(trees[0].node["SEM"])
 		self.assertTrue(expectedResult == actualResult, actualResult)
 
@@ -72,7 +72,7 @@ class PropositionLogic(unittest.TestCase):
 		# what I want...
 		# eats(john)
 		self.assertTrue(len(trees) == 1)
-		expectedResult = 'all x.(student(x) & eat(x))'
+		expectedResult = 'all x.(student(x) & eater(x))'
 		actualResult = str(trees[0].node["SEM"])
 		self.assertTrue(expectedResult == actualResult, actualResult)
 
@@ -101,7 +101,7 @@ class PropositionLogic(unittest.TestCase):
 		trees = parser.nbest_parse(tokens)
 
 		# assert
-		expectedResult = '(all x.(student(x) & eat(x)) | all x.(student(x) & drink(x)))'
+		expectedResult = '(all x.(student(x) & eater(x)) | all x.(student(x) & drinker(x)))'
 		actualResult = str(trees[0].node["SEM"])
 		self.assertTrue(expectedResult == actualResult, actualResult)
 
@@ -131,7 +131,7 @@ class PropositionLogic(unittest.TestCase):
 		trees = parser.nbest_parse(tokens)
 
 		# assert
-		expectedResult = '(eat(john) | eat(mary))'
+		expectedResult = '(eater(john) | eater(mary))'
 		actualResult = variableNormalizer(str(trees[0].node["SEM"]))
 		self.assertTrue(expectedResult == actualResult, actualResult)
 
@@ -146,7 +146,7 @@ class PropositionLogic(unittest.TestCase):
 		trees = parser.nbest_parse(tokens)
 
 		# assert
-		expectedResult = '(exists x.(student(x) & exists {z}.(essay({z}) & write(x,{z}))) | exists x.(student(x) & eat(x)))'
+		expectedResult = '(exists x.(student(x) & exists {z}.(essay({z}) & write(x,{z}))) | exists x.(student(x) & eater(x)))'
 		actualResult = variableNormalizer(str(trees[0].node["SEM"]))
 		
 		self.assertTrue(expectedResult == actualResult, actualResult)
@@ -226,7 +226,7 @@ class PropositionLogic(unittest.TestCase):
 		trees = parser.nbest_parse(tokens)
 
 		# assert
-		expectedResult = 'exists x.(person(x) & -eat(x))'
+		expectedResult = 'exists x.(person(x) & -eater(x))'
 		actualResult = variableNormalizer(str(trees[0].node["SEM"]))
 
 		self.assertTrue(expectedResult == actualResult, actualResult)
@@ -242,7 +242,7 @@ class PropositionLogic(unittest.TestCase):
 		trees = parser.nbest_parse(tokens)
 
 		# assert
-		expectedResult = '(-eat(jack) & -drink(jack))'
+		expectedResult = '(-eater(jack) & -drinker(jack))'
 		actualResult = variableNormalizer(str(trees[0].node["SEM"]))
 		
 		self.assertTrue(expectedResult == actualResult, actualResult)
@@ -274,7 +274,7 @@ class PropositionLogic(unittest.TestCase):
 		trees = parser.nbest_parse(tokens)
 
 		# assert
-		expectedResult = '(eat(john) & in(john,seattle))'
+		expectedResult = '(eater(john) & in(john,seattle))'
 		actualResult = variableNormalizer(str(trees[0].node["SEM"]))
 
 		self.assertTrue(expectedResult == actualResult, actualResult)
