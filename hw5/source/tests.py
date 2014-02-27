@@ -700,8 +700,6 @@ admire => {(j, b), (b, b), (m, e), (e, m), (c, a)}
 		self.assertTrue(len(trees) == 1)
 		print trees[0].node["SEM"]
 
-
-
 def main():
     unittest.main()
 

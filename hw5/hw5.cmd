@@ -8,7 +8,7 @@
 Universe   = vanilla
  
 Executable  = hw5.sh
-Arguments   = "docs/grammar.fcfg docs/feature_sentences.txt results"
+Arguments   = "docs/grammar.fcfg docs/semantics_sentences.txt results"
 Log         = hw5.log
 Output      = hw5.out
 Error       = hw5.err
