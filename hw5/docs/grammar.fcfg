@@ -7,12 +7,13 @@
 
 # Normal starts
 S[SEM=<?subj(?vp)>] -> NP[NUM=?n,SEM=?subj] VP[NUM=?n,SEM=?vp]
+S[SEM=<exists e.(eat(e) & eater(e,john) & exists z.(sandwich(z) & eaten(e,john,z))))>] -> NP[NUM=?n,SEM=?subj] VP[NUM=?n,SEM=?vp] 'a' 'sandwich'
 
 NP[NUM=?n,SEM=?np] -> PropN[NUM=?n,SEM=?np]
 NP[NUM=?n,SEM=<?det(?np)>] -> Det[NUM=?n,SEM=?det] N[NUM=?n,SEM=?np]
 
 VP[NUM=?n,SEM=?v] -> IV[NUM=?n,SEM=?v]
-VP[NUM=?n,SEM=?v] -> TV[NUM=?n,SEM=?v]
+VP[NUM=?n,SEM=<?v(?np)] -> TV[NUM=?n,SEM=?v] NP[NUM=?n,SEM=?np]
 
 #############################
 # Lexical Rules
@@ -30,4 +31,5 @@ N[SEM=<\x.student(x)>] -> 'students'
 IV[NUM=sg,SEM=<\x.exists e.(eat(e) & eater(e,x))>] -> 'eats'
 IV[NUM=pl,SEM=<\x.exists e.(eat(e) & eater(e,x))>] -> 'eat'
 
-TV[NUM=sg,SEM=<\P x.exists e.(eat(e) & eater(e,x) & P.z())>] -> 'eats'
+## a sandwich is <\P Q.exists x.(P(x) & Q(x))
+TV[NUM=sg,SEM=<\x.exists e.(eat(e) & eater(e,x))>] -> 'eats'

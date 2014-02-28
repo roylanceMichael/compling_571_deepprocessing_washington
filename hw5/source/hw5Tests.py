@@ -56,7 +56,7 @@ class PropositionLogic(unittest.TestCase):
 		self.assertTrue(len(trees) == 1)
 		expectedResult = 'all x.(student(x) & exists e.(eat(e) & eater(e,x)))'
 		actualResult = str(trees[0].node["SEM"])
-		print actualResult
+
 		self.assertTrue(actualResult == expectedResult, actualResult)
 
 	def test_semanticsSentences_john_eats_a_sandwich(self):
