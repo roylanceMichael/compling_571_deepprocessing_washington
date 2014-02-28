@@ -8,7 +8,7 @@ class ParseResult:
 
 	# build the sentence tree
 	def build(self, sentence):
-		tokenizedSentence = nltk.word_tokenize(sentence.lower())
+		tokenizedSentence = nltk.word_tokenize(sentence)
 		return self.parser.nbest_parse(tokenizedSentence)
 
 	# build the sentence tree and print out, if it exists

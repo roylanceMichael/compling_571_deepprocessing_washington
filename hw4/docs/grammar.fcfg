@@ -37,8 +37,8 @@ N[TYPE=time] -> 'tuesday'
 N[TYPE=time, NUM=pl] -> 'minutes'
 N[TYPE=num, NUM=pl] -> 'five'
 
-NNP[NUM=sg, GND=masc] -> 'john'
-NNP[NUM=sg, GND=fem] -> 'mary'
+NNP[NUM=sg, GND=masc] -> 'John'
+NNP[NUM=sg, GND=fem] -> 'Mary'
 
 PRP[GND=fem] -> 'herself'
 PRP[GND=masc] -> 'himself'

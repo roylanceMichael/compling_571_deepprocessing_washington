@@ -8,9 +8,28 @@ import re
 # (e.g. Opener(e,z1) & OpenedThing(e,z2)).
 
 def variableNormalizer(result):
-	return re.sub("z[0-9]+", "{z}", result)
+	res1 = re.sub("z[0-9]+", "{z}", result)
+	res2 = re.sub("e[0-9]+", "e", res1)
+	return res2
 
 class PropositionLogic(unittest.TestCase):
+	def test_semanticsOfEnglishFirst(self):
+		# arrange
+		parser = nltk.load_parser('file:../docs/simple-sem.fcfg', trace=0)
+		sentence = 'Angus gives a bone to every dog'
+		tokens = sentence.split()
+		
+		# act
+		trees = parser.nbest_parse(tokens)
+
+		# assert
+		self.assertTrue(len(trees) == 1)
+		expectedResult = 'all {z}.(dog({z}) -> exists {z}.(bone({z}) & give(angus,{z},{z})))'
+		
+		#print expectedResult
+		#print trees[0].node["SEM"]
+		self.assertTrue(expectedResult == variableNormalizer(str(trees[0].node["SEM"])))
+
 	def test_semanticsSentences_john_eats(self):
 		# arrange
 		parser = nltk.load_parser('file:../docs/grammar.fcfg', trace=0)
@@ -21,14 +40,11 @@ class PropositionLogic(unittest.TestCase):
 		trees = parser.nbest_parse(tokens)
 
 		# assert
+		# what I want...
+		# eats(john)
 		self.assertTrue(len(trees) == 1)
-<<<<<<< HEAD
-		expectedResult = 'exists e.(eat(e) & eater(e,john))'
-=======
-		expectedResult = 'eat(john)'
->>>>>>> parent of c730211... updated to grammar indicated on GoPost (ie eater)
+		expectedResult = 'exists x.(eat(e3) & eater(e3,x))'
 		actualResult = str(trees[0].node["SEM"])
-		
 		self.assertTrue(actualResult == expectedResult, actualResult)
 
 	def test_semanticsSentences_a_student_eats(self):
@@ -41,21 +57,15 @@ class PropositionLogic(unittest.TestCase):
 		trees = parser.nbest_parse(tokens)
 
 		# assert
-<<<<<<< HEAD
-		self.assertTrue(len(trees) == 1)
-		expectedResult = 'exists x.(student(x) & exists e.(eat(e) & eater(e,x)))'
-=======
 		# what I want...
 		# eats(john)
 		treeLen = len(trees)
 		self.assertTrue(treeLen == 1)
-		expectedResult = 'exists x.(student(x) & eat(x))'
->>>>>>> parent of c730211... updated to grammar indicated on GoPost (ie eater)
+		expectedResult = 'exists x.(student(x) & exists z4.(eat(e3) & eater(e3,z4)))'
 		actualResult = str(trees[0].node["SEM"])
-		
-		self.assertTrue(actualResult == expectedResult, actualResult)
+		self.assertTrue(expectedResult == actualResult, actualResult)
 
-	def test_semanticsSentences_all_student_eats(self):
+	def test_semanticsSentences_all_students_eat(self):
 		# arrange
 		parser = nltk.load_parser('file:../docs/grammar.fcfg', trace=0)
 		sentence = 'all students eat'
@@ -65,15 +75,12 @@ class PropositionLogic(unittest.TestCase):
 		trees = parser.nbest_parse(tokens)
 
 		# assert
+		# what I want...
+		# eats(john)
 		self.assertTrue(len(trees) == 1)
-<<<<<<< HEAD
-		expectedResult = 'all x.(student(x) & exists e.(eat(e) & eater(e,x)))'
-=======
-		expectedResult = 'all x.(student(x) & eat(x))'
->>>>>>> parent of c730211... updated to grammar indicated on GoPost (ie eater)
+		expectedResult = 'all x.(student(x) & exists z7.(eat(e3) & eater(e3,z7)))'
 		actualResult = str(trees[0].node["SEM"])
-
-		self.assertTrue(actualResult == expectedResult, actualResult)
+		self.assertTrue(expectedResult == actualResult, actualResult)
 
 	def test_semanticsSentences_john_eats_a_sandwich(self):
 		# arrange
@@ -86,12 +93,6 @@ class PropositionLogic(unittest.TestCase):
 
 		# assert
 		self.assertTrue(len(trees) == 1)
-<<<<<<< HEAD
-		expectedResult = 'exists e.(eat(e) & eater(e,john) & exists z.(sandwich(z) & eaten(e,john,z))))'
-		actualResult = str(trees[0].node["SEM"])
-		print actualResult
-		self.assertTrue(actualResult == expectedResult, actualResult)
-=======
 		expectedResult = 'exists {z}.(sandwich({z}) & eat(john,{z}))'
 		actualResult = variableNormalizer(str(trees[0].node["SEM"]))
 		self.assertTrue(expectedResult == actualResult, actualResult)
@@ -106,7 +107,7 @@ class PropositionLogic(unittest.TestCase):
 		trees = parser.nbest_parse(tokens)
 
 		# assert
-		expectedResult = '(all x.(student(x) & eat(x)) | all x.(student(x) & drink(x)))'
+		expectedResult = '(all x.(student(x) & exists z9.(eat(e3) & eater(e3,z9))) | all x.(student(x) & exists z10.(drink(e4) & drinker(e4,z10))))'
 		actualResult = str(trees[0].node["SEM"])
 		self.assertTrue(expectedResult == actualResult, actualResult)
 
@@ -136,7 +137,7 @@ class PropositionLogic(unittest.TestCase):
 		trees = parser.nbest_parse(tokens)
 
 		# assert
-		expectedResult = '(eat(john) | eat(mary))'
+		expectedResult = '(exists x.(eat(e) & eater(e,x)) | exists x.(eat(e) & eater(e,x)))'
 		actualResult = variableNormalizer(str(trees[0].node["SEM"]))
 		self.assertTrue(expectedResult == actualResult, actualResult)
 
@@ -151,7 +152,7 @@ class PropositionLogic(unittest.TestCase):
 		trees = parser.nbest_parse(tokens)
 
 		# assert
-		expectedResult = '(exists x.(student(x) & exists {z}.(essay({z}) & write(x,{z}))) | exists x.(student(x) & eat(x)))'
+		expectedResult = '(exists x.(student(x) & exists {z}.(essay({z}) & write(x,{z}))) | exists x.(student(x) & exists {z}.(eat(e) & eater(e,{z}))))'
 		actualResult = variableNormalizer(str(trees[0].node["SEM"]))
 		
 		self.assertTrue(expectedResult == actualResult, actualResult)
@@ -231,7 +232,7 @@ class PropositionLogic(unittest.TestCase):
 		trees = parser.nbest_parse(tokens)
 
 		# assert
-		expectedResult = 'exists x.(person(x) & -eat(x))'
+		expectedResult = 'exists x.(person(x) & -exists {z}.(eat(e) & eater(e,{z})))'
 		actualResult = variableNormalizer(str(trees[0].node["SEM"]))
 
 		self.assertTrue(expectedResult == actualResult, actualResult)
@@ -247,7 +248,7 @@ class PropositionLogic(unittest.TestCase):
 		trees = parser.nbest_parse(tokens)
 
 		# assert
-		expectedResult = '(-eat(jack) & -drink(jack))'
+		expectedResult = '(-exists x.(eat(e) & eater(e,x)) & -exists x.(drink(e) & drinker(e,x)))'
 		actualResult = variableNormalizer(str(trees[0].node["SEM"]))
 		
 		self.assertTrue(expectedResult == actualResult, actualResult)
@@ -279,12 +280,10 @@ class PropositionLogic(unittest.TestCase):
 		trees = parser.nbest_parse(tokens)
 
 		# assert
-		expectedResult = '(eat(john) & in(john,seattle))'
+		expectedResult = '(exists x.(eat(e) & eater(e,x)) & in(john,seattle))'
 		actualResult = variableNormalizer(str(trees[0].node["SEM"]))
 
 		self.assertTrue(expectedResult == actualResult, actualResult)
->>>>>>> parent of c730211... updated to grammar indicated on GoPost (ie eater)
-
 		
 def main():
     unittest.main()
