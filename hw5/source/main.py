@@ -10,7 +10,7 @@ def main():
 	grammarFile = sys.argv[1]
 	sentenceFile = sys.argv[2]
 
-	# create FeatureChartParser parser
+	# create the parseResult builder
 	parser = nltk.load_parser('file:' + grammarFile, trace=0)
 
 	# read in the example sentences

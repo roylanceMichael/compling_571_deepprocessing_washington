@@ -26,7 +26,30 @@ Det[NUM=pl,SEM=<\P Q.all x.(P(x) & Q(x))>] -> 'all'
 
 N[NUM=sg,SEM=<\x.sandwich(x)>] -> 'sandwich'
 N[NUM=sg,SEM=<\x.student(x)>] -> 'student'
+<<<<<<< HEAD
 N[SEM=<\x.student(x)>] -> 'students'
+=======
+N[NUM=pl,SEM=<\x.student(x)>] -> 'students'
+N[NUM=sg,SEM=<\x.essay(x)>] -> 'essay'
+N[NUM=sg,SEM=<\x.bagel(x)>] -> 'bagel'
+N[NUM=sg,SEM=<\x.person(x)>] -> 'person'
+
+IV[NUM=pl,SEM=<\x.dream(x)>,TNS=pres] -> 'dream'
+IV[NUM=pl,SEM=<\x.eat(x)>,TNS=pres] -> 'eat'
+IV[NUM=sg,SEM=<\x.eat(x)>,TNS=pres] -> 'eats'
+IV[NUM=pl,SEM=<\x.drink(x)>,TNS=pres] -> 'drink'
+IV[NUM=sg,SEM=<\x.drink(x)>,TNS=pres] -> 'drinks'
+
+TV[NUM=sg,SEM=<\X x.X(\y.eat(x,y))>,TNS=pres] -> 'eats'
+TV[NUM=sg,SEM=<\X x.X(\y.drink(x,y))>,TNS=pres] -> 'drinks'
+TV[NUM=sg,SEM=<\X x.X(\y.write(x,y))>,TNS=pres] -> 'writes'
+
+V[NUM=sg] ->'does'
+
+PP -> P PropN
+
+P[SEM=<\X x.X(\y.in(x,y))>] -> 'in'
+>>>>>>> parent of c730211... updated to grammar indicated on GoPost (ie eater)
 
 IV[NUM=sg,SEM=<\x.exists e.(eat(e) & eater(e,x))>] -> 'eats'
 IV[NUM=pl,SEM=<\x.exists e.(eat(e) & eater(e,x))>] -> 'eat'
