@@ -1,0 +1,34 @@
+Traceback (most recent call last):
+  File "source/main.py", line 31, in <module>
+    main()
+  File "source/main.py", line 14, in main
+    parser = nltk.load_parser('file:' + grammarFile, trace=0)
+  File "/opt/python-2.6.5/lib/python2.6/site-packages/nltk/parse/util.py", line 55, in load_parser
+    grammar = load(grammar_url, **load_args)
+  File "/opt/python-2.6.5/lib/python2.6/site-packages/nltk/data.py", line 616, in load
+    fstruct_parser=fstruct_parser)
+  File "/opt/python-2.6.5/lib/python2.6/site-packages/nltk/grammar.py", line 1124, in parse_fcfg
+    start, productions = parse_grammar(input, fstruct_parser.partial_parse)
+  File "/opt/python-2.6.5/lib/python2.6/site-packages/nltk/grammar.py", line 1231, in parse_grammar
+    (linenum+1, line, e))
+ValueError: Unable to parse line 10: S[SEM=<exists e.(eat(e) & eater(e,john) & exists z.(sandwich(z) & eaten(e,john,z))))>] -> NP[NUM=?n,SEM=?subj] VP[NUM=?n,SEM=?vp] 'a' 'sandwich'
+Error parsing feature structure
+    S[SEM=<exists e.(eat(e) & eater(e,john) & exists z.(sandwich(z) & eaten(e,john,z))))>] -> NP[NUM=?n,SEM=?subj] VP[NUM=?n,SEM=?vp] 'a' 'sandwich'
+           ^ Expected logic expression
+Traceback (most recent call last):
+  File "source/main.py", line 31, in <module>
+    main()
+  File "source/main.py", line 14, in main
+    parser = nltk.load_parser('file:' + grammarFile, trace=0)
+  File "/opt/python-2.6.5/lib/python2.6/site-packages/nltk/parse/util.py", line 55, in load_parser
+    grammar = load(grammar_url, **load_args)
+  File "/opt/python-2.6.5/lib/python2.6/site-packages/nltk/data.py", line 616, in load
+    fstruct_parser=fstruct_parser)
+  File "/opt/python-2.6.5/lib/python2.6/site-packages/nltk/grammar.py", line 1124, in parse_fcfg
+    start, productions = parse_grammar(input, fstruct_parser.partial_parse)
+  File "/opt/python-2.6.5/lib/python2.6/site-packages/nltk/grammar.py", line 1231, in parse_grammar
+    (linenum+1, line, e))
+ValueError: Unable to parse line 10: S[SEM=<exists e.(eat(e) & eater(e,john) & exists z.(sandwich(z) & eaten(e,john,z))))>] -> NP[NUM=?n,SEM=?subj] VP[NUM=?n,SEM=?vp] 'a' 'sandwich'
+Error parsing feature structure
+    S[SEM=<exists e.(eat(e) & eater(e,john) & exists z.(sandwich(z) & eaten(e,john,z))))>] -> NP[NUM=?n,SEM=?subj] VP[NUM=?n,SEM=?vp] 'a' 'sandwich'
+           ^ Expected logic expression
