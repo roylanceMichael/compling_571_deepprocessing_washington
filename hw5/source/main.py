@@ -23,7 +23,7 @@ def main():
 		trees = parser.nbest_parse(tokenizedSent)
 
 		if len(trees) > 0:
-			print trees[0].node[sem]
+			print trees[0].node[sem].simplify()
 			
 		sentence = sentenceFileStream.readline()
 

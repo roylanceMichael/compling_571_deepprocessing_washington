@@ -1,0 +1,74 @@
+## Author: Mike Roylance <roylance@uw.edu>
+
+% start S
+############################
+# Grammar Rules
+############################# 
+
+# Normal starts
+S[SEM = <?subj(?vp)>] -> NP[NUM=?n,SEM=?subj] VP[NUM=?n,SEM=?vp]
+S[SEM = <?subj(?vp1) | ?subj(?vp2)>] -> NP[NUM=?n,SEM=?subj] VP[NUM=?n,SEM=?vp1] CC VP[NUM=?n,SEM=?vp2]
+S[SEM = <?subj1(?vp) | ?subj2(?vp)>] -> NP[NUM=?n,SEM=?subj1] CC NP[NUM=?n,SEM=?subj2] VP[NUM=?n,SEM=?vp]
+S[SEM = <?subj(?vp) & ?subj(?p(?prop))>] -> NP[NUM=?n,SEM=?subj] VP[NUM=?n,SEM=?vp] P[SEM=?p] PropN[SEM=?prop]
+
+# Tricky conjunctions
+S[SEM = <?subj(?v(?det(?np1))) | ?subj(?v(?det(?np2)))>] -> NP[NUM=?n,SEM=?subj] TV[NUM=?n,SEM=?v] Det[NUM=?n,SEM=?det] N[NUM=?n,SEM=?np1] CC N[NUM=?n,SEM=?np2]
+
+# Negations
+S[SEM = <?det(?np)(?vp)>] -> NegDet[NUM=?n,SEM=?det] N[NUM=?n,SEM=?np] V NOT IV[SEM=?vp]
+S[SEM = <-?np(?vp1) & -?np(?vp2)>] -> PropN[NUM=?n,SEM=?np] V NOT IV[SEM=?vp1] CC IV[SEM=?vp2]
+S[SEM = <-?subj(?vp)>] -> NegProN[NUM=?n,SEM=?subj] VP[NUM=?n,SEM=?vp]
+S[SEM = <-(?no(?np)(?vp))>] -> NO[SEM=?no] N[NUM=?n,SEM=?np] VP[SEM=?vp]
+
+NP[LOC=?l,NUM=?n,SEM=?np] -> PropN[LOC=?l,NUM=?n,SEM=?np]
+NP[NUM=?n,SEM=<?det(?np)> ] -> Det[NUM=?n,SEM=?det] N[NUM=?n,SEM=?np]
+
+VP[NUM=?n,SEM=?v] -> IV[NUM=?n,SEM=?v]
+VP[NUM=?n,SEM=<?v(?obj)>] -> TV[NUM=?n,SEM=?v] NP[SEM=?obj]
+
+#############################
+# Lexical Rules
+#############################
+
+PropN[-LOC,NUM=sg,SEM=<\P.P(john)>] -> 'John'
+PropN[-LOC,NUM=sg,SEM=<\P.P(mary)>] -> 'Mary'
+PropN[-LOC,NUM=sg,SEM=<\P.P(jack)>] -> 'Jack'
+PropN[LOC=WA,SEM=<\P.P(seattle)>] -> 'Seattle'
+
+NegProN[NUM=sg,SEM=<\Q.all x.(person(x) & Q(x))>] -> 'nobody'
+
+NegDet[NUM=sg,SEM=<\P Q.exists x.(P(x) & -Q(x))>] -> 'a'
+
+Det[NUM=sg,SEM=<\P Q.exists x.(P(x) & Q(x))>] -> 'a'
+Det[NUM=sg,SEM=<\P Q.exists x.(P(x) & Q(x))>] -> 'an'
+Det[NUM=pl,SEM=<\P Q.all x.(P(x) & Q(x))>] -> 'all'
+Det[NUM=sg,SEM=<\P Q.all x.(P(x) & Q(x))>] -> 'every'
+
+N[NUM=sg,SEM=<\x.sandwich(x)>] -> 'sandwich'
+N[NUM=sg,SEM=<\x.soda(x)>] -> 'soda'
+N[NUM=sg,SEM=<\x.student(x)>] -> 'student'
+N[NUM=pl,SEM=<\x.student(x)>] -> 'students'
+N[NUM=sg,SEM=<\x.essay(x)>] -> 'essay'
+N[NUM=sg,SEM=<\x.bagel(x)>] -> 'bagel'
+N[NUM=sg,SEM=<\x.person(x)>] -> 'person'
+
+IV[NUM=pl,SEM=<\x.dreamer(x)>,TNS=pres] -> 'dream'
+IV[NUM=pl,SEM=<\x.eater(x)>,TNS=pres] -> 'eat'
+IV[NUM=sg,SEM=<\x.eater(x)>,TNS=pres] -> 'eats'
+IV[NUM=pl,SEM=<\x.drinker(x)>,TNS=pres] -> 'drink'
+IV[NUM=sg,SEM=<\x.drinker(x)>,TNS=pres] -> 'drinks'
+
+TV[NUM=sg,SEM=<\X x.X(\y.eat(x,y))>,TNS=pres] -> 'eats'
+TV[NUM=sg,SEM=<\X x.X(\y.drink(x,y))>,TNS=pres] -> 'drinks'
+TV[NUM=sg,SEM=<\X x.X(\y.write(x,y))>,TNS=pres] -> 'writes'
+
+V[NUM=sg] ->'does'
+
+PP -> P PropN
+
+P[SEM=<\X x.X(\y.in(x,y))>] -> 'in'
+
+CC -> 'or'
+
+NOT -> 'not'
+NO[SEM=<\P Q.all x.(P(x) & Q(x))>] -> 'no'
