@@ -33,7 +33,7 @@ N[NUM=sg] -> 'farmer'
 N[NUM=sg] -> 'cart'
 N[NUM=sg] -> 'sand'
 N[NUM=sg] -> 'summit'
-N[TYPE=time] -> 'tuesday'
+N[TYPE=time] -> 'Tuesday'
 N[TYPE=time, NUM=pl] -> 'minutes'
 N[TYPE=num, NUM=pl] -> 'five'
 

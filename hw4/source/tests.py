@@ -31,7 +31,7 @@ class ParseResult(unittest.TestCase):
 
 		secondTree = firstTree[0]
 		self.assertTrue(queryUtils.getPos(secondTree.node) == "NP")
-		self.assertTrue(queryUtils.getTerminal(secondTree) == "kim")
+		self.assertTrue(queryUtils.getTerminal(secondTree) == "Kim")
 
 		thirdTree = firstTree[1]
 		self.assertTrue(queryUtils.getPos(thirdTree.node) == "VP")
@@ -211,7 +211,7 @@ class ParseResult(unittest.TestCase):
 		
 		fourthTree = thirdTree[0]
 		self.assertTrue(queryUtils.getPos(fourthTree.node) == "NNP")
-		self.assertTrue(queryUtils.getTerminal(fourthTree) == "john")
+		self.assertTrue(queryUtils.getTerminal(fourthTree) == "John")
 		self.assertTrue(queryUtils.getNum(fourthTree.node) == "sg")
 
 		fifthTree = secondTree[1]
@@ -289,7 +289,7 @@ class ParseResult(unittest.TestCase):
 
 		thirdTree = secondTree[0]
 		self.assertTrue(queryUtils.getPos(thirdTree.node) == "NNP")
-		self.assertTrue(queryUtils.getTerminal(thirdTree) == "mary")
+		self.assertTrue(queryUtils.getTerminal(thirdTree) == "Mary")
 		self.assertTrue(queryUtils.getNum(thirdTree.node) == "sg")
 		
 		fourthTree = firstTree[1]

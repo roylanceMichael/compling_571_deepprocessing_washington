@@ -1,7 +1,7 @@
 % start S
 S -> NP VP
 
-NP[NUM=sg] -> 'kim'
+NP[NUM=sg] -> 'Kim'
 NP[NUM=pl] -> 'children'
 NP[NUM=sg] -> 'child'
 
