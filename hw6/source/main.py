@@ -1,6 +1,8 @@
 # Mike Roylance - roylance@uw.edu
 import sys
 import nltk
+import resnik
+from nltk.corpus import wordnet as wn
 
 def main():
 	# arg variables
@@ -9,14 +11,16 @@ def main():
 
 	# optional - compute own ic measure
 	# load the information content measure
-	informationContentMeasureStream = open(informationContentMeasureFile)
-	informationContentMeasure = informationContentMeasureStream.read()
+	ic = nltk.corpus.wordnet_ic.ic(informationContentMeasureFile)
+	resnikInstance = resnik.Resnik(ic)
 
 	wsdContextsStream = open(wsdContextsFile)
 	wsdContextsLine = wsdContextsStream.readline()
 
 	while wsdContextsLine:
-		# do something with line
+		for item in resnikInstance.processLine(wsdContextsLine):
+			print item,
+		
 		wsdContextsLine = wsdContextsStream.readline()
 
 if __name__ == '__main__':

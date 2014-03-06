@@ -2,6 +2,7 @@
 import unittest
 import nltk
 from nltk.corpus import wordnet as wn
+import resnik
 
 class WordNetInterface(unittest.TestCase):
 	def test_first(self):
@@ -26,14 +27,20 @@ class WordNetInterface(unittest.TestCase):
 		self.assertTrue(examples[0] == 'the dog barked all night')
 		self.assertTrue(len(lemmas) == 3)
 
-		print res.lemmas
-		print res.hypernyms()
-		print res.hyponyms()
-		print res.member_holonyms()
-		print res.root_hypernyms()
+class Reznik(unittest.TestCase):
+	def test_simple(self):
+		# arrange
+		ic = nltk.corpus.wordnet_ic.ic('ic-brown-resnik-add1.dat')
+		resnikInstance = resnik.Resnik(ic)
+
+		# act
+		items = list(resnikInstance.processLine("tie	jacket,suit"))
+
+		# assert
+		self.assertTrue(len(items) == 4)
 
 def main():
     unittest.main()
 
 if __name__ == '__main__':
-        main()
+	main()
