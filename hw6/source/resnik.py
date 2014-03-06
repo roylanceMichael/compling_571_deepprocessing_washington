@@ -41,54 +41,43 @@ class Resnik:
 
 		scores = {}
 
-		for wordSynset in wordSynsets:
-
-			# only handle nouns 'n'
-			if wordSynset.pos != noun:
-				continue
-
-			scores[wordSynset] = {}
-
-			for context in contexts:
-				
-				contextSynsets = wn.synsets(context)
-				maxSynset = None
-				maxValue = 0
-
-				for contextSynset in contextSynsets:
-
-					reznikValue = self.reznik(wordSynset, contextSynset)
-
-					if reznikValue > maxValue:
-						maxValue = reznikValue
-						maxSynset = contextSynset
-
-				scores[wordSynset][context] = maxValue
-
-		# go through and print out the max ones 
 		for context in contexts:
-			maxScore = 0
 
-			for wordSynset in scores:
-				score = scores[wordSynset][context]
-				if score > maxScore:
-					maxScore = score
+			misValue = 0
+			maxWordSynset = None
+			maxContextSynset = None
+			mostInformativeSubsumer = None
 
-			strVal = '(' + word + ', ' + context + ', ' + str(maxScore) + ') '
+			contextSynsets = wn.synsets(context)
 
-			yield strVal
+			# get the MIS
+			for wordSynset in wordSynsets:
+				for contextSynset in contextSynsets:
+					(value, subsumer) = self.reznik(wordSynset, contextSynset)
+
+					if value >= misValue:
+						misValue = value
+						mostInformativeSubsumer = subsumer
+						maxWordSynset = wordSynset
+						maxContextSynset = contextSynset
+
+			if mostInformativeSubsumer is None:
+				yield '(' + word + ', ' + context + ', ' + str(0) + ') '
+				continue
+			else:
+				yield '(' + word + ', ' + context + ', ' + str(misValue) + ') '
+
+			if maxWordSynset in scores:
+				scores[maxWordSynset] = scores[maxWordSynset] + misValue
+			else:
+				scores[maxWordSynset] = misValue
 
 		maxScore = 0
 		maxSynset = None
 
 		for wordSynset in scores:
-			tempMaxScore = 0
-
-			for context in scores[wordSynset]:
-				tempMaxScore = tempMaxScore + scores[wordSynset][context]
-
-			if tempMaxScore > maxScore:
-				maxScore = tempMaxScore
+			if scores[wordSynset] >= maxScore:
+				maxScore = scores[wordSynset]
 				maxSynset = wordSynset
 
 		yield newLine
@@ -97,15 +86,26 @@ class Resnik:
 
 	def reznik(self, wordSynset, contextSynset):
 		if wordSynset.pos != noun:
-			return 0
+			return (0, None)
 
 		subsumers = wordSynset.common_hypernyms(contextSynset)
+		maxValue = 0
+		maxSubsumer = None
 
 		# handle when 0
 		if len(subsumers) == 0:
-			return 0
-		else:
-			return max(nltk.corpus.reader.information_content(subsumer, self.ic) for subsumer in subsumers)
+			return (maxValue, maxSubsumer)
+		
+		maxValue = 0
+		maxSubsumer = None
+		for subsumer in subsumers:
+			result = nltk.corpus.reader.information_content(subsumer, self.ic)
+
+			if result >= maxValue:
+				maxValue = result
+				maxSubsumer = subsumer
+
+		return (maxValue, maxSubsumer)
 
 
 
