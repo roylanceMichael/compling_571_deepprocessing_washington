@@ -12,5 +12,6 @@ Arguments   = "ic-brown-resnik-add1.dat docs/wsd_contexts.txt results"
 Log         = hw6.log
 Output      = hw6.out
 Error       = hw6.err
-Notification=Error
+Notification= Error
+getenv		= True
 Queue
