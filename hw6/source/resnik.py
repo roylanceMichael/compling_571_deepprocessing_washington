@@ -55,7 +55,7 @@ class Resnik:
 				for contextSynset in contextSynsets:
 					(value, subsumer) = self.reznik(wordSynset, contextSynset)
 
-					if value >= misValue:
+					if value > misValue:
 						misValue = value
 						mostInformativeSubsumer = subsumer
 						maxWordSynset = wordSynset
@@ -76,7 +76,7 @@ class Resnik:
 		maxSynset = None
 
 		for wordSynset in scores:
-			if scores[wordSynset] >= maxScore:
+			if scores[wordSynset] > maxScore:
 				maxScore = scores[wordSynset]
 				maxSynset = wordSynset
 
@@ -101,7 +101,7 @@ class Resnik:
 		for subsumer in subsumers:
 			result = nltk.corpus.reader.information_content(subsumer, self.ic)
 
-			if result >= maxValue:
+			if result > maxValue:
 				maxValue = result
 				maxSubsumer = subsumer
 

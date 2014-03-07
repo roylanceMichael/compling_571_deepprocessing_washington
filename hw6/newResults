@@ -27,9 +27,9 @@ line.n.23
 (line, roll, 7.22482016393) (line, cloth, 2.43696079333) (line, kit, 3.29174495332) (line, length, 2.69178716344) (line, cod, 1.44228704451) (line, hook, 7.20997472403) 
 wrinkle.n.01
 (line, writing, 4.86343149523) (line, typewriting, 4.34654869843) (line, manuscript, 4.58156722203) (line, headline, 7.93287365566) (line, copy, 7.06625939413) 
-note.n.02
+line.n.05
 (line, telephone, 3.29174495332) (line, hotline, 0) 
-production_line.n.01
+cable.n.02
 (line, telephone, 3.29174495332) (line, computer, 4.16518105775) (line, facsimile, 6.00974465145) (line, plug, 8.46441493345) 
 pipeline.n.02
 (line, protein, 2.84955371245) (line, molecule, 2.84955371245) (line, material, 3.29174495332) (line, product, 7.58473213971) 
