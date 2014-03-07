@@ -1,0 +1,36 @@
+(tie, jacket, 1e+300) (tie, suit, 1e+300) 
+necktie.n.01
+(suit, jacket, 1e+300) (suit, tie, 1e+300) 
+suit.n.01
+(head, body, 1e+300) (head, hand, 1e+300) (head, eye, 1e+300) (head, voice, 1e+300) 
+head.n.01
+(hand, body, 1e+300) (hand, head, 1e+300) (hand, eye, 1e+300) (hand, voice, 1e+300) 
+hand.n.01
+(seat, body, 1e+300) (seat, head, 1e+300) (seat, eye, 1e+300) (seat, voice, 1e+300) 
+seat.n.01
+(doctor, nurse, 1e+300) (doctor, lawyer, 1e+300) 
+doctor.n.01
+(lawyer, doctor, 1e+300) (lawyer, nurse, 1e+300) 
+lawyer.n.01
+(lookout, thief, 1e+300) (lookout, mugging, 1e+300) (lookout, chase, 1e+300) (lookout, burglar, 1e+300) 
+lookout.n.01
+(line, plot, 1e+300) (line, cast, 1e+300) (line, title, 1e+300) (line, character, 1e+300) 
+line.n.01
+(plot, line, 1e+300) (plot, cast, 1e+300) (plot, title, 1e+300) (plot, character, 1e+300) 
+plot.n.01
+(line, news, 1e+300) (line, lot, 1e+300) (line, joke, 1e+300) (line, half, 1e+300) (line, hour, 1e+300) (line, show, 1e+300) (line, cast, 1e+300) (line, brainstorm, 1e+300) 
+line.n.01
+(line, essay, 1e+300) (line, title, 1e+300) 
+line.n.01
+(line, goods, 1e+300) (line, sales, 1e+300) (line, business, 1e+300) (line, delivery, 1e+300) 
+line.n.01
+(line, roll, 1e+300) (line, cloth, 1e+300) (line, kit, 1e+300) (line, length, 1e+300) (line, cod, 1e+300) (line, hook, 1e+300) 
+line.n.01
+(line, writing, 1e+300) (line, typewriting, 1e+300) (line, manuscript, 1e+300) (line, headline, 1e+300) (line, copy, 1e+300) 
+line.n.01
+(line, telephone, 1e+300) (line, hotline, 0) 
+line.n.06
+(line, telephone, 1e+300) (line, computer, 1e+300) (line, facsimile, 1e+300) (line, plug, 1e+300) 
+line.n.06
+(line, protein, 1e+300) (line, molecule, 1e+300) (line, material, 1e+300) (line, product, 1e+300) 
+line.n.01
