@@ -1,3 +1,4 @@
+
 import re
 import nltk
 from nltk.corpus import wordnet as wn
@@ -61,12 +62,14 @@ class Resnik:
 						maxWordSynset = wordSynset
 						maxContextSynset = contextSynset
 
+			# handle the case when we don't have an MIS
 			if mostInformativeSubsumer is None:
 				yield '(' + word + ', ' + context + ', ' + str(0) + ') '
 				continue
 			else:
 				yield '(' + word + ', ' + context + ', ' + str(misValue) + ') '
 
+			# set the score
 			if maxWordSynset in scores:
 				scores[maxWordSynset] = scores[maxWordSynset] + misValue
 			else:
@@ -75,6 +78,7 @@ class Resnik:
 		maxScore = 0
 		maxSynset = None
 
+		# select the best sense for the word
 		for wordSynset in scores:
 			if scores[wordSynset] > maxScore:
 				maxScore = scores[wordSynset]
@@ -84,10 +88,12 @@ class Resnik:
 		yield maxSynset.name
 		yield newLine
 
+	# resnik similarity
 	def reznik(self, wordSynset, contextSynset):
 		if wordSynset.pos != noun:
 			return (0, None)
 
+		# get the hypernyms
 		subsumers = wordSynset.common_hypernyms(contextSynset)
 		maxValue = 0
 		maxSubsumer = None
@@ -99,6 +105,10 @@ class Resnik:
 		maxValue = 0
 		maxSubsumer = None
 		for subsumer in subsumers:
+
+			if subsumer.pos != noun:
+				continue
+				
 			result = nltk.corpus.reader.information_content(subsumer, self.ic)
 
 			if result > maxValue:

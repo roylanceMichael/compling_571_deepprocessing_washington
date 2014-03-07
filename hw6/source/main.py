@@ -7,12 +7,14 @@ import icGenerator
 import utils
 from nltk.corpus import wordnet as wn
 
+# this is used for both the main function and the extra credit
 def handleResnik(resnikInstance, wsdContextsFile, handleItem):
 	wsdContextsStream = open(wsdContextsFile)
 	wsdContextsLine = wsdContextsStream.readline()
 
 	while wsdContextsLine:
 		for item in resnikInstance.processLine(wsdContextsLine):
+			# delegate function to handle whether to print out to console or file
 			handleItem(item)
 		
 		wsdContextsLine = wsdContextsStream.readline()
@@ -44,17 +46,22 @@ def main():
 	newIcFile = sys.argv[4]
 	newResults = sys.argv[5]
 
+	# create the new ic
 	icGen = icGenerator.IcGenerator(words, brownCorpusLocation, newIcFile).generate()
+
+	# use custom function to generate ic data structure
 	newIc = utils.buildIc(newIcFile)
 	
+	# build another instance of resnik
 	newResnik = resnik.Resnik(newIc)
 
+	
 	with open(newResults, 'w') as newFile:
 		# handle closure
 		def writeToFile(item):
 			newFile.write(item)
 
-		handleResnik(resnikInstance, wsdContextsFile, writeToFile)
+		handleResnik(newResnik, wsdContextsFile, writeToFile)
 
 
 if __name__ == '__main__':

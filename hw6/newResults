@@ -1,36 +1,36 @@
-(tie, jacket, 6.7417934959) (tie, suit, 6.7417934959) 
+(tie, jacket, 1e+300) (tie, suit, 1e+300) 
 necktie.n.01
-(suit, jacket, 6.7417934959) (suit, tie, 6.7417934959) 
+(suit, jacket, 1e+300) (suit, tie, 1e+300) 
 suit.n.01
-(head, body, 5.48220993099) (head, hand, 6.73291965574) (head, eye, 4.59880170504) (head, voice, 4.43543481914) 
-head.n.11
-(hand, body, 4.59880170504) (hand, head, 6.73291965574) (hand, eye, 4.97318382303) (hand, voice, 2.90367626511) 
-hand.n.09
-(seat, body, 4.59880170504) (seat, head, 4.59880170504) (seat, eye, 5.69002742231) (seat, voice, 1.78215759916) 
-buttocks.n.01
-(doctor, nurse, 7.13459881412) (doctor, lawyer, 6.06281599406) 
+(head, body, 1e+300) (head, hand, 1e+300) (head, eye, 1e+300) (head, voice, 1e+300) 
+head.n.01
+(hand, body, 1e+300) (hand, head, 1e+300) (hand, eye, 1e+300) (hand, voice, 1e+300) 
+hand.n.01
+(seat, body, 1e+300) (seat, head, 1e+300) (seat, eye, 1e+300) (seat, voice, 1e+300) 
+seat.n.01
+(doctor, nurse, 1e+300) (doctor, lawyer, 1e+300) 
 doctor.n.01
-(lawyer, doctor, 6.06281599406) (lawyer, nurse, 6.06281599406) 
+(lawyer, doctor, 1e+300) (lawyer, nurse, 1e+300) 
 lawyer.n.01
-(lookout, thief, 2.16511074977) (lookout, mugging, 3.36714264231) (lookout, chase, 4.19843757077) (lookout, burglar, 2.16511074977) 
+(lookout, thief, 1e+300) (lookout, mugging, 1e+300) (lookout, chase, 1e+300) (lookout, burglar, 1e+300) 
 lookout.n.01
-(line, plot, 4.58156722203) (line, cast, 7.22482016393) (line, title, 7.93287365566) (line, character, 3.36714264231) 
-line.n.05
-(plot, line, 4.58156722203) (plot, cast, 1.78215759916) (plot, title, 4.58156722203) (plot, character, 4.22013099939) 
-plot.n.03
-(line, news, 2.90367626511) (line, lot, 3.55655365862) (line, joke, 3.36714264231) (line, half, 3.36163430611) (line, hour, 2.84955371245) (line, show, 3.36714264231) (line, cast, 7.22482016393) (line, brainstorm, 4.9572995839) 
-wrinkle.n.01
-(line, essay, 4.58156722203) (line, title, 7.93287365566) 
-line.n.05
-(line, goods, 5.3705390337) (line, sales, 5.53086053615) (line, business, 6.71642832944) (line, delivery, 4.64122995328) 
-line.n.23
-(line, roll, 7.22482016393) (line, cloth, 2.43696079333) (line, kit, 3.29174495332) (line, length, 2.69178716344) (line, cod, 1.44228704451) (line, hook, 7.20997472403) 
-wrinkle.n.01
-(line, writing, 4.86343149523) (line, typewriting, 4.34654869843) (line, manuscript, 4.58156722203) (line, headline, 7.93287365566) (line, copy, 7.06625939413) 
-line.n.05
-(line, telephone, 3.29174495332) (line, hotline, 0) 
-cable.n.02
-(line, telephone, 3.29174495332) (line, computer, 4.16518105775) (line, facsimile, 6.00974465145) (line, plug, 8.46441493345) 
-pipeline.n.02
-(line, protein, 2.84955371245) (line, molecule, 2.84955371245) (line, material, 3.29174495332) (line, product, 7.58473213971) 
-line.n.22
+(line, plot, 1e+300) (line, cast, 1e+300) (line, title, 1e+300) (line, character, 1e+300) 
+line.n.01
+(plot, line, 1e+300) (plot, cast, 1e+300) (plot, title, 1e+300) (plot, character, 1e+300) 
+plot.n.01
+(line, news, 1e+300) (line, lot, 1e+300) (line, joke, 1e+300) (line, half, 1e+300) (line, hour, 1e+300) (line, show, 1e+300) (line, cast, 1e+300) (line, brainstorm, 1e+300) 
+line.n.01
+(line, essay, 1e+300) (line, title, 1e+300) 
+line.n.01
+(line, goods, 1e+300) (line, sales, 1e+300) (line, business, 1e+300) (line, delivery, 1e+300) 
+line.n.01
+(line, roll, 1e+300) (line, cloth, 1e+300) (line, kit, 1e+300) (line, length, 1e+300) (line, cod, 1e+300) (line, hook, 1e+300) 
+line.n.01
+(line, writing, 1e+300) (line, typewriting, 1e+300) (line, manuscript, 1e+300) (line, headline, 1e+300) (line, copy, 1e+300) 
+line.n.01
+(line, telephone, 1e+300) (line, hotline, 0) 
+line.n.06
+(line, telephone, 1e+300) (line, computer, 1e+300) (line, facsimile, 1e+300) (line, plug, 1e+300) 
+line.n.06
+(line, protein, 1e+300) (line, molecule, 1e+300) (line, material, 1e+300) (line, product, 1e+300) 
+line.n.01

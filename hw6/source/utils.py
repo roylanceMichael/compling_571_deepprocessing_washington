@@ -1,15 +1,19 @@
+# Mike Roylance - roylance@uw.edu
 from collections import defaultdict
 
 # http://nltk.googlecode.com/svn-hist/trunk/doc/api/nltk.corpus.reader.wordnet-pysrc.html#WordNetICCorpusReader.ic - thank you!
 def buildIc(icFile):
 	ic = {} 
 	
+	# nouns and verbs
 	NOUN = 'n'
 	VERB = 'v'
 
+	# build initial dictionaries
 	ic[NOUN] = defaultdict(float) 
 	ic[VERB] = defaultdict(float) 
 	
+	# cycle through file and build
 	for num, line in enumerate(open(icFile)): 
 		if num == 0: # skip the header 
 			continue 

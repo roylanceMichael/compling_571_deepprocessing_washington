@@ -1,3 +1,4 @@
+# Mike Roylance - roylance@uw.edu
 import os
 import sys
 import re
@@ -14,7 +15,7 @@ class IcGenerator:
 		self.words = {}
 
 		for word in words:
-			self.words[word] = 0
+			self.words[word] = 1
 
 		self.pos = {}
 		self.pos["nn"] = None
@@ -59,6 +60,7 @@ class IcGenerator:
 		with open(self.icFileLocation, 'w') as newIcFile:
 			# not quite sure what this does
 			newIcFile.write('wnver::eOS9lXC6GvMWznF1wkZofDdtbBU' + '\n')
+			newIcFile.write('1740n ' + str(self.totalWords) + ' ROOT\n')
 			self.handleFileWrite(newIcFile)
 
 	def handleFileWrite(self, newIcFile):
@@ -68,10 +70,7 @@ class IcGenerator:
 			count = self.words[word]
 			total = self.totalWords
 
-			if count == 0:
-				continue
-
-			logProb = math.log(float(count) / float(total))
+			logProb = -math.log(float(count) / self.totalWords)
 
 			for synset in synsets:
 					line = str(synset.offset) + 'n' + ' ' + str(logProb) + '\n'

@@ -1,3 +1,4 @@
+# Mike Roylance - roylance@uw.edu
 import nltk
 from nltk.corpus import wordnet as wn
 import re
@@ -9,15 +10,18 @@ whiteSpaces = '\s+'
 emptyString = ''
 
 class RelationalWordBuilder:
+	# ctor
 	def __init__(self, wsdContextsLocation):
 		self.wsdContextsLocation = wsdContextsLocation
 		self.allWords = {}
 		self.generateAllWords()
 
+	# get all the words
 	def getAllWords(self):
 		for word in self.allWords:
 			yield word
 
+	# generate all words based on the wsdContexts file
 	def generateAllWords(self):
 		wsdContextsStream = open(self.wsdContextsLocation)
 		wsdContextsLine = wsdContextsStream.readline()
@@ -26,6 +30,7 @@ class RelationalWordBuilder:
 			self.processLine(wsdContextsLine)
 			wsdContextsLine = wsdContextsStream.readline()
 
+	# process each line
 	def processLine(self, line):
 		splitLine = re.split(whiteSpaces, line)
 
@@ -39,6 +44,19 @@ class RelationalWordBuilder:
 		for context in contexts:
 			self.setWord(context)
 
+		# get all subsumers too
+		for wordSense in wn.synsets(word):
+			for context in contexts:
+				for contextWordSense in wn.synsets(context):
+					subsumers = wordSense.common_hypernyms(contextWordSense)
+
+					for subsumer in subsumers:
+						if subsumer.pos != 'n':
+							for lemma in subsumer.lemmas:
+								self.allWords[lemma.name] = None
+
+
+	# get all the senses and lemmas associated with the word for use in the custom IC file
 	def setWord(self, word):
 		wordSenses = wn.synsets(word)
 
