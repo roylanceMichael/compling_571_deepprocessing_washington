@@ -54,7 +54,6 @@ def main():
 	
 	# build another instance of resnik
 	newResnik = resnik.Resnik(newIc)
-
 	
 	with open(newResults, 'w') as newFile:
 		# handle closure
