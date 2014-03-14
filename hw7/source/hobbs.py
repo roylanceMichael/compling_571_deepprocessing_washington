@@ -16,7 +16,15 @@ class Hobbs:
 		return self.processRules(rules.acceptablePronouns, self.secondTree)
 
 	def comparePronounInSentences(self, pronounIndex):
-		return self.processRules(rules.acceptableAntecedents, self.firstTree)
+		potentialCandidates = self.processRules(rules.acceptableAntecedents, self.firstTree)
+
+		acceptedCandidates = []
+
+		for potentialCandidate in potentialCandidates:
+			if rules.indexAgreement(pronounIndex, potentialCandidate):
+				acceptedCandidates.append((pronounIndex, potentialCandidate))
+
+		return acceptedCandidates
 
 	def processRules(self, acceptableDictionary, rootTree):
 		items = []

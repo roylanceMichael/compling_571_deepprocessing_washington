@@ -6,6 +6,9 @@ class Rules:
 		self.populateAcceptablePronouns()
 		self.populateAcceptableAntecedents()
 
+	def indexAgreement(self, firstIndex, secondIndex):
+		return True
+
 	def populateAcceptablePronouns(self):
 		# hard coding the pronouns, as found in ../docs/grammar.cfg
 		self.acceptablePronouns["PRP"] = None

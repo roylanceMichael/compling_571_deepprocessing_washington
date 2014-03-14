@@ -2,6 +2,7 @@ import unittest
 import nltk
 import hobbs
 import utils
+import itemIndex
 
 # static variables
 grammarFile = "file:../docs/grammar.cfg"
@@ -24,6 +25,23 @@ class HobbsTests(unittest.TestCase):
 		self.assertTrue(len(pronouns) == 1)
 		self.assertTrue(pronouns[0].item == "They")
 		self.assertTrue(pronouns[0].pos == "PRP")
+
+	def test_acceptsAllAntecedentsWithGivenPronoun(self):
+		# arrange
+		firstSentence = "Scientists rescued a mouse immune system."
+		secondSentence = "They published the research today online."
+		(firstTree, secondTree) = utils.buildTreesFromSentences(firstSentence, secondSentence, parser)
+
+		hobbsInst = hobbs.Hobbs(firstTree, secondTree)
+
+		pronoun = itemIndex.ItemIndex("They", "PRP", None, None)
+
+		# act
+		antecedents = hobbsInst.comparePronounInSentences(pronoun)
+
+		# assert
+		# yes, this is working correctly right now
+		self.assertTrue(len(antecedents) == 3)
 
 def main():
     unittest.main()
