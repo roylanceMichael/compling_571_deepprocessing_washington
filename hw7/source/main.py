@@ -2,27 +2,7 @@
 import sys
 import nltk
 import hobbs
-
-# method for handling the second sentence found in a pair
-def handleWhenSecondSentence(firstSentence, secondSentence, parser):
-	# tokenize the sentences
-	firstTokenizedSentence = nltk.word_tokenize(firstSentence)
-	secondTokenizedSentence = nltk.word_tokenize(secondSentence)
-
-	# parse them
-	firstTrees = parser.nbest_parse(firstTokenizedSentence)
-	secondTrees = parser.nbest_parse(secondTokenizedSentence)
-
-	# verify correct parses
-	if len(firstTrees) == 0 or len(secondTrees) == 0:
-		print 'invalid parse!'
-		print firstTokenizedSentence
-		print secondTokenizedSentence
-		return
-
-	# instantiate hobbs logic
-	hobbsInst = hobbs.Hobbs(firstTrees[0], secondTrees[0])
-	hobbsInst.process()
+import utils
 
 def main():
 	# arg variables
@@ -32,7 +12,7 @@ def main():
 	# create grammar
 	grammar = nltk.data.load(grammarFile)
 	parser = nltk.parse.EarleyChartParser(grammar)
-
+	
 	# read in the sentences
 	sentenceList = []
 	sentenceFileStream = open(sentenceFile)
@@ -46,7 +26,11 @@ def main():
 			sentenceList.append(strippedSentence)
 		# process if length is 1
 		elif len(sentenceList) == 1 and len(strippedSentence) > 0:
-			handleWhenSecondSentence(sentenceList[0], strippedSentence, parser)
+			trees = utils.buildTreesFromSentences(sentenceList[0], strippedSentence, parser)
+
+			hobbsInst = hobbs.Hobbs(trees[0], trees[1])
+			hobbsInst.process()
+
 			sentenceList = []
 
 		# read new sentence
