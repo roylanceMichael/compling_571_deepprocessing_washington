@@ -1,28 +1,35 @@
 # Mike Roylance - roylance@uw.edu
 import sys
 import nltk
+import itemIndex
+import rules
+
+# defining singleton rules
+rules = rules.Rules()
 
 class Hobbs:
 	def __init__(self, firstTree, secondTree):
 		self.firstTree = firstTree
 		self.secondTree = secondTree
 
-		# hard coding the pronouns, as found in ../docs/grammar.cfg
-		self.pronouns = {}
-		self.pronouns["PRP"] = None
-		self.pronouns["PossPro"] = None
-
 	def findPronouns(self):
-		foundPronouns = []
-		for tree in self.secondTree.subtrees():
+		return self.processRules(rules.acceptablePronouns, self.secondTree)
+
+	def comparePronounInSentences(self, pronounIndex):
+		return self.processRules(rules.acceptableAntecedents, self.firstTree)
+
+	def processRules(self, acceptableDictionary, rootTree):
+		items = []
+
+		for tree in rootTree.subtrees():
 			node = str(tree.node)
 
-			if node in self.pronouns:
-				pronoun = tree.pos()[0][0]
+			if node in acceptableDictionary:
+				pos = tree.pos()[0][0]
 
-				foundPronouns.append(pronoun) 
+				items.append(itemIndex.ItemIndex(pos, node, tree, rootTree))
 
-		return foundPronouns
+		return items
 
 	def process(self):
 		# let's print out when we find a POS in our pronouns

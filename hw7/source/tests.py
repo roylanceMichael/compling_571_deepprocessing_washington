@@ -22,7 +22,8 @@ class HobbsTests(unittest.TestCase):
 
 		# assert
 		self.assertTrue(len(pronouns) == 1)
-		self.assertTrue(pronouns[0] == "They")
+		self.assertTrue(pronouns[0].item == "They")
+		self.assertTrue(pronouns[0].pos == "PRP")
 
 def main():
     unittest.main()
