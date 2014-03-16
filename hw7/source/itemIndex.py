@@ -1,3 +1,5 @@
+# Mike Roylance - roylance@uw.edu
+
 class ItemIndex:
 	def __init__(self, pos, subTree, rootTree, index, rules):
 		self.pos = pos

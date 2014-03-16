@@ -1,3 +1,5 @@
+# Mike Roylance - roylance@uw.edu
+
 class Rules:
 	def __init__(self):
 		self.acceptablePronouns = {}
