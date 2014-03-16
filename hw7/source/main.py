@@ -4,6 +4,12 @@ import nltk
 import hobbs
 import utils
 
+def handleHobbsInstance(hobbsInstance):
+	for stdout in hobbsInstance.process():
+		print stdout
+
+	print ""
+
 def main():
 	# arg variables
 	grammarFile = "file:" + sys.argv[1]
@@ -29,7 +35,7 @@ def main():
 			trees = utils.buildTreesFromSentences(sentenceList[0], strippedSentence, parser)
 
 			hobbsInst = hobbs.Hobbs(trees[0], trees[1])
-			hobbsInst.process()
+			handleHobbsInstance(hobbsInst)
 
 			sentenceList = []
 

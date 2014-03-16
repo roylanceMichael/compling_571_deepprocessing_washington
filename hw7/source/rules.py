@@ -13,19 +13,22 @@ class Rules:
 		self.populatePluralPartsOfSpeech()
 		self.populateGenderPartsOfSpeech()
 
-	def indexAgreement(self, firstIndex, secondIndex):
-		# are the two trees the same?
+	def isPotentialAntecedent(self, firstIndex, secondIndex):
 		if self.areTreesEqual(firstIndex, secondIndex):
 			if (self.isFirstTreeBeforeSecondTree(firstIndex, secondIndex) == False and
 				self.isNotPartOf(firstIndex, secondIndex)):
 				return True
 			return False
+		return True
 
-		if (firstIndex.gender == secondIndex.gender and
-			firstIndex.plurality == secondIndex.plurality):
-			return True
-		
-		return False
+	def indexAgreement(self, firstIndex, secondIndex):
+		if firstIndex.gender != secondIndex.gender:
+			return "gender"
+
+		if firstIndex.plurality != secondIndex.plurality:
+			return "plurality"
+
+		return ""
 
 	def populateAcceptablePronouns(self):
 		# hard coding the pronouns, as found in ../docs/grammar.cfg
@@ -34,6 +37,7 @@ class Rules:
 
 	def populateAcceptableAntecedents(self):
 		self.acceptableAntecedents["S"] = None
+		self.acceptableAntecedents["SBAR"] = None
 		self.acceptableAntecedents["NP"] = None
 
 	def populatePluralPartsOfSpeech(self):

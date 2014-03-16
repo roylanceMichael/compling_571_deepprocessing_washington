@@ -16,15 +16,8 @@ class Hobbs:
 		return self.processRules(rules.acceptablePronouns, self.secondTree)
 
 	def comparePronounInSentences(self, pronounIndex):
-		foundCandidateInSecondSentence = False
-		acceptedCandidates = self.comparePronounInTree(pronounIndex, self.secondTree)
-
-		for acceptedCandidate in acceptedCandidates:
-				yield acceptedCandidate
-				foundCandidateInSecondSentence = True
-		
-		if foundCandidateInSecondSentence:
-			return
+		for acceptedCandidate in self.comparePronounInTree(pronounIndex, self.secondTree):
+			yield acceptedCandidate
 
 		for acceptedCandidate in self.comparePronounInTree(pronounIndex, self.firstTree):
 			yield acceptedCandidate
@@ -33,8 +26,8 @@ class Hobbs:
 		potentialCandidates = self.processRules(rules.acceptableAntecedents, tree)
 
 		for potentialCandidate in potentialCandidates:
-			if rules.indexAgreement(pronounIndex, potentialCandidate):
-				yield (pronounIndex, potentialCandidate)
+			if rules.isPotentialAntecedent(pronounIndex, potentialCandidate):
+				yield potentialCandidate
 
 	def processRules(self, acceptableDictionary, rootTree):
 		treeIndex = 0
@@ -48,17 +41,38 @@ class Hobbs:
 
 	def process(self):
 		# let's print out when we find a POS in our pronouns
+		pronouns = self.findPronouns()
 
-		self.processSubTree(self.secondTree)
+		for pronoun in pronouns:
+			# print out the pronoun and the corresponding parses
+			yield "%s %s %s" % (pronoun.printItems(), self.printSentence(self.firstTree), self.printSentence(self.secondTree))
 
-	def processSubTree(self, tree):
-		subTrees = tree.subtrees()
+			# A) identify each parse tree node corresponding to 'X' in the algorithm, 
+			# 	 writing out the corresponding NP or S (or SBAR) constituent.
+			# B) identify each node proposed as an antecedent
 
-		for tree in subTrees:
-			print '----'
-			print len(tree)
-			print tree.pos()
-			print tree.node
-			print tree
+			potentialAntecedents = self.comparePronounInSentences(pronoun)
+			for potentialAntecedent in potentialAntecedents:
+				yield potentialAntecedent.printSubTree()
 
-			# self.processSubTree(tree)
+				result = rules.indexAgreement(pronoun, potentialAntecedent)
+
+				if len(result) == 0:
+					# D) identify the accepted antecent.
+					yield "Accept"
+
+					# E) indicate whether the accepted antecedent is correct
+					# F1) If the accepted antecedent is correct, do nothing more
+					# F2) If the accepted antecedent is NOT correct, 
+					# explain why and identify which of the syntactic and 
+					# semantic preferences listed in the text (Slides: class 16, 10-11) would be required to correct this error.
+					# If you take this coding route, you should output all the proposed antecedents, 
+					# unless you want the added challenge of filtering for agreement.
+
+					yield "Correct"
+				else:
+					# C) reject any proposed node ruled out by agreement
+					yield "Reject - %s" % (result)
+
+	def printSentence(self, tree):
+		return str(tree.pprint(margin=500))

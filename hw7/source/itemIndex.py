@@ -52,9 +52,16 @@ class ItemIndex:
 		
 		self.gender = "u"
 
-	def __str__(self):
+	def printItems(self):
 		strBuilder = ""
 		for item in self.items:
-			strBuilder = strBuilder + " " + str(item.lhs())
+			for terminalProduction in item.rhs():				
+				strBuilder = strBuilder + " " + str(terminalProduction)
 
-		return "%s %s %s %s %s %s" % (strBuilder.strip(), self.gender, self.plurality, self.pos, self.index, self.subTree)
+		return strBuilder.strip()
+
+	def printSubTree(self):
+		return self.subTree.pprint(margin=500)
+
+	def __str__(self):
+		return "%s %s %s %s %s %s" % (self.printItems(), self.gender, self.plurality, self.pos, self.index, self.subTree)

@@ -43,9 +43,9 @@ class HobbsTests(unittest.TestCase):
 
 		# assert
 		# yes, this is working correctly right now
-		self.assertTrue(len(antecedents) == 2, str(len(antecedents)))
-		self.assertTrue(str(antecedents[0][1].items[0].rhs()[0]) == "Scientists")
-		self.assertTrue(str(antecedents[1][1].items[0].rhs()[0]) == "Scientists")
+		self.assertTrue(len(antecedents) == 3, str(len(antecedents)))
+		self.assertTrue(str(antecedents[0].items[0].rhs()[0]) == "Scientists")
+		self.assertTrue(str(antecedents[1].items[0].rhs()[0]) == "Scientists")
 
 	def test_acceptsAllAntecedentsWithGivenPronounForSecondSentence(self):
 		# arrange
@@ -62,10 +62,10 @@ class HobbsTests(unittest.TestCase):
 
 		# assert
 		# yes, this is working correctly right now
-		self.assertTrue(len(antecedents) == 2, str(len(antecedents)))
+		self.assertTrue(len(antecedents) == 3, str(len(antecedents)))
 		
-		self.assertTrue(str(antecedents[0][1].items[0].rhs()[0]) == "Scientists", antecedents[0][1].items[0])
-		self.assertTrue(str(antecedents[1][1].items[0].rhs()[0]) == "Scientists", antecedents[1][1].items[0])
+		self.assertTrue(str(antecedents[0].items[0].rhs()[0]) == "Scientists", antecedents[0].items[0])
+		self.assertTrue(str(antecedents[1].items[0].rhs()[0]) == "Scientists", antecedents[1].items[0])
 
 class RulesTests(unittest.TestCase):
 	def test_handlesGenderAndPluralityCorrectly_they(self):
