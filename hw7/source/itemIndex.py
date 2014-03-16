@@ -1,9 +1,10 @@
 # Mike Roylance - roylance@uw.edu
 
 class ItemIndex:
-	def __init__(self, pos, subTree, rootTree, index, rules):
+	def __init__(self, pos, subTree, directParent, rootTree, index, rules):
 		self.pos = pos
 		self.items = []
+		self.directParent = directParent
 		self.subTree = subTree
 		self.rootTree = rootTree
 		self.index = index

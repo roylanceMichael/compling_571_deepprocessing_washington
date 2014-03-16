@@ -3,17 +3,32 @@ import sys
 import nltk
 import itemIndex
 import rules
+import traversableTree
 
 # defining singleton rules
 rules = rules.Rules()
 
 class Hobbs:
 	def __init__(self, firstTree, secondTree):
+		self.foundPronouns = []
+
 		self.firstTree = firstTree
 		self.secondTree = secondTree
 
+		self.firstTravTree = traversableTree.TraversableTree(self.firstTree, None)
+		self.secondTravTree = traversableTree.TraversableTree(self.secondTree, self.firstTravTree)
+
+	def searchForPronouns(self, travTree):
+		# search self, then iterate through children
+
 	def findPronouns(self):
-		return self.processRules(rules.acceptablePronouns, self.secondTree)
+		# we need to do this recursively
+
+
+
+		pronouns = []
+		self.processRules(rules.acceptablePronouns, self.secondTree, secondTree, pronouns)
+		return pronouns
 
 	def comparePronounInSentences(self, pronounIndex):
 		for acceptedCandidate in self.comparePronounInTree(pronounIndex, self.secondTree):
@@ -22,6 +37,11 @@ class Hobbs:
 		for acceptedCandidate in self.comparePronounInTree(pronounIndex, self.firstTree):
 			yield acceptedCandidate
 
+	def newComparePronoun(self, pronounIndex):
+		# go to the NP directly preceding the pronoun
+		pass
+
+
 	def comparePronounInTree(self, pronounIndex, tree):
 		potentialCandidates = self.processRules(rules.acceptableAntecedents, tree)
 
@@ -29,15 +49,17 @@ class Hobbs:
 			if rules.isPotentialAntecedent(pronounIndex, potentialCandidate):
 				yield potentialCandidate
 
-	def processRules(self, acceptableDictionary, rootTree):
+	def processRules(self, acceptableDictionary, directParent, rootTree, foundItems):
 		treeIndex = 0
-		for tree in rootTree.subtrees():
+		for tree in directParent:
 			node = str(tree.node)
 
 			if node in acceptableDictionary:
-				yield itemIndex.ItemIndex(node, tree, rootTree, treeIndex, rules)
+				foundItems.append(itemIndex.ItemIndex(node, tree, directParent, rootTree, treeIndex, rules))
 
 			treeIndex = treeIndex + 1
+
+			self.processRules(acceptableDictionary, tree, rootTree, foundItems)
 
 	def process(self):
 		# let's print out when we find a POS in our pronouns
