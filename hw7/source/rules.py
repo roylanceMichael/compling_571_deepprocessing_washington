@@ -11,23 +11,21 @@ class Rules:
 		self.populateAcceptablePronouns()
 		self.populateAcceptableAntecedents()
 		self.populatePluralPartsOfSpeech()
+		self.populateGenderPartsOfSpeech()
 
 	def indexAgreement(self, firstIndex, secondIndex):
 		# are the two trees the same?
 		if self.areTreesEqual(firstIndex, secondIndex):
 			if (self.isFirstTreeBeforeSecondTree(firstIndex, secondIndex) == False and
 				self.isNotPartOf(firstIndex, secondIndex)):
-				print 'say what'
-
-				print firstIndex.subTree
-				print secondIndex.subTree
-
-				print '---'
-
 				return True
 			return False
 
-		return True
+		if (firstIndex.gender == secondIndex.gender and
+			firstIndex.plurality == secondIndex.plurality):
+			return True
+		
+		return False
 
 	def populateAcceptablePronouns(self):
 		# hard coding the pronouns, as found in ../docs/grammar.cfg
@@ -49,6 +47,7 @@ class Rules:
 		self.malePartsOfSpeech["Dr"] = None
 		self.malePartsOfSpeech["Jose"] = None
 		self.malePartsOfSpeech["Villadangos"] = None
+		self.malePartsOfSpeech["He"] = None
 
 		self.femalePartsOfSpeech["researcher"] = None
 		self.femalePartsOfSpeech["Dr"] = None

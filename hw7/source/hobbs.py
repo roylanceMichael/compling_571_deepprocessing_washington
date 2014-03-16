@@ -42,9 +42,7 @@ class Hobbs:
 			node = str(tree.node)
 
 			if node in acceptableDictionary:
-				pos = tree.pos()[0][0]
-
-				yield itemIndex.ItemIndex(pos, node, tree, rootTree, treeIndex, rules)
+				yield itemIndex.ItemIndex(node, tree, rootTree, treeIndex, rules)
 
 			treeIndex = treeIndex + 1
 

@@ -1,10 +1,13 @@
 class ItemIndex:
-	def __init__(self, item, pos, subTree, rootTree, index, rules):
-		self.item = item
+	def __init__(self, pos, subTree, rootTree, index, rules):
 		self.pos = pos
+		self.items = []
 		self.subTree = subTree
 		self.rootTree = rootTree
 		self.index = index
+
+		# set items
+		self.setItems()
 
 		# number and gender agreement
 		self.plurality = ""
@@ -14,24 +17,44 @@ class ItemIndex:
 		self.determinePlurality(rules)
 		self.determineGender(rules)
 
+	def setItems(self):
+		for production in self.subTree.productions():
+			if production.is_lexical():
+				self.items.append(production)
+
 	def determinePlurality(self, rules):
-		if (self.pos in rules.pluralPartsOfSpeech or
-			self.item in rules.pluralPartsOfSpeech):
+		if (self.pos in rules.pluralPartsOfSpeech):
 			self.plurality = "pl"
-		else:
-			self.plurality = "sg"
+			return
+
+		for item in self.items:
+			for terminalProduction in item.rhs():
+				if str(terminalProduction) in rules.pluralPartsOfSpeech:
+					self.plurality = "pl"
+					return
+
+			if str(item.lhs()) in rules.pluralPartsOfSpeech:
+				self.plurality = "pl"
+				return
+		
+		self.plurality = "sg"
 
 	def determineGender(self, rules):
-		if (self.pos in rules.malePartsOfSpeech or 
-			self.pos in rules.malePartsOfSpeech):
+		if self.pos in rules.malePartsOfSpeech:
 			self.gender = "m"
+			return
 
-		elif (self.pos in rules.femalePartsOfSpeech or 
-				self.pos in rules.femalePartsOfSpeech):
-			self.gender = "f"
-
-		else:
-			self.gender = "u"
+		for item in self.items:
+			for terminalProduction in item.rhs():
+				if str(terminalProduction) in rules.malePartsOfSpeech:
+					self.gender = "m"
+					return
+		
+		self.gender = "u"
 
 	def __str__(self):
-		return "%s %s %s %s" % (self.item, self.pos, self.index, self.subTree)
+		strBuilder = ""
+		for item in self.items:
+			strBuilder = strBuilder + " " + str(item.lhs())
+
+		return "%s %s %s %s %s %s" % (strBuilder.strip(), self.gender, self.plurality, self.pos, self.index, self.subTree)

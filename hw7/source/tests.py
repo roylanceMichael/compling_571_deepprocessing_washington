@@ -25,7 +25,7 @@ class HobbsTests(unittest.TestCase):
 
 		# assert
 		self.assertTrue(len(pronouns) == 1)
-		self.assertTrue(pronouns[0].item == "They")
+		self.assertTrue(str(pronouns[0].items[0].rhs()[0]) == "They", pronouns[0].items[0].rhs()[0])
 		self.assertTrue(pronouns[0].pos == "PRP")
 
 	def test_acceptsAllAntecedentsWithGivenPronoun(self):
@@ -43,10 +43,9 @@ class HobbsTests(unittest.TestCase):
 
 		# assert
 		# yes, this is working correctly right now
-		self.assertTrue(len(antecedents) == 3, str(len(antecedents)))
-		self.assertTrue(antecedents[0][1].item == "Scientists")
-		self.assertTrue(antecedents[1][1].item == "Scientists")
-		self.assertTrue(antecedents[2][1].item == "a")
+		self.assertTrue(len(antecedents) == 2, str(len(antecedents)))
+		self.assertTrue(str(antecedents[0][1].items[0].rhs()[0]) == "Scientists")
+		self.assertTrue(str(antecedents[1][1].items[0].rhs()[0]) == "Scientists")
 
 	def test_acceptsAllAntecedentsWithGivenPronounForSecondSentence(self):
 		# arrange
@@ -63,12 +62,13 @@ class HobbsTests(unittest.TestCase):
 
 		# assert
 		# yes, this is working correctly right now
-		self.assertTrue(len(antecedents) == 3, str(len(antecedents)))
+		self.assertTrue(len(antecedents) == 2, str(len(antecedents)))
 		
-		self.assertTrue(antecedents[0][1].item == "Scientists", antecedents[0][1].item)
+		self.assertTrue(str(antecedents[0][1].items[0].rhs()[0]) == "Scientists", antecedents[0][1].items[0])
+		self.assertTrue(str(antecedents[1][1].items[0].rhs()[0]) == "Scientists", antecedents[1][1].items[0])
 
 class RulesTests(unittest.TestCase):
-	def test_handlesGenderCorrectly(self):
+	def test_handlesGenderAndPluralityCorrectly_they(self):
 		# arrange
 		firstSentence = "Scientists rescued a mouse immune system."
 		secondSentence = "They published the research today online."
@@ -80,8 +80,23 @@ class RulesTests(unittest.TestCase):
 		pronoun = list(hobbsInst.findPronouns())[0]
 
 		# assert
-		
+		self.assertTrue(pronoun.gender == "u")
+		self.assertTrue(pronoun.plurality == "pl", pronoun.plurality)
 
+	def test_handlesGenderAndPluralityCorrectly_he(self):
+		# arrange
+		firstSentence = "Scientists rescued a mouse immune system."
+		secondSentence = "He published the research today online."
+		(firstTree, secondTree) = utils.buildTreesFromSentences(firstSentence, secondSentence, parser)
+
+		hobbsInst = hobbs.Hobbs(firstTree, secondTree)
+
+		# act
+		pronoun = list(hobbsInst.findPronouns())[0]
+
+		# assert
+		self.assertTrue(pronoun.gender == "m")
+		self.assertTrue(pronoun.plurality == "sg")
 
 def main():
     unittest.main()
