@@ -42,6 +42,13 @@ class HobbsTests(unittest.TestCase):
 		# assert
 		# yes, this is working correctly right now
 		self.assertTrue(len(antecedents) == 3)
+		self.assertTrue(antecedents[0][1].item == "Scientists")
+		self.assertTrue(antecedents[1][1].item == "Scientists")
+		self.assertTrue(antecedents[2][1].item == "a")
+
+		print antecedents[2][1].subTree
+		print antecedents[2][1].subTree.leaves()
+		print dir(antecedents[2][1].subTree)
 
 def main():
     unittest.main()
