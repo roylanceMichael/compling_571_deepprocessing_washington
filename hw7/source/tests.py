@@ -19,7 +19,7 @@ class HobbsTests(unittest.TestCase):
 		hobbsInst = hobbs.Hobbs(firstTree, secondTree)
 
 		# act
-		pronouns = hobbsInst.findPronouns()
+		pronouns = list(hobbsInst.findPronouns())
 
 		# assert
 		self.assertTrue(len(pronouns) == 1)
@@ -34,10 +34,10 @@ class HobbsTests(unittest.TestCase):
 
 		hobbsInst = hobbs.Hobbs(firstTree, secondTree)
 
-		pronoun = itemIndex.ItemIndex("They", "PRP", None, None)
+		pronoun = itemIndex.ItemIndex("They", "PRP", None, None, 0)
 
 		# act
-		antecedents = hobbsInst.comparePronounInSentences(pronoun)
+		antecedents = list(hobbsInst.comparePronounInTree(pronoun, hobbsInst.firstTree))
 
 		# assert
 		# yes, this is working correctly right now
@@ -46,9 +46,23 @@ class HobbsTests(unittest.TestCase):
 		self.assertTrue(antecedents[1][1].item == "Scientists")
 		self.assertTrue(antecedents[2][1].item == "a")
 
-		print antecedents[2][1].subTree
-		print antecedents[2][1].subTree.leaves()
-		print dir(antecedents[2][1].subTree)
+	def test_acceptsAllAntecedentsWithGivenPronoun(self):
+		# arrange
+		firstSentence = "Scientists rescued a mouse immune system."
+		secondSentence = "They published the research today online."
+		(firstTree, secondTree) = utils.buildTreesFromSentences(firstSentence, secondSentence, parser)
+
+		hobbsInst = hobbs.Hobbs(firstTree, secondTree)
+
+		pronoun = itemIndex.ItemIndex("They", "PRP", None, None, 0)
+
+		# act
+		antecedents = hobbsInst.comparePronounInSentences(pronoun)
+
+		# assert
+		# yes, this is working correctly right now
+		for antecedent in antecedents:
+			print str(antecedent[1])
 
 def main():
     unittest.main()
