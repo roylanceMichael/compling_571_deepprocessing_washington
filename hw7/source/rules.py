@@ -3,16 +3,31 @@ class Rules:
 		self.acceptablePronouns = {}
 		self.acceptableAntecedents = {}
 
+		# plural POS
+		self.pluralPartsOfSpeech = {}
+		self.malePartsOfSpeech = {}
+		self.femalePartsOfSpeech = {}
+
 		self.populateAcceptablePronouns()
 		self.populateAcceptableAntecedents()
+		self.populatePluralPartsOfSpeech()
 
 	def indexAgreement(self, firstIndex, secondIndex):
 		# are the two trees the same?
-		if (self.areTreesEqual(firstIndex, secondIndex) and 
-			self.isFirstTreeBeforeSecondTree(firstIndex)):
-			return True
+		if self.areTreesEqual(firstIndex, secondIndex):
+			if (self.isFirstTreeBeforeSecondTree(firstIndex, secondIndex) == False and
+				self.isNotPartOf(firstIndex, secondIndex)):
+				print 'say what'
 
-		return False
+				print firstIndex.subTree
+				print secondIndex.subTree
+
+				print '---'
+
+				return True
+			return False
+
+		return True
 
 	def populateAcceptablePronouns(self):
 		# hard coding the pronouns, as found in ../docs/grammar.cfg
@@ -23,13 +38,34 @@ class Rules:
 		self.acceptableAntecedents["S"] = None
 		self.acceptableAntecedents["NP"] = None
 
-	def areTreesEqual(self, firstTree, secondTree):
+	def populatePluralPartsOfSpeech(self):
+		self.pluralPartsOfSpeech["NNS"] = None
+		self.pluralPartsOfSpeech["They"] = None
+		self.pluralPartsOfSpeech["they"] = None
+		self.pluralPartsOfSpeech["them"] = None
+
+	def populateGenderPartsOfSpeech(self):
+		self.malePartsOfSpeech["researcher"] = None
+		self.malePartsOfSpeech["Dr"] = None
+		self.malePartsOfSpeech["Jose"] = None
+		self.malePartsOfSpeech["Villadangos"] = None
+
+		self.femalePartsOfSpeech["researcher"] = None
+		self.femalePartsOfSpeech["Dr"] = None
+		self.femalePartsOfSpeech["Jose"] = None
+		self.femalePartsOfSpeech["Villadangos"] = None
+
+	def areTreesEqual(self, firstIndex, secondIndex):
 		# seems easiest way to compare
-		return str(firstTree.rootTree) == str(secondTree.rootTree)
+		return str(firstIndex.rootTree) == str(secondIndex.rootTree)
 
 	def subTreeIndex(self, subTree, rootTree):
 		return str(rootTree).find(str(subTree))
 
 	def isFirstTreeBeforeSecondTree(self, firstIndex, secondIndex):
-		return (self.subTreeIndex(firstIndex.subTree, firstTree.rootTree) < 
-				self.subTreeIndex(secondIndex.subTree, rootTree.rootTree))
+		firstLocation = self.subTreeIndex(firstIndex.subTree, firstIndex.rootTree)
+		secondLocation = self.subTreeIndex(secondIndex.subTree, secondIndex.rootTree)
+		return firstLocation < secondLocation
+
+	def isNotPartOf(self, firstIndex, secondIndex):
+		return self.subTreeIndex(firstIndex.subTree, secondIndex.subTree) == -1

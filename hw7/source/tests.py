@@ -3,11 +3,13 @@ import nltk
 import hobbs
 import utils
 import itemIndex
+import rules
 
 # static variables
 grammarFile = "file:../docs/grammar.cfg"
 grammar = nltk.data.load(grammarFile)
 parser = nltk.parse.EarleyChartParser(grammar)
+rules = rules.Rules()
 
 class HobbsTests(unittest.TestCase):
 	def test_acceptsTwoTrees(self):
@@ -34,19 +36,19 @@ class HobbsTests(unittest.TestCase):
 
 		hobbsInst = hobbs.Hobbs(firstTree, secondTree)
 
-		pronoun = itemIndex.ItemIndex("They", "PRP", None, None, 0)
+		pronoun = list(hobbsInst.findPronouns())[0]
 
 		# act
 		antecedents = list(hobbsInst.comparePronounInTree(pronoun, hobbsInst.firstTree))
 
 		# assert
 		# yes, this is working correctly right now
-		self.assertTrue(len(antecedents) == 3)
+		self.assertTrue(len(antecedents) == 3, str(len(antecedents)))
 		self.assertTrue(antecedents[0][1].item == "Scientists")
 		self.assertTrue(antecedents[1][1].item == "Scientists")
 		self.assertTrue(antecedents[2][1].item == "a")
 
-	def test_acceptsAllAntecedentsWithGivenPronoun(self):
+	def test_acceptsAllAntecedentsWithGivenPronounForSecondSentence(self):
 		# arrange
 		firstSentence = "Scientists rescued a mouse immune system."
 		secondSentence = "They published the research today online."
@@ -54,15 +56,32 @@ class HobbsTests(unittest.TestCase):
 
 		hobbsInst = hobbs.Hobbs(firstTree, secondTree)
 
-		pronoun = itemIndex.ItemIndex("They", "PRP", None, None, 0)
+		pronoun = list(hobbsInst.findPronouns())[0]
 
 		# act
-		antecedents = hobbsInst.comparePronounInSentences(pronoun)
+		antecedents = list(hobbsInst.comparePronounInSentences(pronoun))
 
 		# assert
 		# yes, this is working correctly right now
-		for antecedent in antecedents:
-			print str(antecedent[1])
+		self.assertTrue(len(antecedents) == 3, str(len(antecedents)))
+		
+		self.assertTrue(antecedents[0][1].item == "Scientists", antecedents[0][1].item)
+
+class RulesTests(unittest.TestCase):
+	def test_handlesGenderCorrectly(self):
+		# arrange
+		firstSentence = "Scientists rescued a mouse immune system."
+		secondSentence = "They published the research today online."
+		(firstTree, secondTree) = utils.buildTreesFromSentences(firstSentence, secondSentence, parser)
+
+		hobbsInst = hobbs.Hobbs(firstTree, secondTree)
+
+		# act
+		pronoun = list(hobbsInst.findPronouns())[0]
+
+		# assert
+		
+
 
 def main():
     unittest.main()
