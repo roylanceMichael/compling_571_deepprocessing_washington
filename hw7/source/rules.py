@@ -2,33 +2,30 @@
 
 class Rules:
 	def __init__(self):
+		self.np = "NP"
+		self.s = "S"
+		self.sbar = "SBAR"
+
 		self.acceptablePronouns = {}
 		self.acceptableAntecedents = {}
 
 		# plural POS
 		self.pluralPartsOfSpeech = {}
+		self.singlePartsOfSpeech = {}
 		self.malePartsOfSpeech = {}
 		self.femalePartsOfSpeech = {}
 
 		self.populateAcceptablePronouns()
 		self.populateAcceptableAntecedents()
-		self.populatePluralPartsOfSpeech()
+		self.populateNumberPartsOfSpeech()
 		self.populateGenderPartsOfSpeech()
 
-	def isPotentialAntecedent(self, firstIndex, secondIndex):
-		if self.areTreesEqual(firstIndex, secondIndex):
-			if (self.isFirstTreeBeforeSecondTree(firstIndex, secondIndex) == False and
-				self.isNotPartOf(firstIndex, secondIndex)):
-				return True
-			return False
-		return True
-
-	def indexAgreement(self, firstIndex, secondIndex):
-		if firstIndex.gender != secondIndex.gender:
+	def treeAgreement(self, pronoun, potentialAntecedent):
+		if pronoun.gender != potentialAntecedent.gender:
 			return "gender"
 
-		if firstIndex.plurality != secondIndex.plurality:
-			return "plurality"
+		if pronoun.number != potentialAntecedent.number:
+			return "number"
 
 		return ""
 
@@ -38,15 +35,17 @@ class Rules:
 		self.acceptablePronouns["PossPro"] = None
 
 	def populateAcceptableAntecedents(self):
-		self.acceptableAntecedents["S"] = None
-		self.acceptableAntecedents["SBAR"] = None
-		self.acceptableAntecedents["NP"] = None
+		self.acceptableAntecedents[self.s] = None
+		self.acceptableAntecedents[self.sbar] = None
+		self.acceptableAntecedents[self.np] = None
 
-	def populatePluralPartsOfSpeech(self):
+	def populateNumberPartsOfSpeech(self):
 		self.pluralPartsOfSpeech["NNS"] = None
 		self.pluralPartsOfSpeech["They"] = None
 		self.pluralPartsOfSpeech["they"] = None
 		self.pluralPartsOfSpeech["them"] = None
+		self.singlePartsOfSpeech["NN"] = None
+		self.singlePartsOfSpeech["He"] = None
 
 	def populateGenderPartsOfSpeech(self):
 		self.malePartsOfSpeech["researcher"] = None
@@ -59,18 +58,3 @@ class Rules:
 		self.femalePartsOfSpeech["Dr"] = None
 		self.femalePartsOfSpeech["Jose"] = None
 		self.femalePartsOfSpeech["Villadangos"] = None
-
-	def areTreesEqual(self, firstIndex, secondIndex):
-		# seems easiest way to compare
-		return str(firstIndex.rootTree) == str(secondIndex.rootTree)
-
-	def subTreeIndex(self, subTree, rootTree):
-		return str(rootTree).find(str(subTree))
-
-	def isFirstTreeBeforeSecondTree(self, firstIndex, secondIndex):
-		firstLocation = self.subTreeIndex(firstIndex.subTree, firstIndex.rootTree)
-		secondLocation = self.subTreeIndex(secondIndex.subTree, secondIndex.rootTree)
-		return firstLocation < secondLocation
-
-	def isNotPartOf(self, firstIndex, secondIndex):
-		return self.subTreeIndex(firstIndex.subTree, secondIndex.subTree) == -1
