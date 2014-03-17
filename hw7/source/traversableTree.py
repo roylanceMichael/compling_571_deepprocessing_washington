@@ -14,3 +14,10 @@ class TraversableTree:
 			if isinstance(child, nltk.Tree):
 				newChild = TraversableTree(child, self.tree)
 				self.children.append(newChild)
+
+	def isPronoun(self, rules):
+		pos = str(self.tree.node)
+
+		if pos in rules.acceptablePronouns:
+			return True
+		return False

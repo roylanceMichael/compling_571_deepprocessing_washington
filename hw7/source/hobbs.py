@@ -20,6 +20,11 @@ class Hobbs:
 
 	def searchForPronouns(self, travTree):
 		# search self, then iterate through children
+		if travTree.isPronoun(rules):
+			self.foundPronouns.append(travTree)
+
+		for childTree in travTree.children:
+			self.searchForPronouns(childTree)
 
 	def findPronouns(self):
 		# we need to do this recursively
