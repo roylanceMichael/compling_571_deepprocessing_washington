@@ -1,5 +1,4 @@
 # Mike Roylance - roylance@uw.edu
-
 import nltk
 
 class TraversableTree:
@@ -38,13 +37,13 @@ class TraversableTree:
 	def setIsPronoun(self, rules):
 		if self.pos in rules.acceptablePronouns:
 			self.isPronoun = True
-			self.hasPronouns = True
+		#	self.hasPronouns = True
 			return
 
-		for item in self.items:
-			if str(item.lhs()) in rules.acceptablePronouns:
-				self.hasPronouns = True
-				return
+		# for item in self.items:
+		#	if str(item.lhs()) in rules.acceptablePronouns:
+		#		self.hasPronouns = True
+		#		return
 
 		self.isPronoun = False
 

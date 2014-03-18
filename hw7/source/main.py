@@ -7,7 +7,6 @@ import utils
 def handleHobbsInstance(hobbsInstance):
 	for stdout in hobbsInstance.findAntecedents():
 		print stdout
-
 	print ""
 
 def main():

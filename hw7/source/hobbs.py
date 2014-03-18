@@ -36,39 +36,44 @@ class Hobbs:
 				self.printSentence(self.firstTree), 
 				self.printSentence(self.secondTree))
 
+			p = {}
 			# Begin at NP immediately dominating the pronoun
 			currentNp = self.findNpOrS(pronounTravTree)
+			p[currentNp] = None
 			nextNpOrS = None
 
 			while currentNp != None:
 				# Climb tree to NP or S: X=node, p=path
 				nextNpOrS = self.findNpOrS(currentNp)
-				
+				p[nextNpOrS] = None
+
 				if nextNpOrS == None:
 					currentNp = None
 					continue
 
-				for result in self.determineAntecedents(nextNpOrS, currentNp, pronounTravTree):
+				for result in self.determineAntecedents(nextNpOrS, p, pronounTravTree):
 					yield result
 
 				currentNp = nextNpOrS
 
-			yield ""
-
 	def determineAntecedents(self, X, p, pronoun):
 		# if X is NP and not through p, then propose
 		if X.pos == rules.np and not X.hasPronouns:
+			# set in path
+			p[X] = None
+
 			for result in self.printComparison(pronoun, X):
 				yield result
 
 		# print out X if it is S or SBAR
 		if X.pos == rules.sbar or X.pos == rules.s:
-			yield "X: %s" % self.printSentence(X.tree)
+			# this is X
+			yield self.printSentence(X.tree)
 
 		for child in X.children:
-			# if we hit our path, get out
-			if child == p:
-				return
+			# if we hit our path, move on
+			if child in p:
+				continue
 
 			for result in self.determineAntecedents(child, p, pronoun):
 				yield result
@@ -92,7 +97,8 @@ class Hobbs:
 		return nextNpOrS
 
 	def printComparison(self, pronoun, proposedAntecedent):
-		yield "X: %s" % proposedAntecedent.printTree()
+		# comparing NP
+		yield proposedAntecedent.printTree()
 
 		result = rules.treeAgreement(pronoun, proposedAntecedent)
 
@@ -108,7 +114,8 @@ class Hobbs:
 			# If you take this coding route, you should output all the proposed antecedents, 
 			# unless you want the added challenge of filtering for agreement.
 
-			yield "Correct"
+			# this will be added manually
+			# yield "Correct"
 		else:
 			# C) reject any proposed node ruled out by agreement
 			yield "Reject - %s" % (result)			

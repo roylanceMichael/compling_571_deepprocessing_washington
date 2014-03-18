@@ -1,5 +1,4 @@
 # Mike Roylance - roylance@uw.edu
-
 import unittest
 import nltk
 import hobbs
@@ -57,7 +56,7 @@ class HobbsTests(unittest.TestCase):
 
 		# assert
 		self.assertTrue(len(hobbsInst.foundPronouns) == 1, str(len(hobbsInst.foundPronouns)))
-		self.assertTrue(len(results) == 7, str(len(results)))
+		self.assertTrue(len(results) == 9, str(len(results)))
 
 	def test_determines_antecedents_difficult(self):
 		# arrange
@@ -71,8 +70,7 @@ class HobbsTests(unittest.TestCase):
 
 		# assert
 		self.assertTrue(len(hobbsInst.foundPronouns) == 2, str(len(hobbsInst.foundPronouns)))
-		self.assertTrue(len(results) == 24, str(len(results)))
-
+		self.assertTrue(len(results) == 30, str(len(results)))
 
 def main():
     unittest.main()
