@@ -73,7 +73,7 @@ class Hobbs:
 		for child in X.children:
 			# if we hit our path, move on
 			if child in p:
-				continue
+				return
 
 			for result in self.determineAntecedents(child, p, pronoun):
 				yield result
