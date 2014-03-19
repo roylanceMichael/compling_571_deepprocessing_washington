@@ -40,9 +40,6 @@ Incorrect
 Reject - number
 them (S (NP (Nom (NNS Scientists))) (VP (VBD restored) (NP (Nom (Nom (Nom (NN immunity)) (PP (Prep in) (NP (Nom (NNS mice))))) (PP (Prep with) (NP (Det a) (Nom (ADJP (Adj weak)) (Nom (ADJP (Adj immune)) (Nom (NN system))))))))) (PUNC .)) (S (NP (PRP They)) (VP (VBD injected) (NP (PRP them)) (PP (Prep with) (NP (Det a) (Nom (ADJP (Adj live)) (Nom (NN vaccine)))))) (PUNC .))
 (S (NP (PRP They)) (VP (VBD injected) (NP (PRP them)) (PP (Prep with) (NP (Det a) (Nom (ADJP (Adj live)) (Nom (NN vaccine)))))) (PUNC .))
-(NP (PRP They))
-Accept
-Incorrect
 (S (NP (Nom (NNS Scientists))) (VP (VBD restored) (NP (Nom (Nom (Nom (NN immunity)) (PP (Prep in) (NP (Nom (NNS mice))))) (PP (Prep with) (NP (Det a) (Nom (ADJP (Adj weak)) (Nom (ADJP (Adj immune)) (Nom (NN system))))))))) (PUNC .))
 (NP (Nom (NNS Scientists)))
 Accept
